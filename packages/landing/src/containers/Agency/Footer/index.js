@@ -44,7 +44,7 @@ const Footer = ({
                   if (!item.link) { return null }
                   return (
                     <a className='third-link text-storm gr-hover-text-primary' target='_blank'>
-                      <FontAwesomeIcon className='icon-gray' icon={item.icon}></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={item.icon}></FontAwesomeIcon>
                     </a>
                   )
                 })
@@ -113,7 +113,7 @@ Footer.defaultProps = {
   },
   // Default logo size
   logoStyle: {
-    width: '128px',
+    width: '80px',
     mb: '15px',
   },
   // widget text default style

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSlidersH } from '@fortawesome/pro-light-svg-icons';
+import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Box from 'common/components/Box';
 import Project from 'common/components/Project';
@@ -18,13 +18,20 @@ const ProjectSection = ({
       <Container>
         <div className="operation">
           <div>
-            <FontAwesomeIcon className='icon-gray' icon={faSlidersH}></FontAwesomeIcon>
-            <text>Sort By</text>
+            <div>
+              <FontAwesomeIcon icon={faSlidersH}></FontAwesomeIcon>
+              <text style={{ marginLeft: 10 }}>Sort By</text>
+            </div>
+
+            <div style={{ marginLeft: 30 }}>
+              <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
+              <text style={{ marginLeft: 10 }}>Filter</text>
+            </div>
           </div>
 
-          <div>
-            <FontAwesomeIcon className='icon-gray' icon={faFilter}></FontAwesomeIcon>
-            <text>Filter</text>
+          <div className="search">
+            <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+            <input style={{ border: 0, marginLeft: 5 }} placeholder="Search"></input>
           </div>
         </div>
         <Box className="row" {...row}>

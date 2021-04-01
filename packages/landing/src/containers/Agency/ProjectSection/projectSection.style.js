@@ -10,6 +10,19 @@ const ProjectSectionWrapper = styled.section`
   .operation {
     display: flex;
     margin-bottom: 20px;
+    justify-content: space-between;
+  }
+
+  .operation div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .search {
+    border: 1px solid #f2f2f2;
+    padding: 5px;
+    border-radius: 10px;
   }
 
   .team__member {

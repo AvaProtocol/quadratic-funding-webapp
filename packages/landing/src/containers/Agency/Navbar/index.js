@@ -84,7 +84,7 @@ Navbar.defaultProps = {
   },
   // Default logo size
   logoStyle: {
-    width: '128px',
+    width: '80px',
     height: 'auto',
   },
   buttonStyle: {

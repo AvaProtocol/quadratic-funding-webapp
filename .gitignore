@@ -1,0 +1,34 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+.docz
+.vscode
+# testing
+/coverage
+
+# production
+/build
+/dist
+.next
+next
+out
+# misc
+.DS_Store
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#server file
+packages/functions/next
+package-lock.json
+.firebase
+firebase-debug.log
+#submodule
+.cache/
+.now
+#docz ignore
+docz
+docz-core
+.vercel

@@ -1592,6 +1592,13 @@
     tslib "^2.0.0"
     warning "^4.0.3"
 
+"@reactchartjs/react-chart.js@^1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.npm.taobao.org/@reactchartjs/react-chart.js/download/@reactchartjs/react-chart.js-1.0.0-rc.3.tgz#6dc4a5a7107e6d4311351aa9d1068e5fdb4d7328"
+  integrity sha1-bcSlpxB+bUMRNRqp0QaOX9tNcyg=
+  dependencies:
+    lodash "^4.17.19"
+
 "@redq/reuse-modal@^1.1.9":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@redq/reuse-modal/-/reuse-modal-1.2.4.tgz#2bb284bf96cd97e123f04a43033ff826e6bbfc0c"

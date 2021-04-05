@@ -35,9 +35,9 @@ const ProjectSection = ({
           </div>
         </div>
         <Box className="row" {...row}>
-          {data.projects.map((member, index) => (
+          {data.projects.map((project, index) => (
             <Box className="col" {...col} key={`team_key-${index}`}>
-              <Project title='123'/>
+              <Project project={project} />
             </Box>
           ))}
         </Box>

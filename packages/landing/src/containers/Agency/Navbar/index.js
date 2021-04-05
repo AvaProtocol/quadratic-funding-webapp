@@ -44,7 +44,7 @@ const Navbar = ({ navbarStyle, logoStyle, buttonStyle }) => {
     <NavbarWrapper {...navbarStyle}>
       <Container>
         <Logo
-          href="#"
+          href="/"
           logoSrc={LogoImage}
           title="Agency"
           logoStyle={logoStyle}

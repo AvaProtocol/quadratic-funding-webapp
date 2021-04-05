@@ -6,27 +6,31 @@ import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
 import ProjectStyle from './project.style';
 
 const Project = ({
+  project,
   ...props
 }) => {
+  const { title, description, id, creator, socialElements } = project;
+  const { photo, username, create } = creator;
   return (
     <ProjectStyle
+      href={`/detail/${id}`}
       {...props}
     >
       <div>
-        <text className="title">Project X</text>
-        <text className="description">Description of Project X: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.</text>
+        <text className="title">{title}</text>
+        <text className="description">{description}</text>
       </div>
 
-      <div>
-        <div className="identity">
+      <div className="identity">
+        <div className="infomation">
           <image className="photo"></image>
-          <div>
-            <text className="username">@username</text>
-            <text className="created">Created at 2021-02-01</text>
+          <div style={{ textAlign: 'left' }}>
+            <text className="username">{username}</text>
+            <text className="created">Created at {create}</text>
           </div>
         </div>
 
-        <text className="creator">Also liked by @alice, @bob, @charlie and others</text>
+        <text className="creator">{socialElements}</text>
 
         <div className="buttons">
           <button className="button">

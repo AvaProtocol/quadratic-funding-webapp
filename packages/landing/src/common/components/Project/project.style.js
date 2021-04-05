@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
-const ProjectStyle = styled.nav`
+const ProjectStyle = styled.a`
   /* Project default style goes here */
   display: flex;
   flex-direction: column;
   background-color: rgba(237, 237, 240);
   border-radius: 20px;
   padding: 20px;
+  border: 1px solid rgba(237, 237, 240);
+  color: black;
+
+  &:hover {
+    border: 1px solid #10ac84;
+  }
 
   div {
     display: flex;
@@ -24,6 +30,10 @@ const ProjectStyle = styled.nav`
   }
 
   .identity {
+    width: 100%;
+  }
+
+  .infomation {
     flex-direction: row;
     align-items: flex-end;
     margin-top: 20px;
@@ -49,6 +59,7 @@ const ProjectStyle = styled.nav`
 
   .creator {
     margin-top: 20px;
+    text-align: left;
   }
 
   div.buttons {

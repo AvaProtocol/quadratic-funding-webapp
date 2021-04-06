@@ -19,7 +19,7 @@
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "@redq/reuse-modal": "^1.1.9",
     "@styled-system/theme-get": "^5.1.2",
-    "chart.js": "^3.0.2",
+    "chart.js": "2.6.0",
     "firebase-admin": "^9.4.1",
     "firebase-functions": "^3.11.0",
     "lodash": "^4.17.21",

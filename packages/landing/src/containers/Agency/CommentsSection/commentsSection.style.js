@@ -3,10 +3,11 @@ import styled from 'styled-components';
 const CommentsSectionWrapper = styled.div`
   .buttons {
     margin-top: 30px;
+    border: 1px solid #f1f4f6;
+    border-bottom: 0px;
   }
 
   .buttons > button {
-    border: 1px solid #10ac84;
     width: 200px;
     height: 50px;
   }

@@ -5,39 +5,74 @@ import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Box from 'common/components/Box';
 import Project from 'common/components/Project';
+import Button from 'common/components/Button';
+import Input from 'common/components/Input';
+import FeatureBlock from 'common/components/FeatureBlock';
 import data from 'common/data/Agency';
 import Container from 'common/components/UI/Container';
+import Heading from 'common/components/Heading';
+import Text from 'common/components/Text';
 import ProjectSectionWrapper from './projectSection.style';
 
 const ProjectSection = ({
   row,
   col,
+  sectionHeader,
+  sectionTitle,
+  sectionSubTitle,
+  featureTitle,
+  featureDescription,
+  iconStyle,
+  contentStyle,
+  blockWrapperStyle,
 }) => {
   return (
     <ProjectSectionWrapper id="teamSection">
       <Container>
+        <Box {...sectionHeader}>
+          <Text {...sectionSubTitle} />
+          <Heading {...sectionTitle} />
+        </Box>
+
         <div className="operation">
           <div>
-            <div>
-              <FontAwesomeIcon icon={faSlidersH}></FontAwesomeIcon>
-              <text style={{ marginLeft: 10 }}>Sort By</text>
-            </div>
+            <Button
+              type="button"
+              icon={<FontAwesomeIcon icon={faSlidersH}></FontAwesomeIcon>}
+              title="Sort By"
+            />
 
             <div style={{ marginLeft: 30 }}>
-              <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
-              <text style={{ marginLeft: 10 }}>Filter</text>
+              <Button
+                type="button"
+                icon={<FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>}
+                title="Filter"
+              />
             </div>
           </div>
 
-          <div className="search">
-            <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
-            <input style={{ border: 0, marginLeft: 5 }} placeholder="Search"></input>
-          </div>
+          <Input
+            icon={<FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>}
+            isMaterial={false}
+            placeholder="Search"
+          />
         </div>
+
         <Box className="row" {...row}>
+          {/* {data.projects.map((project, index) => ( */}
           {data.projects.map((project, index) => (
-            <Box className="col" {...col} key={`team_key-${index}`}>
-              <Project project={project} />
+            // <Box className="col" {...col} key={`team_key-${index}`}>
+            //   <Project project={project} />
+            // </Box>
+            <Box className="col" {...col} key={`project-${index}`}>
+              <FeatureBlock
+                icon={<i className="flaticon-atom" />}
+                wrapperStyle={blockWrapperStyle}
+                iconStyle={iconStyle}
+                contentStyle={contentStyle}
+                project={project}
+                title={project.title}
+              />
             </Box>
           ))}
         </Box>
@@ -47,15 +82,6 @@ const ProjectSection = ({
 };
 
 // ProjectSection style props
-ProjectSection.propTypes = {
-  sectionHeader: PropTypes.object,
-  row: PropTypes.object,
-  col: PropTypes.object,
-  sectionTitle: PropTypes.object,
-  sectionSubTitle: PropTypes.object,
-};
-
-// ProjectSection default style
 ProjectSection.defaultProps = {
   // section header default style
   sectionHeader: {
@@ -63,6 +89,7 @@ ProjectSection.defaultProps = {
   },
   // sub section default style
   sectionSubTitle: {
+    content: 'ACTIVE PROJECTS',
     as: 'span',
     display: 'block',
     textAlign: 'center',
@@ -74,6 +101,7 @@ ProjectSection.defaultProps = {
   },
   // section title default style
   sectionTitle: {
+    content: 'All active project in this round',
     textAlign: 'center',
     fontSize: ['20px', '24px'],
     fontWeight: '400',
@@ -81,40 +109,54 @@ ProjectSection.defaultProps = {
     letterSpacing: '-0.025em',
     mb: '0',
   },
-  // Team member row default style
+  // feature row default style
   row: {
     flexBox: true,
     flexWrap: 'wrap',
-    ml: '-15px',
-    mr: '-15px',
   },
-  // Team member col default style
+  // feature col default style
   col: {
-    width: [1, 1 / 2, 1 / 3, 1 / 3],
-    pl: '15px',
-    pr: '15px',
+    width: [1, 1 / 2, 1 / 2, 1 / 3],
+    borderLeft: '1px solid #f1f4f6',
+    borderBottom: '1px solid #f1f4f6',
+  },
+  // feature block wrapper default style
+  blockWrapperStyle: {
+    p: ['30px', '20px', '30px', '40px'],
+  },
+  // feature icon default style
+  iconStyle: {
+    width: '84px',
+    height: '84px',
+    m: '0 auto',
+    borderRadius: '50%',
+    bg: '#93d26e',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '36px',
+    color: '#ffffff',
+    overflow: 'hidden',
     mb: '30px',
   },
-  // Team member content default style
+  // feature content default style
   contentStyle: {
     textAlign: 'center',
-    mt: '25px',
   },
-  // Team member memberName default style
-  memberName: {
-    fontSize: ['18px', '18px', '16px', '20px'],
+  // feature title default style
+  featureTitle: {
+    fontSize: ['18px', '20px'],
     fontWeight: '400',
     color: '#0f2137',
     lineHeight: '1.5',
-    mb: '8px',
+    mb: ['10px', '10px', '10px', '20px'],
     letterSpacing: '-0.020em',
   },
-  // Team member description default style
-  designation: {
-    fontSize: ['15px', '16px', '14px', '17px'],
-    lineHeight: '1',
-    color: 'rgba(15, 33, 55, 0.6)',
-    mb: 0,
+  // feature description default style
+  featureDescription: {
+    fontSize: '15px',
+    lineHeight: '1.75',
+    color: '#343d48cc',
   },
 };
 

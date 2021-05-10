@@ -6,6 +6,8 @@ import Image from 'common/components/Image';
 import Logo from 'common/components/UIElements/Logo';
 import Heading from 'common/components/Heading';
 import Container from 'common/components/UI/Container';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
 import FooterArea, {
   WidgetArea,
   MenuArea,
@@ -17,7 +19,7 @@ import FooterArea, {
 import { footer } from 'common/data/AppModern';
 
 const Footer = () => {
-  const { logo, menu, widgets } = footer;
+  const { logo, menu, widgets, socialMedia } = footer;
   const date = new Date();
   const year = date.getFullYear();
 
@@ -49,6 +51,45 @@ const Footer = () => {
                 </Link>
               </MenuItem>
             ))}
+          </Menu>
+          <Menu>
+            {socialMedia.map((item) => {
+              const { name, link, icon } = item;
+              if (_.isEmpty(link)) {
+                return null;
+              }
+
+              switch (name) {
+                case 'email':
+                  return (
+                    <a
+                      className="third-link text-storm gr-hover-text-primary"
+                      key={name}
+                      href={`mailto:${item.link}`}
+                    >
+                      <FontAwesomeIcon
+                        className="icon-gray"
+                        icon={item.icon}
+                      ></FontAwesomeIcon>
+                    </a>
+                  );
+                default:
+                  return (
+                    <a
+                      className="third-link text-storm gr-hover-text-primary"
+                      key={name}
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FontAwesomeIcon
+                        className="icon-gray"
+                        icon={item.icon}
+                      ></FontAwesomeIcon>
+                    </a>
+                  );
+              }
+            })}
           </Menu>
           <CopyrightText>Copyright {year} By RedQ Inc</CopyrightText>
         </MenuArea>

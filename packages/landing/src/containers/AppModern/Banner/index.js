@@ -2,6 +2,7 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 import { Icon } from 'react-icons-kit';
 import { playCircle } from 'react-icons-kit/fa/playCircle';
+import { arrowCircleRight } from 'react-icons-kit/fa/arrowCircleRight';
 import { openModal, closeModal } from '@redq/reuse-modal';
 import Text from 'common/components/Text';
 import Image from 'common/components/Image';
@@ -78,32 +79,24 @@ const Banner = () => {
             </RatingInfo>
           </Fade>
           <Fade up delay={100}>
-            <Heading
-              as="h1"
-              content="The Revolution of
-          Ultimate Platform to
-          monitor your task"
-            />
+            <Heading as="h1" content="Quadratic Funding Program" />
           </Fade>
           <Fade up delay={200}>
-            <Text
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore magna
-          ipsum dolor sit amet consectetur."
-            />
+            <Text content="7D 10H 35M till end" />
           </Fade>
           <Fade up delay={300}>
             <ButtonGroup>
-              <Button className="primary" title="Start Free trail" />
+              <Button className="primary" title="Participate" />
               <Button
                 className="text"
                 variant="textButton"
-                icon={<Icon icon={playCircle} />}
-                iconPosition="left"
-                title="Watch Video"
+                icon={<Icon icon={arrowCircleRight} />}
+                iconPosition="right"
+                title="Create Project"
               />
             </ButtonGroup>
           </Fade>
-          <VideoGroup>
+          {/* <VideoGroup>
             <img
               src={videoBanner1}
               onClick={handleVideoModal}
@@ -114,7 +107,7 @@ const Banner = () => {
               onClick={handleVideoModal}
               alt="Microsoft"
             />
-          </VideoGroup>
+          </VideoGroup> */}
         </BannerContent>
         <BannerImage>
           <Fade up delay={100}>
@@ -122,7 +115,7 @@ const Banner = () => {
           </Fade>
         </BannerImage>
       </Container>
-      <CustomerWrapper>
+      {/* <CustomerWrapper>
         <Text content="Trusted by companies like:" />
         <ImageWrapper>
           {client.map((item) => (
@@ -133,7 +126,7 @@ const Banner = () => {
             />
           ))}
         </ImageWrapper>
-      </CustomerWrapper>
+      </CustomerWrapper> */}
       <img
         className="bannerBottomShape"
         src={circleBorder}

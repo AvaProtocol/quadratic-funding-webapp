@@ -2,38 +2,42 @@
 // Navbar data section
 /* ------------------------------------ */
 import logo from 'common/assets/image/appModern/logo.png';
+import {
+  faWeixin,
+  faTwitter,
+  faLinkedin,
+  faDiscord,
+  faTelegram,
+  faMedium,
+  faGithubSquare,
+} from '@fortawesome/free-brands-svg-icons';
+import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
 
 export const navbar = {
   logo: logo,
   navMenu: [
     {
       id: 1,
-      label: 'Home',
-      path: '#home',
+      label: 'Recommended',
+      path: '#Recommended',
       offset: '84',
     },
     {
       id: 2,
-      label: 'Key Features',
-      path: '#features',
+      label: 'Tutorial',
+      path: '#Tutorial',
       offset: '81',
     },
     {
       id: 3,
-      label: 'Testimonial',
-      path: '#testimonial',
+      label: 'FAQ',
+      path: '#FAQ',
       offset: '81',
     },
     {
       id: 4,
-      label: 'Pricing',
-      path: '#pricing',
-      offset: '81',
-    },
-    {
-      id: 5,
-      label: 'Team Members',
-      path: '#team',
+      label: 'Become a Matching Partner',
+      path: '#Become a Matching Partner',
       offset: '81',
     },
   ],
@@ -455,7 +459,7 @@ export const testimonial = {
 import chat from 'common/assets/image/appModern/chat.svg';
 import group from 'common/assets/image/appModern/group.svg';
 import github from 'common/assets/image/appModern/github.svg';
-import footerLogo from 'common/assets/image/appModern/logoWhite.png';
+import footerLogo from 'common/assets/image/appModern/oak-logo.png';
 
 export const footer = {
   widgets: [
@@ -490,23 +494,65 @@ export const footer = {
     },
     {
       id: 2,
-      text: 'Adversite',
+      text: 'Recommended',
       link: '#',
     },
     {
       id: 3,
-      text: 'Supports',
+      text: 'Tutorial',
       link: '#',
     },
     {
       id: 4,
-      text: 'Marketing',
+      text: 'FAQ',
       link: '#',
     },
     {
       id: 5,
-      text: 'Contact',
+      text: 'Become a Matching Partner',
       link: '#',
+    },
+  ],
+  socialMedia: [
+    {
+      name: 'twitter',
+      link: 'https://twitter.com/OAKSubstrate',
+      icon: faTwitter,
+    },
+    {
+      name: 'discord',
+      link: 'https://discord.gg/xKKq5AXV',
+      icon: faDiscord,
+    },
+    {
+      name: 'wechat',
+      link: 'wechat',
+      icon: faWeixin,
+    },
+    {
+      name: 'telegram',
+      link: '',
+      icon: faTelegram,
+    },
+    {
+      name: 'medium',
+      link: 'https://medium.com/oak-blockchain',
+      icon: faMedium,
+    },
+    {
+      name: 'linkedin',
+      link: 'https://www.linkedin.com/company/oak-blockchain/',
+      icon: faLinkedin,
+    },
+    {
+      name: 'github',
+      link: 'https://github.com/OAK-Foundation/',
+      icon: faGithubSquare,
+    },
+    {
+      name: 'email',
+      link: 'https://twitter.com/OAKSubstrate',
+      icon: faEnvelopeSquare,
     },
   ],
 };

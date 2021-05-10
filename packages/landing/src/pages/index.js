@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { agencyTheme } from 'common/theme/agency';
 import { ResetCSS } from 'common/assets/css/style';
 import { GlobalStyle, AgencyWrapper } from 'containers/Agency/agency.style';
-import Navbar from 'containers/Agency/Navbar';
+import Navbar from '../containers/AppModern/Navbar';
 import BannerSection from 'containers/Agency/BannerSection';
 import FeatureSection from 'containers/Agency/FeatureSection';
 import AboutUsSection from 'containers/Agency/AboutUsSection';
@@ -41,10 +41,13 @@ const Main = () => {
         {/* End of agency head section */}
         {/* Start agency wrapper section */}
         <AgencyWrapper>
-          <Sticky top={0} innerZ={9999} activeClass="sticky-nav-active">
+          {/* <Sticky top={0} innerZ={9999} activeClass="sticky-nav-active">
             <DrawerProvider>
               <Navbar />
             </DrawerProvider>
+          </Sticky> */}
+          <Sticky top={0} innerZ={9999} activeClass="sticky-active">
+            <Navbar />
           </Sticky>
           <BannerSection />
           <NewsletterSection />

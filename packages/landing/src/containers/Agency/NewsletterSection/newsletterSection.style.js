@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const NewsletterSectionWrapper = styled.section`
   overflow: hidden;
   width: 100%;
+  margin-top: 50px;
   @media (max-width: 990px) {
   }
 `;

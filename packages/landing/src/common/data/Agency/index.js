@@ -12,6 +12,32 @@ import {
 import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
 
 const data = {
+  navMenu: [
+    {
+      id: 1,
+      label: 'Recommended',
+      path: '#Recommended',
+      offset: '84',
+    },
+    {
+      id: 2,
+      label: 'Tutorial',
+      path: '#Tutorial',
+      offset: '81',
+    },
+    {
+      id: 3,
+      label: 'FAQ',
+      path: '#FAQ',
+      offset: '81',
+    },
+    {
+      id: 4,
+      label: 'Become a Matching Partner',
+      path: '#Become a Matching Partner',
+      offset: '81',
+    },
+  ],
   features: [
     {
       id: 1,

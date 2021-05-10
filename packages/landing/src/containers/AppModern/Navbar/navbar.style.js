@@ -32,7 +32,7 @@ const NavbarWrapper = styled.nav`
   ul {
     li {
       a {
-        color: ${themeGet('colors.menu', '#fff')};
+        color: ${themeGet('colors.menu', '#000')};
         font-size: 16px;
         font-weight: 400;
         transition: all 0.3s ease;

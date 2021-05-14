@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { agencyTheme } from 'common/theme/agency';
 import { ResetCSS } from 'common/assets/css/style';
 import { GlobalStyle, AgencyWrapper } from 'containers/Agency/agency.style';
-import Navbar from 'containers/Agency/Navbar';
+import Navbar from '../containers/AppModern/Navbar';
 import BannerSection from 'containers/Agency/BannerSection';
 import FeatureSection from 'containers/Agency/FeatureSection';
 import AboutUsSection from 'containers/Agency/AboutUsSection';
@@ -19,17 +19,17 @@ import QualitySection from 'containers/Agency/QualitySection';
 import Footer from 'containers/Agency/Footer';
 import { DrawerProvider } from 'common/contexts/DrawerContext';
 import FaqSection from 'containers/Agency/FaqSection';
+import ProjectSection from 'containers/Agency/ProjectSection';
 
-const Agency = () => {
+const Main = () => {
   return (
     <ThemeProvider theme={agencyTheme}>
       <Fragment>
         {/* Start agency head section */}
         <Head>
-          <title>Agency | A react next landing page</title>
-          <meta name="Description" content="React next landing page" />
+          <title>Quadratic Funding Program</title>
           <meta name="theme-color" content="#10ac84" />
-
+          <meta name="Description" content="Quadratic Funding Program" />
           {/* Load google fonts */}
           <link
             href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
@@ -41,22 +41,25 @@ const Agency = () => {
         {/* End of agency head section */}
         {/* Start agency wrapper section */}
         <AgencyWrapper>
-          <Sticky top={0} innerZ={9999} activeClass="sticky-nav-active">
+          {/* <Sticky top={0} innerZ={9999} activeClass="sticky-nav-active">
             <DrawerProvider>
               <Navbar />
             </DrawerProvider>
+          </Sticky> */}
+          <Sticky top={0} innerZ={9999} activeClass="sticky-active">
+            <Navbar />
           </Sticky>
           <BannerSection />
-          <FeatureSection />
-          <AboutUsSection />
-          <WorkHistory />
-          <BlogSection />
-          <QualitySection />
-          <VideoSection />
-          <TestimonialSection />
-          <TeamSection />
-          <FaqSection />
           <NewsletterSection />
+          {/* <FeatureSection /> */}
+          {/* <AboutUsSection /> */}
+          {/* <WorkHistory /> */}
+          {/* <BlogSection /> */}
+          {/* <QualitySection /> */}
+          {/* <VideoSection /> */}
+          {/* <TestimonialSection /> */}
+          <ProjectSection />
+          {/* <FaqSection /> */}
           <Footer />
         </AgencyWrapper>
         {/* End of agency wrapper section */}
@@ -64,4 +67,4 @@ const Agency = () => {
     </ThemeProvider>
   );
 };
-export default Agency;
+export default Main;

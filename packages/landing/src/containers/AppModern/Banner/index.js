@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Fade from 'react-reveal/Fade';
 import { Icon } from 'react-icons-kit';
 import { playCircle } from 'react-icons-kit/fa/playCircle';
@@ -10,6 +10,7 @@ import Button from 'common/components/Button';
 import Heading from 'common/components/Heading';
 import Rating from 'common/components/Rating';
 import Container from 'common/components/UI/Container';
+import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import BannerWrapper, {
   BannerContent,
   RatingInfo,
@@ -49,6 +50,9 @@ const ModalContent = () => (
 );
 
 const Banner = () => {
+  const polkadotContext = useContext(PolkadotContext);
+  const { blockNumber } = polkadotContext;
+
   // modal handler
   const handleVideoModal = () => {
     openModal({
@@ -82,7 +86,7 @@ const Banner = () => {
             <Heading as="h1" content="Quadratic Funding Program" />
           </Fade>
           <Fade up delay={200}>
-            <Text content="7D 10H 35M till end" />
+            <Text content={`Current Block Number #${blockNumber}`} />
           </Fade>
           <Fade up delay={300}>
             <ButtonGroup>

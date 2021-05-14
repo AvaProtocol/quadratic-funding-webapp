@@ -1,55 +1,79 @@
-import React, { Fragment } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
+import { PolkadotContext } from 'common/contexts/PolkadotContext';
+import { Spin } from 'antd';
 
-const MatchingSection = ({
-  row,
-  col,
-}) => {
+const MatchingSection = ({ row, col }) => {
+  const polkadotContext = useContext(PolkadotContext);
+  const [loading, setLoading] = useState(true);
+  const [projectDetail, setProjectDetail] = useState({});
+
+  useEffect(() => {
+    if (!_.isEmpty(polkadotContext)) {
+      setLoading(false);
+      setProjectDetail(polkadotContext.projectDetail);
+    }
+  }, [polkadotContext.projectDetail]);
+
   return (
     <MatchingWrapper>
       <Container>
-        <Box className="row" {...row}>
-          <Box className="col" {...col}>
-            <div className="block matcing">
-              <div className="count-down">
-                <text className="title">Project X</text>
-                <text className="count-down-text">One-sentence description of Project X</text>
-              </div>
-              <div className="contribute-info">
-                <div className="contribute">
-                  <text>1 DOT contribution</text>
-                  <text>+ 2.5 DOT match</text>
+        {loading ? (
+          <Spin size="large" />
+        ) : (
+          <Box className="row" {...row}>
+            <Box className="col" {...col}>
+              <div className="block matcing">
+                <div className="count-down">
+                  <text className="title">Project {projectDetail.name}</text>
+                  <text className="count-down-text">
+                    {projectDetail.description}
+                  </text>
                 </div>
+                <div className="contribute-info">
+                  <div className="contribute">
+                    <text>1 DOT contribution</text>
+                    <text>+ 2.5 DOT match</text>
+                  </div>
 
-                <div className="contribute">
-                  <text>10 DOT contribution</text>
-                  <text>+ 25 DOT match</text>
+                  <div className="contribute">
+                    <text>10 DOT contribution</text>
+                    <text>+ 25 DOT match</text>
+                  </div>
+                </div>
+                <text style={{ marginTop: '10px' }}>
+                  $3,550 Raised{' '}
+                  <text style={{ fontSize: 12 }}>
+                    from{' '}
+                    {projectDetail.contributions &&
+                      projectDetail.contributions.length}{' '}
+                    contributors
+                  </text>
+                </text>
+                <div>
+                  <div className="total">
+                    <div className="current"></div>
+                  </div>
+                </div>
+                <div className="participate">
+                  <Button title="Participate" />
                 </div>
               </div>
-              <text style={{ marginTop: '10px' }} >$3,550 Raised <text style={{ fontSize: 12 }}>from 275 contributors</text></text>
-              <div>
-                <div className="total">
-                  <div className="current"></div>
-                </div>
-              </div>
-              <div className="participate">
-                <Button title="Participate" />
-              </div>
-            </div>
-          </Box>
+            </Box>
 
-          <Box className="col" {...col}>
-            <div className="block">
-              <div className="carousell">
-                <text>Carousell</text>
+            <Box className="col" {...col}>
+              <div className="block">
+                <div className="carousell">
+                  <text>Carousell</text>
+                </div>
               </div>
-            </div>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Container>
     </MatchingWrapper>
   );

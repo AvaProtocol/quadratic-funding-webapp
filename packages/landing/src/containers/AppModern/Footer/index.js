@@ -91,7 +91,7 @@ const Footer = () => {
               }
             })}
           </Menu>
-          <CopyrightText>Copyright {year} By RedQ Inc</CopyrightText>
+          <CopyrightText>Copyright {year} By OAK Network</CopyrightText>
         </MenuArea>
         {/* End of footer menu area */}
       </Container>

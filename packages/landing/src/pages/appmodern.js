@@ -27,7 +27,7 @@ const AppModern = () => {
     <ThemeProvider theme={theme}>
       <>
         <Head>
-          <title>App Modern | A next js landing page</title>
+          <title>Quadratic Funding Program</title>
           <meta name="Description" content="React next landing page" />
           <meta name="theme-color" content="#2563FF" />
           <meta

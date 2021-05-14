@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Box from 'common/components/Box';
-import Project from 'common/components/Project';
 import Button from 'common/components/Button';
 import Input from 'common/components/Input';
 import FeatureBlock from 'common/components/FeatureBlock';
-import data from 'common/data/Agency';
 import Container from 'common/components/UI/Container';
 import Heading from 'common/components/Heading';
 import Text from 'common/components/Text';
+import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import ProjectSectionWrapper from './projectSection.style';
+import _ from 'lodash';
+import { Spin } from 'antd';
 
 const ProjectSection = ({
   row,
@@ -26,56 +27,128 @@ const ProjectSection = ({
   contentStyle,
   blockWrapperStyle,
 }) => {
+  const polkadotContext = useContext(PolkadotContext);
+  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState([]);
+  const [roundProjects, setRoundProjects] = useState([]);
+  const [rounds, setRounds] = useState([]);
+  const [roundId, setRoundId] = useState([]);
+  const [activeRound, setActiveRound] = useState({});
+  const [nextRound, setNextRound] = useState({});
+  const [activeCountDown, setActiveCountDown] = useState(null);
+  const [nextCountDown, setNextCountDown] = useState(null);
+
+  useEffect(() => {
+    if (!_.isEmpty(polkadotContext)) {
+      setLoading(false);
+      const { blockNumber } = polkadotContext;
+
+      _.forEach(rounds, (round) => {
+        const { start, end } = round;
+        const startBlockNumber = Number(start.replace(',', ''));
+        const endBlockNumber = Number(end.replace(',', ''));
+        if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
+          setActiveRound(round);
+          setActiveCountDown(endBlockNumber - blockNumber);
+        }
+        if (blockNumber < startBlockNumber) {
+          setNextRound(round);
+          setNextCountDown(startBlockNumber - blockNumber);
+        }
+      });
+
+      setRounds(polkadotContext.rounds);
+      setProjects(polkadotContext.projects);
+    }
+  }, [
+    polkadotContext.rounds,
+    polkadotContext.blockNumber,
+    rounds,
+    activeRound,
+    nextRound,
+    nextCountDown,
+    activeCountDown,
+  ]);
+
+  useEffect(() => {
+    const round = activeRound || nextRound;
+    if (!_.isEmpty(round) && !_.isEmpty(projects)) {
+      const { grants } = round;
+      const newProjects = [];
+      _.forEach(grants, (grant) => {
+        newProjects.push({
+          ...grant,
+          ...projects[Number(grant.project_index)],
+        });
+      });
+      setRoundProjects(newProjects);
+      setRoundId(round.id);
+    }
+  }, [activeRound, nextRound, projects]);
+
+  let roundTitle = 'There are no active rounds';
+  roundTitle = !_.isEmpty(nextRound)
+    ? `Countdown to the next round(#${nextRound.id}) ${nextCountDown} blocks`
+    : roundTitle;
+  roundTitle =
+    !_.isEmpty(activeRound) && activeCountDown
+      ? `Countdown to the end of this round(#${activeRound.id}) ${activeCountDown} blocks`
+      : roundTitle;
+
   return (
     <ProjectSectionWrapper id="teamSection">
       <Container>
-        <Box {...sectionHeader}>
-          <Text {...sectionSubTitle} />
-          <Heading {...sectionTitle} />
-        </Box>
+        {loading ? (
+          <Spin size="large" />
+        ) : (
+          <>
+            <Box {...sectionHeader}>
+              <Text {...sectionSubTitle} />
+              <Heading {...sectionTitle} content={roundTitle} />
+            </Box>
 
-        <div className="operation">
-          <div>
-            <Button
-              type="button"
-              icon={<FontAwesomeIcon icon={faSlidersH}></FontAwesomeIcon>}
-              title="Sort By"
-            />
+            <div className="operation">
+              <div>
+                <Button
+                  type="button"
+                  icon={<FontAwesomeIcon icon={faSlidersH}></FontAwesomeIcon>}
+                  title="Sort By"
+                />
 
-            <div style={{ marginLeft: 30 }}>
-              <Button
-                type="button"
-                icon={<FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>}
-                title="Filter"
+                <div style={{ marginLeft: 30 }}>
+                  <Button
+                    type="button"
+                    icon={<FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>}
+                    title="Filter"
+                  />
+                </div>
+              </div>
+
+              <Input
+                icon={<FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>}
+                isMaterial={false}
+                placeholder="Search"
               />
             </div>
-          </div>
 
-          <Input
-            icon={<FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>}
-            isMaterial={false}
-            placeholder="Search"
-          />
-        </div>
-
-        <Box className="row" {...row}>
-          {/* {data.projects.map((project, index) => ( */}
-          {data.projects.map((project, index) => (
-            // <Box className="col" {...col} key={`team_key-${index}`}>
-            //   <Project project={project} />
-            // </Box>
-            <Box className="col" {...col} key={`project-${index}`}>
-              <FeatureBlock
-                icon={<i className="flaticon-atom" />}
-                wrapperStyle={blockWrapperStyle}
-                iconStyle={iconStyle}
-                contentStyle={contentStyle}
-                project={project}
-                title={project.title}
-              />
+            <Box className="row" {...row}>
+              {roundProjects.map((project, index) => {
+                return (
+                  <Box className="col" {...col} key={`project-${index}`}>
+                    <FeatureBlock
+                      icon={<i className="flaticon-atom" />}
+                      wrapperStyle={blockWrapperStyle}
+                      iconStyle={iconStyle}
+                      contentStyle={contentStyle}
+                      project={{ ...project, id: index, roundId }}
+                      title={project.name}
+                    />
+                  </Box>
+                );
+              })}
             </Box>
-          ))}
-        </Box>
+          </>
+        )}
       </Container>
     </ProjectSectionWrapper>
   );

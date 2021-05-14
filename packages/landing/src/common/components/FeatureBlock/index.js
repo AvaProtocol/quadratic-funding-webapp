@@ -51,13 +51,6 @@ const FeatureBlock = ({
       {title || description || button ? (
         <Fragment>
           <ContentWrapper className="content__wrapper" {...contentStyle}>
-            {/* {title}
-            {description}
-            {button && (
-              <ButtonWrapper className="button__wrapper" {...btnWrapperStyle}>
-                {button}
-              </ButtonWrapper>
-            )} */}
             <Project project={project} Icon={Icon} />
           </ContentWrapper>
           {additionalContent}
@@ -74,7 +67,7 @@ FeatureBlock.propTypes = {
   className: PropTypes.string,
 
   /** title prop contain a react component. You can use our Heading component from reusecore */
-  title: PropTypes.element,
+  title: PropTypes.oneOfType(PropTypes.element, PropTypes.string),
 
   /** description prop contain a react component. You can use our Text component from reusecore */
   description: PropTypes.element,

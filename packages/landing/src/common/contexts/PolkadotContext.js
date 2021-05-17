@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import _ from 'lodash';
 
 import OpenGrant from '../../openGrant';
+import { unitToNumber } from 'common/utils';
 
 export const PolkadotContext = React.createContext({});
 
@@ -73,10 +74,31 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
 
     const newRounds = [];
     _.forEach(results, (item, index) => {
-      newRounds.push({ ...item.toHuman(), id: index });
+      const round = item.toHuman();
+      const { grants } = round;
+      let newGrants = []
+      _.forEach(grants, grant => {
+        const { contributions } = grant;
+        const matching = getMatching(contributions);
+
+        newGrants.push({ ...grant, matching });
+      })
+
+      newRounds.push({ ...round, grants: newGrants, id: index, matchingFund: unitToNumber(round.matching_fund) });
     });
     setRounds(newRounds);
   };
+
+  // Get grant matching amount
+  const getMatching = (contributions) => {
+    let sqrtValue = 0;
+    _.forEach(contributions, (item) => {
+      const value = unitToNumber(item.value);
+      sqrtValue += Math.sqrt(value);
+    })
+
+    return sqrtValue ** 2;
+  }
 
   useEffect(() => {
     if (!openGrant) {

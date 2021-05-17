@@ -7,6 +7,7 @@ import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
 import config from '../../../config';
+import { unitToNumber } from 'common/utils';
 
 const { oak } = config;
 
@@ -17,31 +18,12 @@ const MatchingSection = ({ row, col, rid }) => {
   const [projectDetail, setProjectDetail] = useState({});
   const [contributions, setContributions] = useState([]);
   const [latestContributions, setLatestContributions] = useState([]);
-  const [matchings, setMatchings] = useState([]);
   const [total, setTotal] = useState(0);
   const [totalMatching, setTotalMatching] = useState(0);
 
-  const toNumber = (unit) => {
-    const arrs = unit.split(' ');
-    return Number(arrs[0]);
-  }
-
-  const getMatching = (contributor, contributorList) => {
-    let sqrtValue = 0;
-    _.forEach(contributorList, (item) => {
-      const value = toNumber(item.value);
-      sqrtValue += Math.sqrt(value);
-      if (item.account_id === contributor.account_id) {
-        return false;
-      }
-    })
-
-    return sqrtValue ** 2;
-  }
-
   const getMatchingFund = (matching) => {
-    const fund = _.isEmpty(round) ? 0 : Number(round.matching_fund);
-    return ((matching / totalMatching) * fund).toFixed(2);
+    const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
+    return ((matching / totalMatching) * fund).toFixed(4);
   }
 
   useEffect(() => {
@@ -79,22 +61,20 @@ const MatchingSection = ({ row, col, rid }) => {
 
     let totalContribute = 0;
     _.forEach(contributions, (item) => {
-      totalContribute = totalContribute + toNumber(item.value);
+      totalContribute = totalContribute + unitToNumber(item.value);
     })
 
     setTotal(totalContribute);
 
-    let matchingList = [];
     let totalMatchingAmount = 0;
-    _.forEach(contributions, (item) => {
-      const matching = getMatching(item, contributions);
-      matchingList.push(matching);
-      totalMatchingAmount += matching;
+    _.forEach(round.grants, (item) => {
+      totalMatchingAmount += item.matching;
     })
 
-    setMatchings(matchingList);
     setTotalMatching(totalMatchingAmount);
   }, [contributions])
+
+  console.log('projectDetail: ', projectDetail);
 
   return (
     <MatchingWrapper>
@@ -115,9 +95,8 @@ const MatchingSection = ({ row, col, rid }) => {
                   {
                     _.map(latestContributions, item => {
                       return (
-                        <div className="contribute">
-                          <text>{toNumber(item.value)} {oak.symbol} contribution</text>
-                          <text>+ {!_.isEmpty(matchings) && getMatchingFund(matchings[item.index])} {oak.symbol} match</text>
+                        <div className="contribute" key={item.account_id}>
+                          <text>+ {unitToNumber(item.value)} {oak.symbol} contribution</text>
                         </div>
                       )
                     })
@@ -131,6 +110,7 @@ const MatchingSection = ({ row, col, rid }) => {
                     contributors
                   </text>
                 </text>
+                <text>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</text>
                 <div>
                   <div className="total">
                     <div className="current"></div>

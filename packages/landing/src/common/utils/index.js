@@ -18,6 +18,19 @@ const ellipsisAddress = (address, showLength = 8) => {
   )}`;
 };
 
+// Format unit to OAK number
+const unitToNumber = (unit) => {
+  const arrs = unit.split(' ');
+  let magnification = 1;
+  if (arrs[1] === 'kUnit') {
+    magnification = 1000;
+  } else if (arrs[1] === 'mUnit') {
+    magnification = 1000000;
+  }
+  return Number(arrs[0]) * magnification;
+}
+
 module.exports = {
   ellipsisAddress,
+  unitToNumber,
 };

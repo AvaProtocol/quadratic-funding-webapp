@@ -6,18 +6,95 @@ import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
+import config from '../../../config';
 
-const MatchingSection = ({ row, col }) => {
+const { oak } = config;
+
+const MatchingSection = ({ row, col, rid }) => {
   const polkadotContext = useContext(PolkadotContext);
   const [loading, setLoading] = useState(true);
+  const [round, setRound] = useState({});
   const [projectDetail, setProjectDetail] = useState({});
+  const [contributions, setContributions] = useState([]);
+  const [latestContributions, setLatestContributions] = useState([]);
+  const [matchings, setMatchings] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [totalMatching, setTotalMatching] = useState(0);
+
+  const toNumber = (unit) => {
+    const arrs = unit.split(' ');
+    return Number(arrs[0]);
+  }
+
+  const getMatching = (contributor, contributorList) => {
+    let sqrtValue = 0;
+    _.forEach(contributorList, (item) => {
+      const value = toNumber(item.value);
+      sqrtValue += Math.sqrt(value);
+      if (item.account_id === contributor.account_id) {
+        return false;
+      }
+    })
+
+    return sqrtValue ** 2;
+  }
+
+  const getMatchingFund = (matching) => {
+    const fund = _.isEmpty(round) ? 0 : Number(round.matching_fund);
+    return ((matching / totalMatching) * fund).toFixed(2);
+  }
 
   useEffect(() => {
     if (!_.isEmpty(polkadotContext)) {
       setLoading(false);
-      setProjectDetail(polkadotContext.projectDetail);
+      setRound(polkadotContext.rounds[rid] || {});
+      setProjectDetail(polkadotContext.projectDetail || {});
+
+      const newContributions = [];
+      _.forEach(polkadotContext.projectDetail.contributions, (item, index) => {
+        newContributions.push({ ...item, index })
+      })
+      setContributions(newContributions);
     }
-  }, [polkadotContext.projectDetail]);
+  }, [polkadotContext.projectDetail, polkadotContext.projectDetail.contributions]);
+
+  useEffect(() => {
+    const { length } = contributions;
+    switch (length) {
+      case 0: {
+        setLatestContributions([]);
+        break;
+      }
+
+      case 1: {
+        setLatestContributions([contributions[0]]);
+        break;
+      }
+
+      default: {
+        setLatestContributions([contributions[length - 1], contributions[length - 2]]);
+        break;
+      }
+    }
+
+    let totalContribute = 0;
+    _.forEach(contributions, (item) => {
+      totalContribute = totalContribute + toNumber(item.value);
+    })
+
+    setTotal(totalContribute);
+
+    let matchingList = [];
+    let totalMatchingAmount = 0;
+    _.forEach(contributions, (item) => {
+      const matching = getMatching(item, contributions);
+      matchingList.push(matching);
+      totalMatchingAmount += matching;
+    })
+
+    setMatchings(matchingList);
+    setTotalMatching(totalMatchingAmount);
+  }, [contributions])
 
   return (
     <MatchingWrapper>
@@ -35,22 +112,22 @@ const MatchingSection = ({ row, col }) => {
                   </text>
                 </div>
                 <div className="contribute-info">
-                  <div className="contribute">
-                    <text>1 DOT contribution</text>
-                    <text>+ 2.5 DOT match</text>
-                  </div>
-
-                  <div className="contribute">
-                    <text>10 DOT contribution</text>
-                    <text>+ 25 DOT match</text>
-                  </div>
+                  {
+                    _.map(latestContributions, item => {
+                      return (
+                        <div className="contribute">
+                          <text>{toNumber(item.value)} {oak.symbol} contribution</text>
+                          <text>+ {!_.isEmpty(matchings) && getMatchingFund(matchings[item.index])} {oak.symbol} match</text>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
                 <text style={{ marginTop: '10px' }}>
-                  $3,550 Raised{' '}
+                  ${total * oak.price} Raised{' '}
                   <text style={{ fontSize: 12 }}>
                     from{' '}
-                    {projectDetail.contributions &&
-                      projectDetail.contributions.length}{' '}
+                    {contributions.length}{' '}
                     contributors
                   </text>
                 </text>

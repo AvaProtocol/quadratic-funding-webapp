@@ -51,7 +51,7 @@ const Detail = () => {
               <Navbar />
             </Sticky>
             <ContentWrapper>
-              <MatchingSection />
+              <MatchingSection rid={rid} />
               <ProjectDetailSection />
               <CommentsSection />
             </ContentWrapper>

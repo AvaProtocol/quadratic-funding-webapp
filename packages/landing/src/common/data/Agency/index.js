@@ -38,50 +38,7 @@ const data = {
       offset: '81',
     },
   ],
-  features: [
-    {
-      id: 1,
-      icon: 'flaticon-flask',
-      title: 'Search Optimization',
-      description:
-        'By using Search Engine Optimization, You will get more Clients',
-    },
-    {
-      id: 2,
-      icon: 'flaticon-pencil-case',
-      title: 'Ui/UX Design',
-      description:
-        'We provide the best UI/UX Design by following the latest trends of the market .',
-    },
-    {
-      id: 3,
-      icon: 'flaticon-ruler',
-      title: 'Wireframing Task',
-      description:
-        'We respect our customer opinions and deals with them with perfect wireframing ',
-    },
-    {
-      id: 4,
-      icon: 'flaticon-startup',
-      title: 'Business Solutions',
-      description:
-        'We are commited to provide proper business solutions with reasonable pricing',
-    },
-    {
-      id: 5,
-      icon: 'flaticon-briefing',
-      title: 'Business Analysis',
-      description:
-        'A day to day report about your ongoing business for proper understanding',
-    },
-    {
-      id: 6,
-      icon: 'flaticon-creative',
-      title: 'Content Management',
-      description:
-        'Proper Content Management is important to find out the real clients for your agencies',
-    },
-  ],
+  // Temporary hard code data 
   projects: [
     {
       id: 1,

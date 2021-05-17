@@ -84,23 +84,14 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
     }
   }, []);
 
-  // Substribe the latest block number
   useEffect(() => {
     if (openGrant) {
+      // Substribe the latest block number
       openGrant.api.rpc.chain.subscribeNewHeads((header) => {
         setBlockNumber(Number(header.number));
       });
-    }
-  }, [openGrant]);
 
-  useEffect(() => {
-    if (openGrant) {
       getProjects();
-    }
-  }, [openGrant]);
-
-  useEffect(() => {
-    if (openGrant) {
       getRounds();
     }
   }, [openGrant]);

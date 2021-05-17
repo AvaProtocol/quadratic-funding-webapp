@@ -87,13 +87,13 @@ const Navbar = () => {
     <NavbarWrapper className="navbar">
       <Container>
         <Logo
-          href="/appmodern"
+          href="/"
           logoSrc="https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png"
           title="App Modern"
           className="main-logo"
         />
         <Logo
-          href="/appmodern"
+          href="/"
           logoSrc="https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png"
           title="App Modern"
           className="logo-alt"

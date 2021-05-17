@@ -47,8 +47,8 @@ const ProjectSection = ({
 
       _.forEach(rounds, (round) => {
         const { start, end } = round;
-        const startBlockNumber = Number(start.replace(',', ''));
-        const endBlockNumber = Number(end.replace(',', ''));
+        const startBlockNumber = Number(start.replaceAll(',', ''));
+        const endBlockNumber = Number(end.replaceAll(',', ''));
         if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
           activeRound = round;
         }
@@ -70,43 +70,6 @@ const ProjectSection = ({
     rounds,
   ]);
 
-  // useEffect(() => {
-  //   const round = activeRound || nextRound;
-  //   if (!_.isEmpty(round)) {
-  //     setRoundId(round.id);
-
-  //     const { blockNumber } = polkadotContext;
-  //     if (!_.isEmpty(activeRound)) {
-  //       const startBlockNumber = Number(activeRound.start.replace(',', ''));
-  //       const endBlockNumber = Number(activeRound.end.replace(',', ''));
-  //       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
-  //         setRoundTitle(`Countdown to the end of this round(#${activeRound.id + 1}) ${endBlockNumber - blockNumber} blocks`)
-  //       } else if (blockNumber < startBlockNumber) {
-  //         setRoundTitle(`Countdown to the start of this round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
-  //       } else if (!_.isEmpty(nextRound)){
-  //         const nextStartBlockNumber = Number(nextRound.start.replace(',', ''));
-  //         if (blockNumber < startBlockNumber) {
-  //           setRoundTitle(`Countdown to the next round(#${nextRound.id + 1}) ${nextStartBlockNumber - blockNumber} blocks`)
-  //         }
-  //       }
-  //     }
-  //     if (!_.isEmpty(nextRound)) {
-  //       const { start, end } = nextRound;
-  //       const startBlockNumber = Number(start.replace(',', ''));
-  //       const endBlockNumber = Number(end.replace(',', ''));
-  //       setRoundTitle(`Countdown to the next round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
-  //     }
-  //     roundTitle = !_.isEmpty(nextRound) && nextCountDown
-  //       ? `Countdown to the next round(#${nextRound.id + 1}) ${nextCountDown} blocks`
-  //       : roundTitle;
-  //     roundTitle =
-  //       !_.isEmpty(activeRound) && activeCountDown
-  //         ? `Countdown to the end of this round(#${activeRound.id + 1}) ${activeCountDown} blocks`
-  //         : roundTitle;
-  //   }
-    
-  // }, [activeRound, nextRound]);
-
   useEffect(() => {
     if (!_.isEmpty(rounds) && !_.isEmpty(projects)) {
       const round = rounds[roundId];
@@ -127,14 +90,14 @@ const ProjectSection = ({
         nextRound = rounds[roundId + 1];
       }
 
-      const startBlockNumber = Number(activeRound.start.replace(',', ''));
-      const endBlockNumber = Number(activeRound.end.replace(',', ''));
+      const startBlockNumber = Number(activeRound.start.replaceAll(',', ''));
+      const endBlockNumber = Number(activeRound.end.replaceAll(',', ''));
       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
         setRoundTitle(`Countdown to the end of this round(#${activeRound.id + 1}) ${endBlockNumber - blockNumber} blocks`)
       } else if (blockNumber < startBlockNumber) {
         setRoundTitle(`Countdown to the start of this round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
       } else if (!_.isEmpty(nextRound)){
-        const nextStartBlockNumber = Number(nextRound.start.replace(',', ''));
+        const nextStartBlockNumber = Number(nextRound.start.replaceAll(',', ''));
         if (blockNumber < nextStartBlockNumber) {
           setRoundTitle(`Countdown to the next round(#${nextRound.id + 1}) ${nextStartBlockNumber - blockNumber} blocks`)
         } else {
@@ -143,9 +106,6 @@ const ProjectSection = ({
       }
     }
   }, [roundId, projects, polkadotContext.blockNumber])
-
-  console.log('roundId: ', roundId);
-  console.log('rountTitle: ', roundTitle);
 
   return (
     <ProjectSectionWrapper id="teamSection">
@@ -184,7 +144,7 @@ const ProjectSection = ({
             </div>
 
             <div style={{ marginBottom: '30px' }}>
-              Select Round:
+              Round:
               <Select placeholder="Select a round" style={{ width: 300 }} onChange={(value) => setRoundId(Number(value) - 1)}>
                 {
                   _.map(rounds, (item) => {

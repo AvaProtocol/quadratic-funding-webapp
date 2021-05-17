@@ -13,7 +13,9 @@ import Text from 'common/components/Text';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import ProjectSectionWrapper from './projectSection.style';
 import _ from 'lodash';
-import { Spin } from 'antd';
+import { Spin, Select } from 'antd';
+
+const { Option } = Select;
 
 const ProjectSection = ({
   row,
@@ -32,47 +34,82 @@ const ProjectSection = ({
   const [projects, setProjects] = useState([]);
   const [roundProjects, setRoundProjects] = useState([]);
   const [rounds, setRounds] = useState([]);
-  const [roundId, setRoundId] = useState([]);
-  const [activeRound, setActiveRound] = useState({});
-  const [nextRound, setNextRound] = useState({});
-  const [activeCountDown, setActiveCountDown] = useState(null);
-  const [nextCountDown, setNextCountDown] = useState(null);
+  const [roundId, setRoundId] = useState(0);
+  const [roundTitle, setRoundTitle] = useState('There are no active rounds');
 
   useEffect(() => {
     if (!_.isEmpty(polkadotContext)) {
       setLoading(false);
       const { blockNumber } = polkadotContext;
 
+      let activeRound = {};
+      let nextRound = {};
+
       _.forEach(rounds, (round) => {
         const { start, end } = round;
         const startBlockNumber = Number(start.replace(',', ''));
         const endBlockNumber = Number(end.replace(',', ''));
         if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
-          setActiveRound(round);
-          setActiveCountDown(endBlockNumber - blockNumber);
+          activeRound = round;
         }
         if (blockNumber < startBlockNumber) {
-          setNextRound(round);
-          setNextCountDown(startBlockNumber - blockNumber);
+          nextRound = round;
+          return false;
         }
       });
 
+      const round = activeRound || nextRound;
+      if (!_.isEmpty(round)) {
+        setRoundId(round.id);
+      }
       setRounds(polkadotContext.rounds);
       setProjects(polkadotContext.projects);
     }
   }, [
     polkadotContext.rounds,
-    polkadotContext.blockNumber,
     rounds,
-    activeRound,
-    nextRound,
-    nextCountDown,
-    activeCountDown,
   ]);
 
+  // useEffect(() => {
+  //   const round = activeRound || nextRound;
+  //   if (!_.isEmpty(round)) {
+  //     setRoundId(round.id);
+
+  //     const { blockNumber } = polkadotContext;
+  //     if (!_.isEmpty(activeRound)) {
+  //       const startBlockNumber = Number(activeRound.start.replace(',', ''));
+  //       const endBlockNumber = Number(activeRound.end.replace(',', ''));
+  //       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
+  //         setRoundTitle(`Countdown to the end of this round(#${activeRound.id + 1}) ${endBlockNumber - blockNumber} blocks`)
+  //       } else if (blockNumber < startBlockNumber) {
+  //         setRoundTitle(`Countdown to the start of this round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
+  //       } else if (!_.isEmpty(nextRound)){
+  //         const nextStartBlockNumber = Number(nextRound.start.replace(',', ''));
+  //         if (blockNumber < startBlockNumber) {
+  //           setRoundTitle(`Countdown to the next round(#${nextRound.id + 1}) ${nextStartBlockNumber - blockNumber} blocks`)
+  //         }
+  //       }
+  //     }
+  //     if (!_.isEmpty(nextRound)) {
+  //       const { start, end } = nextRound;
+  //       const startBlockNumber = Number(start.replace(',', ''));
+  //       const endBlockNumber = Number(end.replace(',', ''));
+  //       setRoundTitle(`Countdown to the next round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
+  //     }
+  //     roundTitle = !_.isEmpty(nextRound) && nextCountDown
+  //       ? `Countdown to the next round(#${nextRound.id + 1}) ${nextCountDown} blocks`
+  //       : roundTitle;
+  //     roundTitle =
+  //       !_.isEmpty(activeRound) && activeCountDown
+  //         ? `Countdown to the end of this round(#${activeRound.id + 1}) ${activeCountDown} blocks`
+  //         : roundTitle;
+  //   }
+    
+  // }, [activeRound, nextRound]);
+
   useEffect(() => {
-    const round = activeRound || nextRound;
-    if (!_.isEmpty(round) && !_.isEmpty(projects)) {
+    if (!_.isEmpty(rounds) && !_.isEmpty(projects)) {
+      const round = rounds[roundId];
       const { grants } = round;
       const newProjects = [];
       _.forEach(grants, (grant) => {
@@ -82,18 +119,33 @@ const ProjectSection = ({
         });
       });
       setRoundProjects(newProjects);
-      setRoundId(round.id);
-    }
-  }, [activeRound, nextRound, projects]);
 
-  let roundTitle = 'There are no active rounds';
-  roundTitle = !_.isEmpty(nextRound)
-    ? `Countdown to the next round(#${nextRound.id}) ${nextCountDown} blocks`
-    : roundTitle;
-  roundTitle =
-    !_.isEmpty(activeRound) && activeCountDown
-      ? `Countdown to the end of this round(#${activeRound.id}) ${activeCountDown} blocks`
-      : roundTitle;
+      const { blockNumber } = polkadotContext;
+      const activeRound = round;
+      let nextRound = {};
+      if (roundId + 1 < rounds.length) {
+        nextRound = rounds[roundId + 1];
+      }
+
+      const startBlockNumber = Number(activeRound.start.replace(',', ''));
+      const endBlockNumber = Number(activeRound.end.replace(',', ''));
+      if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
+        setRoundTitle(`Countdown to the end of this round(#${activeRound.id + 1}) ${endBlockNumber - blockNumber} blocks`)
+      } else if (blockNumber < startBlockNumber) {
+        setRoundTitle(`Countdown to the start of this round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
+      } else if (!_.isEmpty(nextRound)){
+        const nextStartBlockNumber = Number(nextRound.start.replace(',', ''));
+        if (blockNumber < nextStartBlockNumber) {
+          setRoundTitle(`Countdown to the next round(#${nextRound.id + 1}) ${nextStartBlockNumber - blockNumber} blocks`)
+        } else {
+          setRoundTitle(`This round(#${activeRound.id + 1}) is ended`);
+        }
+      }
+    }
+  }, [roundId, projects, polkadotContext.blockNumber])
+
+  console.log('roundId: ', roundId);
+  console.log('rountTitle: ', roundTitle);
 
   return (
     <ProjectSectionWrapper id="teamSection">
@@ -129,6 +181,19 @@ const ProjectSection = ({
                 isMaterial={false}
                 placeholder="Search"
               />
+            </div>
+
+            <div style={{ marginBottom: '30px' }}>
+              Select Round:
+              <Select placeholder="Select a round" style={{ width: 300 }} onChange={(value) => setRoundId(Number(value) - 1)}>
+                {
+                  _.map(rounds, (item) => {
+                    return (
+                      <Option value={item.id + 1}>Round #{item.id + 1}</Option>    
+                    )
+                  })
+                }
+              </Select>
             </div>
 
             <Box className="row" {...row}>

@@ -34,7 +34,7 @@ const ProjectSection = ({
   const [projects, setProjects] = useState([]);
   const [roundProjects, setRoundProjects] = useState([]);
   const [rounds, setRounds] = useState([]);
-  const [roundId, setRoundId] = useState(0);
+  const [roundId, setRoundId] = useState(null);
   const [roundTitle, setRoundTitle] = useState('There are no active rounds');
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const ProjectSection = ({
   ]);
 
   useEffect(() => {
-    if (!_.isEmpty(rounds) && !_.isEmpty(projects)) {
+    if (roundId && !_.isEmpty(rounds) && !_.isEmpty(projects)) {
       const round = rounds[roundId];
       const { grants } = round;
       const newProjects = [];
@@ -143,18 +143,22 @@ const ProjectSection = ({
               />
             </div>
 
-            <div style={{ marginBottom: '30px' }}>
-              Round:
-              <Select placeholder="Select a round" style={{ width: 300 }} onChange={(value) => setRoundId(Number(value) - 1)}>
-                {
-                  _.map(rounds, (item) => {
-                    return (
-                      <Option value={item.id + 1}>Round #{item.id + 1}</Option>    
-                    )
-                  })
-                }
-              </Select>
-            </div>
+            {
+              roundId !== null && (
+                <div style={{ marginBottom: '30px' }}>
+                  Round:
+                  <Select defaultValue={roundId + 1} style={{ width: 300 }} onChange={(value) => setRoundId(Number(value) - 1)}>
+                    {
+                      _.map(rounds, (item) => {
+                        return (
+                          <Option value={item.id + 1}>Round #{item.id + 1}</Option>    
+                        )
+                      })
+                    }
+                  </Select>
+                </div>
+              )
+            }
 
             <Box className="row" {...row}>
               {roundProjects.map((project, index) => {

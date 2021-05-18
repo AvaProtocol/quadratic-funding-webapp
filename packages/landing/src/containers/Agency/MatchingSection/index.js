@@ -23,7 +23,7 @@ const MatchingSection = ({ row, col, rid }) => {
 
   const getMatchingFund = (matching) => {
     const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
-    return ((matching / totalMatching) * fund).toFixed(4);
+    return totalMatching ? ((matching / totalMatching) * fund).toFixed(4) : 0;
   }
 
   useEffect(() => {

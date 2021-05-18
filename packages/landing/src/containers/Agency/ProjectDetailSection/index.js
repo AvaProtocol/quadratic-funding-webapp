@@ -56,7 +56,7 @@ const ProjectDetailSection = ({ project }) => {
               <text className="mt-15">
                 {projectDetail.username || ellipsisAddress(projectDetail.owner)}{' '}
                 at block #{projectDetail.create_block_number}
-                <a style={{ marginLeft: '30px' }} href="#">
+                <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank">
                   View on Subscan
                 </a>
               </text>

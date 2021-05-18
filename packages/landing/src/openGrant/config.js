@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 module.exports = {
-  endpoint: 'wss://testnet.oak.tech',
+  // endpoint: 'ws://127.0.0.1:9944', // local node
+  endpoint: 'wss://testnet.oak.tech', // testnet node
   types: {
     ProjectIndex: 'u32',
     ProjectOf: 'Project',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import Container from 'common/components/UI/Container';
 import Button from 'common/components/Button';
@@ -7,11 +7,27 @@ import CommentsSectionWrapper from './commentsSection.style';
 import Comments from 'common/components/Comments';
 import Contributors from 'common/components/Contributors';
 import Transactions from 'common/components/Transactions';
+import { PolkadotContext } from 'common/contexts/PolkadotContext';
 
 const CommentsSection = ({
   ...props
 }) => {
   const [tab, setTab] = useState(0);
+  const polkadotContext = useContext(PolkadotContext);
+  const [projectDetail, setProjectDetail] = useState({});
+  const [contributions, setContributions] = useState([]);
+
+  useEffect(() => {
+    if (!_.isEmpty(polkadotContext)) {
+      setProjectDetail(polkadotContext.projectDetail);
+
+      const newContributions = [];
+      _.forEach(polkadotContext.projectDetail.contributions, (item, index) => {
+        newContributions.push({ ...item, index })
+      })
+      setContributions(newContributions);
+    }
+  }, [polkadotContext.projectDetail]);
 
   return (
     <CommentsSectionWrapper
@@ -28,7 +44,7 @@ const CommentsSection = ({
             tab === 0 && (<Comments></Comments>)
           }
           {
-            tab === 1 && (<Contributors></Contributors>)
+            tab === 1 && (<Contributors contributions={contributions}></Contributors>)
           }
           {
             tab === 2 && (<Transactions></Transactions>)

@@ -61,6 +61,9 @@ const ProjectSection = ({
       const round = activeRound || nextRound;
       if (!_.isEmpty(round)) {
         setRoundId(round.id);
+      } else if (!_.isEmpty(rounds)) {
+        const { length } = rounds;
+        setRoundId(length - 1);
       }
       setRounds(polkadotContext.rounds);
       setProjects(polkadotContext.projects);

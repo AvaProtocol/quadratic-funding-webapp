@@ -17,7 +17,7 @@ import LogoImageAlt from 'common/assets/image/appModern/logo.png';
 
 import { navbar } from 'common/data/AppModern';
 
-const Navbar = () => {
+const Navbar = ({ isLight }) => {
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',
@@ -88,7 +88,7 @@ const Navbar = () => {
       <Container>
         <Logo
           href="/"
-          logoSrc="https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png"
+          logoSrc={ isLight ? "https://res.cloudinary.com/forgelab-io/image/upload/v1619317508/OAK/oak-logo.png" : "https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png" }
           title="App Modern"
           className="main-logo"
         />

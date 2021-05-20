@@ -2,8 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 
 export const ResetCSS = createGlobalStyle`
   ::selection {
-    background: #333333;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0);
+    color: black;
   }
 
   html {

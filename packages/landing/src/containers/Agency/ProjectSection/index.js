@@ -74,7 +74,7 @@ const ProjectSection = ({
   ]);
 
   useEffect(() => {
-    if (roundId && !_.isEmpty(rounds) && !_.isEmpty(projects)) {
+    if (roundId !== null && !_.isEmpty(rounds) && !_.isEmpty(projects)) {
       const round = rounds[roundId];
       const { grants } = round;
       const newProjects = [];

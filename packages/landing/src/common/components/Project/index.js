@@ -24,7 +24,7 @@ const Project = ({ project, Icon, ...props }) => {
       <Link href={{ pathname: `/detail/${id}`, query: { rid: roundId } }}>
         <a>
           <div>
-            <text className="title">{`Project: ${name}`}</text>
+            <text className="title">{name}</text>
             <text className="description">{description}</text>
           </div>
 

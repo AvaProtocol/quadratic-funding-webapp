@@ -51,7 +51,7 @@ const AppModern = () => {
           {/* start app classic landing */}
           <AppWrapper>
             <Sticky top={0} innerZ={9999} activeClass="sticky-active">
-              <Navbar />
+              <Navbar isLight={true}/>
             </Sticky>
             <ContentWrapper>
               <Banner />

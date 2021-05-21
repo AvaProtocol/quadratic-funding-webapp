@@ -13,8 +13,10 @@ import DesignedAndBuilt from 'containers/AppModern/DesignedAndBuilt';
 import PricingPolicy from 'containers/AppModern/PricingPolicy';
 import TeamPortfolio from 'containers/AppModern/TeamPortfoilo';
 import Testimonial from 'containers/AppModern/Testimonial';
-import Newsletter from 'containers/AppModern/Newsletter';
+// import Newsletter from 'containers/AppModern/Newsletter';
+import NewsletterSection from 'containers/Agency/NewsletterSection';
 import Footer from 'containers/AppModern/Footer';
+import ProjectSection from 'containers/Agency/ProjectSection';
 import GlobalStyle, {
   AppWrapper,
   ContentWrapper,
@@ -25,7 +27,7 @@ const AppModern = () => {
     <ThemeProvider theme={theme}>
       <>
         <Head>
-          <title>App Modern | A next js landing page</title>
+          <title>Quadratic Funding Program</title>
           <meta name="Description" content="React next landing page" />
           <meta name="theme-color" content="#2563FF" />
           <meta
@@ -50,7 +52,9 @@ const AppModern = () => {
           </Sticky>
           <ContentWrapper>
             <Banner />
-            <Features />
+            <NewsletterSection />
+            <ProjectSection />
+            {/* <Features />
             <AppSlider />
             <DashboardFeatures />
             <Testimonial />
@@ -58,7 +62,7 @@ const AppModern = () => {
             <DesignedAndBuilt />
             <PricingPolicy />
             <TeamPortfolio />
-            <Newsletter />
+            <Newsletter /> */}
           </ContentWrapper>
           <Footer />
         </AppWrapper>

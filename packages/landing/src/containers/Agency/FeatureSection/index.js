@@ -105,8 +105,8 @@ FeatureSection.defaultProps = {
   },
   // feature icon default style
   iconStyle: {
-    width: '84px',
-    height: '84px',
+    width: '40px',
+    height: '40px',
     m: '0 auto',
     borderRadius: '50%',
     bg: '#93d26e',

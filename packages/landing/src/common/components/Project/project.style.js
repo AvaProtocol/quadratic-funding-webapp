@@ -4,14 +4,15 @@ const ProjectStyle = styled.a`
   /* Project default style goes here */
   display: flex;
   flex-direction: column;
-  background-color: rgba(237, 237, 240);
-  border-radius: 20px;
+  // background-color: rgba(237, 237, 240);
+  // border-radius: 20px;
   padding: 20px;
-  border: 1px solid rgba(237, 237, 240);
+  margin: -30px;
+  // border: 1px solid rgba(237, 237, 240);
   color: black;
 
   &:hover {
-    border: 1px solid #10ac84;
+    // border: 1px solid #10ac84;
   }
 
   div {
@@ -38,7 +39,7 @@ const ProjectStyle = styled.a`
     align-items: flex-end;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 2px solid gray;
+    border-top: 1px solid #f1f4f6;
   }
 
   .photo {
@@ -87,7 +88,7 @@ const ProjectStyle = styled.a`
       margin-left: 0px;
       margin-top: 10px;
     }
-  
+
     .created {
       margin-top: 5px;
       margin-left: 0px;

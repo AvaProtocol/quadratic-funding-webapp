@@ -1,55 +1,136 @@
-import React, { Fragment } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
+import { PolkadotContext } from 'common/contexts/PolkadotContext';
+import { Spin } from 'antd';
+import config from '../../../config';
+import { unitToNumber } from 'common/utils';
 
-const MatchingSection = ({
-  row,
-  col,
-}) => {
+const { oak } = config;
+
+const MatchingSection = ({ row, col, rid }) => {
+  const polkadotContext = useContext(PolkadotContext);
+  const [loading, setLoading] = useState(true);
+  const [round, setRound] = useState({});
+  const [projectDetail, setProjectDetail] = useState({});
+  const [contributions, setContributions] = useState([]);
+  const [latestContributions, setLatestContributions] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [totalMatching, setTotalMatching] = useState(0);
+
+  const getMatchingFund = (matching) => {
+    const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
+    return totalMatching ? ((matching / totalMatching) * fund).toFixed(4) : 0;
+  }
+
+  useEffect(() => {
+    if (!_.isEmpty(polkadotContext)) {
+      setLoading(false);
+      setRound(polkadotContext.rounds[rid] || {});
+      setProjectDetail(polkadotContext.projectDetail || {});
+
+      const newContributions = [];
+      _.forEach(polkadotContext.projectDetail.contributions, (item, index) => {
+        newContributions.push({ ...item, index })
+      })
+      setContributions(newContributions);
+    }
+  }, [polkadotContext.projectDetail, polkadotContext.projectDetail.contributions]);
+
+  useEffect(() => {
+    const { length } = contributions;
+    switch (length) {
+      case 0: {
+        setLatestContributions([]);
+        break;
+      }
+
+      case 1: {
+        setLatestContributions([contributions[0]]);
+        break;
+      }
+
+      default: {
+        setLatestContributions([contributions[length - 1], contributions[length - 2]]);
+        break;
+      }
+    }
+
+    let totalContribute = 0;
+    _.forEach(contributions, (item) => {
+      totalContribute = totalContribute + unitToNumber(item.value);
+    })
+
+    setTotal(totalContribute);
+
+    let totalMatchingAmount = 0;
+    _.forEach(round.grants, (item) => {
+      totalMatchingAmount += item.matching;
+    })
+
+    setTotalMatching(totalMatchingAmount);
+  }, [contributions])
+
+  console.log('projectDetail: ', projectDetail);
+
   return (
     <MatchingWrapper>
       <Container>
-        <Box className="row" {...row}>
-          <Box className="col" {...col}>
-            <div className="block matcing">
-              <div className="count-down">
-                <text className="title">Project X</text>
-                <text className="count-down-text">One-sentence description of Project X</text>
-              </div>
-              <div className="contribute-info">
-                <div className="contribute">
-                  <text>1 DOT contribution</text>
-                  <text>+ 2.5 DOT match</text>
+        {loading ? (
+          <Spin size="large" />
+        ) : (
+          <Box className="row" {...row}>
+            <Box className="col" {...col}>
+              <div className="block matcing">
+                <div className="count-down">
+                  <text className="title">Project {projectDetail.name}</text>
+                  <text className="count-down-text">
+                    {projectDetail.description}
+                  </text>
                 </div>
+                <div className="contribute-info">
+                  {
+                    _.map(latestContributions, item => {
+                      return (
+                        <div className="contribute" key={item.account_id}>
+                          <text>+ {unitToNumber(item.value)} {oak.symbol} contribution</text>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <text style={{ marginTop: '10px' }}>
+                  ${total * oak.price} Raised{' '}
+                  <text style={{ fontSize: 12 }}>
+                    from{' '}
+                    {contributions.length}{' '}
+                    contributors
+                  </text>
+                </text>
+                <text>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</text>
+                <div>
+                  <div className="total">
+                    <div className="current"></div>
+                  </div>
+                </div>
+                <div className="participate">
+                  <Button title="Participate" />
+                </div>
+              </div>
+            </Box>
 
-                <div className="contribute">
-                  <text>10 DOT contribution</text>
-                  <text>+ 25 DOT match</text>
+            <Box className="col" {...col}>
+              <div className="block">
+                <div className="carousell">
+                  <text>Carousell</text>
                 </div>
               </div>
-              <text style={{ marginTop: '10px' }} >$3,550 Raised <text style={{ fontSize: 12 }}>from 275 contributors</text></text>
-              <div>
-                <div className="total">
-                  <div className="current"></div>
-                </div>
-              </div>
-              <div className="participate">
-                <Button title="Participate" />
-              </div>
-            </div>
+            </Box>
           </Box>
-
-          <Box className="col" {...col}>
-            <div className="block">
-              <div className="carousell">
-                <text>Carousell</text>
-              </div>
-            </div>
-          </Box>
-        </Box>
+        )}
       </Container>
     </MatchingWrapper>
   );

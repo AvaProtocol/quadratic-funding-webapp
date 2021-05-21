@@ -7,7 +7,7 @@ const MatchingWrapper = styled.section`
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
-  
+
   .block {
     display: flex;
     flex-direction: column;
@@ -64,9 +64,9 @@ const MatchingWrapper = styled.section`
     height: 30px;
     width: 50%;
     border-radius: 20px;
-    background-color: black;
+    background-color: #d1397c;
   }
-  
+
   .participate {
     margin-top: 30px;
     display: flex;
@@ -75,7 +75,7 @@ const MatchingWrapper = styled.section`
 
   .carousell {
     display: flex;
-    background-color: rgba(237,237,240);
+    background-color: rgba(237, 237, 240);
     height: 300px;
     align-items: center;
     justify-content: center;

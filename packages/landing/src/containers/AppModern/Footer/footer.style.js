@@ -17,6 +17,23 @@ const FooterArea = styled.footer`
       height: auto;
     }
   }
+
+  .third-link-are {
+    display: flex;
+    margin-left: 2rem;
+  }
+
+  .third-link {
+    margin: 0.5rem;
+  }
+
+  .icon-gray {
+    color: gray;
+
+    &:hover {
+      color: $buttonHoverColor;
+    }
+  }
 `;
 
 export const WidgetArea = styled.div`

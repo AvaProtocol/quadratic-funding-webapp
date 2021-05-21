@@ -1,4 +1,4 @@
-import { 
+import {
   faWeixin,
   faTwitter,
   faLinkedin,
@@ -9,14 +9,42 @@ import {
   faFacebook,
   faInternetExplorer,
 } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
 
 const data = {
+  navMenu: [
+    {
+      id: 1,
+      label: 'Recommended',
+      path: '#Recommended',
+      offset: '84',
+    },
+    {
+      id: 2,
+      label: 'Tutorial',
+      path: '#Tutorial',
+      offset: '81',
+    },
+    {
+      id: 3,
+      label: 'FAQ',
+      path: '#FAQ',
+      offset: '81',
+    },
+    {
+      id: 4,
+      label: 'Become a Matching Partner',
+      path: '#Become a Matching Partner',
+      offset: '81',
+    },
+  ],
+  // Temporary hard code data 
   projects: [
     {
       id: 1,
       title: 'Project 1',
-      description: 'Description of Project 1: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 1: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 1: Projext 1 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 1: Projext 1 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -31,7 +59,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -60,7 +88,8 @@ const data = {
     {
       id: 2,
       title: 'Project 2',
-      description: 'Description of Project 2: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 2: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 2: Projext 2 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 2: Projext 2 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -75,7 +104,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -87,7 +116,8 @@ const data = {
     {
       id: 3,
       title: 'Project 3',
-      description: 'Description of Project 3: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 3: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 3: Projext 3 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 3: Projext 3 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -102,7 +132,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -114,7 +144,8 @@ const data = {
     {
       id: 4,
       title: 'Project 4',
-      description: 'Description of Project 4: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 4: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 4: Projext 4 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 4: Projext 4 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -129,7 +160,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -141,7 +172,8 @@ const data = {
     {
       id: 5,
       title: 'Project 5',
-      description: 'Description of Project 5: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 5: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 5: Projext 5 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 5: Projext 5 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -156,7 +188,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -168,7 +200,8 @@ const data = {
     {
       id: 6,
       title: 'Project 6',
-      description: 'Description of Project 6: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
+      description:
+        'Description of Project 6: Projext X is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
       contents: [
         'Content of Project 6: Projext 6 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
         'Content of Project 6: Projext 6 is a decentralized smart contract application built on Substrate that we use to demonstrate this wirefreme.',
@@ -183,7 +216,7 @@ const data = {
       socialElements: 'Also liked by @alice, @bob, @charlie and others',
       socialMedia: {
         twitter: {
-          link: "https://twitter.com/OAKSubstrate",
+          link: 'https://twitter.com/OAKSubstrate',
           icon: faTwitter,
         },
         website: {
@@ -213,39 +246,39 @@ const data = {
   },
   socialMedia: {
     twitter: {
-      link: "https://twitter.com/OAKSubstrate",
+      link: 'https://twitter.com/OAKSubstrate',
       icon: faTwitter,
     },
     discord: {
-      link: "",
+      link: '',
       icon: faDiscord,
     },
     wechat: {
-      link: "",
+      link: '',
       icon: faWeixin,
     },
     telegram: {
-      link: "",
+      link: '',
       icon: faTelegram,
     },
     facebook: {
-      link: "123",
+      link: '123',
       icon: faFacebook,
     },
     medium: {
-      link: "",
+      link: '',
       icon: faMedium,
     },
     linkedin: {
-      link: "123",
+      link: '123',
       icon: faLinkedin,
     },
     github: {
-      link: "",
+      link: '',
       icon: faGithubSquare,
     },
     email: {
-      link: "https://twitter.com/OAKSubstrate",
+      link: 'https://twitter.com/OAKSubstrate',
       icon: faEnvelopeSquare,
     },
   },

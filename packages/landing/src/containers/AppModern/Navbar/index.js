@@ -17,7 +17,7 @@ import LogoImageAlt from 'common/assets/image/appModern/logo.png';
 
 import { navbar } from 'common/data/AppModern';
 
-const Navbar = () => {
+const Navbar = ({ isLight }) => {
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',
@@ -87,14 +87,14 @@ const Navbar = () => {
     <NavbarWrapper className="navbar">
       <Container>
         <Logo
-          href="/appmodern"
-          logoSrc={LogoImage}
+          href="/"
+          logoSrc={ isLight ? "https://res.cloudinary.com/forgelab-io/image/upload/v1619317508/OAK/oak-logo.png" : "https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png" }
           title="App Modern"
           className="main-logo"
         />
         <Logo
-          href="/appmodern"
-          logoSrc={LogoImageAlt}
+          href="/"
+          logoSrc="https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png"
           title="App Modern"
           className="logo-alt"
         />
@@ -104,7 +104,7 @@ const Navbar = () => {
           <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} />
           {/* end of main menu */}
 
-          <Search className="search" ref={searchRef}>
+          {/* <Search className="search" ref={searchRef}>
             <form onSubmit={handleSearchForm}>
               <input
                 type="text"
@@ -119,12 +119,12 @@ const Navbar = () => {
               icon={<Icon icon={state.searchToggle ? x : search} />}
               onClick={() => toggleHandler('search')}
             />
-          </Search>
+          </Search> */}
           {/* end of search */}
 
-          <AnchorLink href="#trail" offset={84}>
+          {/* <AnchorLink href="#trail" offset={84}>
             <Button className="trail" title="Try for Free" />
-          </AnchorLink>
+          </AnchorLink> */}
 
           <Button
             className="menubar"
@@ -165,7 +165,7 @@ const Navbar = () => {
               </li>
             ))}
           </Scrollspy>
-          <Button title="Try for Free" />
+          {/* <Button title="Try for Free" /> */}
         </Container>
       </MobileMenu>
       {/* end of mobile menu */}

@@ -25,7 +25,7 @@ const ProjectDetailWrapper = styled.section`
     background-color: white;
   }
 
-  .button-text {
+  .ml-5 {
     margin-left: 5px;
   }
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const CommentStyle = styled.div`
   margin-top: 20px;
-  border: 1px solid #10ac84;
+  border: 1px solid #f1f4f6;
   padding: 20px;
   display: flex;
   flex-direction: row;

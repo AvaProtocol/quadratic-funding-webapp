@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import _ from 'lodash';
 
-import OpenGrant from '../../openGrant';
+import QuadraticFunding from '../../quadraticFunding';
 import { unitToNumber } from 'common/utils';
 
 export const PolkadotContext = React.createContext({});
 
 const PolkadotProvider = ({ children, projectId, roundId }) => {
-  const [openGrant, setOpenGrant] = useState(null);
+  const [quadraticFunding, setQuadraticFunding] = useState(null);
   const [blockNumber, setBlockNumber] = useState(0);
   const [projects, setProjects] = useState([]);
   const [rounds, setRounds] = useState([]);
   const [projectDetail, setProjectDetail] = useState({});
 
-  // Init openGrant api
-  const initOpenGrant = async () => {
-    const og = new OpenGrant();
+  // Init quadraticFunding api
+  const initQuadraticFunding = async () => {
+    const og = new QuadraticFunding();
     await og.init();
-    setOpenGrant(og);
+    setQuadraticFunding(og);
   };
 
   // Get the project owner's identity information
@@ -25,7 +25,7 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
     const promises = [];
     _.forEach(projects, (project) => {
       const { owner } = project;
-      promises.push(openGrant.getIdentity(owner));
+      promises.push(quadraticFunding.getIdentity(owner));
     });
 
     const results = await Promise.all(promises);
@@ -45,10 +45,10 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
 
   // Get all projects information
   const getProjects = async () => {
-    const count = await openGrant.getProjectCount();
+    const count = await quadraticFunding.getProjectCount();
     const promises = [];
     for (let index = 0; index < count; index += 1) {
-      promises.push(openGrant.getProjectInfo(index));
+      promises.push(quadraticFunding.getProjectInfo(index));
     }
 
     const results = await Promise.all(promises);
@@ -64,10 +64,10 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
 
   // Get all rounds information
   const getRounds = async () => {
-    const count = await openGrant.getGrantRoundCount();
+    const count = await quadraticFunding.getGrantRoundCount();
     const promises = [];
     for (let index = 0; index < count; index += 1) {
-      promises.push(openGrant.getGrantRoundInfo(index));
+      promises.push(quadraticFunding.getGrantRoundInfo(index));
     }
 
     const results = await Promise.all(promises);
@@ -76,15 +76,20 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
     _.forEach(results, (item, index) => {
       const round = item.toHuman();
       const { grants } = round;
-      let newGrants = []
-      _.forEach(grants, grant => {
+      let newGrants = [];
+      _.forEach(grants, (grant) => {
         const { contributions } = grant;
         const matching = getMatching(contributions);
 
         newGrants.push({ ...grant, matching });
-      })
+      });
 
-      newRounds.push({ ...round, grants: newGrants, id: index, matchingFund: unitToNumber(round.matching_fund) });
+      newRounds.push({
+        ...round,
+        grants: newGrants,
+        id: index,
+        matchingFund: unitToNumber(round.matching_fund),
+      });
     });
     setRounds(newRounds);
   };
@@ -95,28 +100,28 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
     _.forEach(contributions, (item) => {
       const value = unitToNumber(item.value);
       sqrtValue += Math.sqrt(value);
-    })
+    });
 
     return sqrtValue ** 2;
-  }
+  };
 
   useEffect(() => {
-    if (!openGrant) {
-      initOpenGrant();
+    if (!quadraticFunding) {
+      initQuadraticFunding();
     }
   }, []);
 
   useEffect(() => {
-    if (openGrant) {
+    if (quadraticFunding) {
       // Substribe the latest block number
-      openGrant.api.rpc.chain.subscribeNewHeads((header) => {
+      quadraticFunding.api.rpc.chain.subscribeNewHeads((header) => {
         setBlockNumber(Number(header.number));
       });
 
       getProjects();
       getRounds();
     }
-  }, [openGrant]);
+  }, [quadraticFunding]);
 
   // Get specific round's project contribute information
   useEffect(() => {
@@ -142,7 +147,7 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
 
   return (
     <PolkadotContext.Provider
-      value={{ openGrant, projects, rounds, blockNumber, projectDetail }}
+      value={{ quadraticFunding, projects, rounds, blockNumber, projectDetail }}
     >
       {children}
     </PolkadotContext.Provider>

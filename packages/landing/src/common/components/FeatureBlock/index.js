@@ -67,7 +67,7 @@ FeatureBlock.propTypes = {
   className: PropTypes.string,
 
   /** title prop contain a react component. You can use our Heading component from reusecore */
-  title: PropTypes.oneOfType(PropTypes.element, PropTypes.string),
+  title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 
   /** description prop contain a react component. You can use our Text component from reusecore */
   description: PropTypes.element,

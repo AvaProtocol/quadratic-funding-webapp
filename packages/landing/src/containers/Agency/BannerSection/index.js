@@ -9,10 +9,7 @@ import Container from 'common/components/UI/Container';
 import Particles from '../../Agency/Particle';
 import BannerWrapper, { DiscountLabel } from './bannerSection.style';
 
-const BannerSection = ({
-  row,
-  col,
-}) => {
+const BannerSection = ({ row, col }) => {
   return (
     <BannerWrapper>
       <Container>
@@ -32,7 +29,7 @@ const BannerSection = ({
           <Box className="col" {...col}>
             <div className="block">
               <div className="carousell">
-                <text>Carousell</text>
+                <span>Carousell</span>
               </div>
               <Button className="create-project" title="Create Project" />
             </div>

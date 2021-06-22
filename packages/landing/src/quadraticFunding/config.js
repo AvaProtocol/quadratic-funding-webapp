@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 module.exports = {
   // endpoint: 'ws://127.0.0.1:9944', // local node
-  endpoint: 'wss://testnet.oak.tech', // testnet node
+  endpoint: 'wss://rpc.testnet.oak.tech', // testnet node
   types: {
     ProjectIndex: 'u32',
     ProjectOf: 'Project',
     RoundIndex: 'u32',
     RoundOf: 'Round',
+    BlockNumberFor: 'BlockNumber',
     Round: {
       start: 'BlockNumber',
       end: 'BlockNumber',

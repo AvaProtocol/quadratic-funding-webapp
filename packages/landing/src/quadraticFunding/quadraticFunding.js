@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const config = require('./config');
 
-class OpenGrant {
+class QuadraticFunding {
   constructor() {
     this.api = '';
   }
@@ -26,12 +26,12 @@ class OpenGrant {
   // Storage Module
 
   /**
-   * Read the OpenGrant's storage data
-   * @param {*} method OpenGrant's method name
-   * @param  {...any} args OpenGrant's method's params
+   * Read the QuadraticFunding's storage data
+   * @param {*} method QuadraticFunding's method name
+   * @param  {...any} args QuadraticFunding's method's params
    */
   readStorage(method, ...args) {
-    return this.api.query.openGrant[method](...args);
+    return this.api.query.quadraticFunding[method](...args);
   }
 
   async getCurrentBlockNumber() {
@@ -65,4 +65,4 @@ class OpenGrant {
   }
 }
 
-export default OpenGrant;
+export default QuadraticFunding;

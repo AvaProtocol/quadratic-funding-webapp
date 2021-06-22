@@ -68,10 +68,7 @@ const ProjectSection = ({
       setRounds(polkadotContext.rounds);
       setProjects(polkadotContext.projects);
     }
-  }, [
-    polkadotContext.rounds,
-    rounds,
-  ]);
+  }, [polkadotContext.rounds, rounds]);
 
   useEffect(() => {
     if (roundId !== null && !_.isEmpty(rounds) && !_.isEmpty(projects)) {
@@ -96,19 +93,33 @@ const ProjectSection = ({
       const startBlockNumber = Number(activeRound.start.replaceAll(',', ''));
       const endBlockNumber = Number(activeRound.end.replaceAll(',', ''));
       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
-        setRoundTitle(`Countdown to the end of this round(#${activeRound.id + 1}) ${endBlockNumber - blockNumber} blocks`)
+        setRoundTitle(
+          `Countdown to the end of this round(#${activeRound.id + 1}) ${
+            endBlockNumber - blockNumber
+          } blocks`
+        );
       } else if (blockNumber < startBlockNumber) {
-        setRoundTitle(`Countdown to the start of this round(#${activeRound.id + 1}) ${startBlockNumber - blockNumber} blocks`)
-      } else if (!_.isEmpty(nextRound)){
-        const nextStartBlockNumber = Number(nextRound.start.replaceAll(',', ''));
+        setRoundTitle(
+          `Countdown to the start of this round(#${activeRound.id + 1}) ${
+            startBlockNumber - blockNumber
+          } blocks`
+        );
+      } else if (!_.isEmpty(nextRound)) {
+        const nextStartBlockNumber = Number(
+          nextRound.start.replaceAll(',', '')
+        );
         if (blockNumber < nextStartBlockNumber) {
-          setRoundTitle(`Countdown to the next round(#${nextRound.id + 1}) ${nextStartBlockNumber - blockNumber} blocks`)
+          setRoundTitle(
+            `Countdown to the next round(#${nextRound.id + 1}) ${
+              nextStartBlockNumber - blockNumber
+            } blocks`
+          );
         } else {
           setRoundTitle(`This round(#${activeRound.id + 1}) is ended`);
         }
       }
     }
-  }, [roundId, projects, polkadotContext.blockNumber])
+  }, [roundId, projects, polkadotContext.blockNumber]);
 
   return (
     <ProjectSectionWrapper id="teamSection">
@@ -146,22 +157,24 @@ const ProjectSection = ({
               />
             </div>
 
-            {
-              roundId !== null && (
-                <div style={{ marginBottom: '30px' }}>
-                  Round:
-                  <Select defaultValue={roundId + 1} style={{ width: 300 }} onChange={(value) => setRoundId(Number(value) - 1)}>
-                    {
-                      _.map(rounds, (item) => {
-                        return (
-                          <Option value={item.id + 1}>Round #{item.id + 1}</Option>    
-                        )
-                      })
-                    }
-                  </Select>
-                </div>
-              )
-            }
+            {roundId !== null && (
+              <div style={{ marginBottom: '30px' }}>
+                Round:
+                <Select
+                  defaultValue={roundId + 1}
+                  style={{ width: 300 }}
+                  onChange={(value) => setRoundId(Number(value) - 1)}
+                >
+                  {_.map(rounds, (item) => {
+                    return (
+                      <Option key={item.id + 1} value={item.id + 1}>
+                        Round #{item.id + 1}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </div>
+            )}
 
             <Box className="row" {...row}>
               {roundProjects.map((project, index) => {

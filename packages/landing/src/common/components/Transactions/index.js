@@ -2,14 +2,10 @@ import React from 'react';
 
 import TransactionsStyle from './transactions.style';
 
-const Transactions = ({
-  ...props
-}) => {
+const Transactions = ({ ...props }) => {
   return (
-    <TransactionsStyle
-      {...props}
-    >
-      <text>Transactions</text>
+    <TransactionsStyle {...props}>
+      <span>Transactions</span>
     </TransactionsStyle>
   );
 };

@@ -24,7 +24,7 @@ const MatchingSection = ({ row, col, rid }) => {
   const getMatchingFund = (matching) => {
     const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
     return totalMatching ? ((matching / totalMatching) * fund).toFixed(4) : 0;
-  }
+  };
 
   useEffect(() => {
     if (!_.isEmpty(polkadotContext)) {
@@ -34,11 +34,14 @@ const MatchingSection = ({ row, col, rid }) => {
 
       const newContributions = [];
       _.forEach(polkadotContext.projectDetail.contributions, (item, index) => {
-        newContributions.push({ ...item, index })
-      })
+        newContributions.push({ ...item, index });
+      });
       setContributions(newContributions);
     }
-  }, [polkadotContext.projectDetail, polkadotContext.projectDetail.contributions]);
+  }, [
+    polkadotContext.projectDetail,
+    polkadotContext.projectDetail.contributions,
+  ]);
 
   useEffect(() => {
     const { length } = contributions;
@@ -54,7 +57,10 @@ const MatchingSection = ({ row, col, rid }) => {
       }
 
       default: {
-        setLatestContributions([contributions[length - 1], contributions[length - 2]]);
+        setLatestContributions([
+          contributions[length - 1],
+          contributions[length - 2],
+        ]);
         break;
       }
     }
@@ -62,17 +68,17 @@ const MatchingSection = ({ row, col, rid }) => {
     let totalContribute = 0;
     _.forEach(contributions, (item) => {
       totalContribute = totalContribute + unitToNumber(item.value);
-    })
+    });
 
     setTotal(totalContribute);
 
     let totalMatchingAmount = 0;
     _.forEach(round.grants, (item) => {
       totalMatchingAmount += item.matching;
-    })
+    });
 
     setTotalMatching(totalMatchingAmount);
-  }, [contributions])
+  }, [contributions]);
 
   console.log('projectDetail: ', projectDetail);
 
@@ -92,25 +98,25 @@ const MatchingSection = ({ row, col, rid }) => {
                   </text>
                 </div>
                 <div className="contribute-info">
-                  {
-                    _.map(latestContributions, item => {
-                      return (
-                        <div className="contribute" key={item.account_id}>
-                          <text>+ {unitToNumber(item.value)} {oak.symbol} contribution</text>
-                        </div>
-                      )
-                    })
-                  }
+                  {_.map(latestContributions, (item) => {
+                    return (
+                      <div className="contribute" key={item.account_id}>
+                        <span>
+                          + {unitToNumber(item.value)} {oak.symbol} contribution
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
-                <text style={{ marginTop: '10px' }}>
+                <span style={{ marginTop: '10px' }}>
                   ${total * oak.price} Raised{' '}
-                  <text style={{ fontSize: 12 }}>
-                    from{' '}
-                    {contributions.length}{' '}
-                    contributors
-                  </text>
-                </text>
-                <text>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</text>
+                  <span style={{ fontSize: 12 }}>
+                    from {contributions.length} contributors
+                  </span>
+                </span>
+                <span>
+                  + {getMatchingFund(projectDetail.matching)} {oak.symbol} match
+                </span>
                 <div>
                   <div className="total">
                     <div className="current"></div>
@@ -125,7 +131,7 @@ const MatchingSection = ({ row, col, rid }) => {
             <Box className="col" {...col}>
               <div className="block">
                 <div className="carousell">
-                  <text>Carousell</text>
+                  <span>Carousell</span>
                 </div>
               </div>
             </Box>

@@ -22,10 +22,10 @@ const Project = ({ project, Icon, ...props }) => {
   return (
     <ProjectStyle {...props}>
       <Link href={{ pathname: `/detail/${id}`, query: { rid: roundId } }}>
-        <a>
+        <div>
           <div>
-            <text className="title">{name}</text>
-            <text className="description">{description}</text>
+            <span className="title">{name}</span>
+            <span className="description">{description}</span>
           </div>
 
           <div className="identity">
@@ -33,16 +33,16 @@ const Project = ({ project, Icon, ...props }) => {
               {/* <image className="photo"></image> */}
               {Icon}
               <div style={{ textAlign: 'left' }}>
-                <text className="username">{`Username: ${
+                <span className="username">{`Username: ${
                   username || ellipsisAddress(owner)
-                }`}</text>
-                <text className="created">
+                }`}</span>
+                <span className="created">
                   Created at block #{create_block_number}
-                </text>
+                </span>
               </div>
             </div>
 
-            <text className="creator">{socialElements}</text>
+            <span className="creator">{socialElements}</span>
 
             <div className="buttons">
               <Button
@@ -58,7 +58,7 @@ const Project = ({ project, Icon, ...props }) => {
               />
             </div>
           </div>
-        </a>
+        </div>
       </Link>
     </ProjectStyle>
   );

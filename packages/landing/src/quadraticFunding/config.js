@@ -7,6 +7,7 @@ module.exports = {
     ProjectOf: 'Project',
     RoundIndex: 'u32',
     RoundOf: 'Round',
+    BlockNumberFor: 'BlockNumber',
     Round: {
       start: 'BlockNumber',
       end: 'BlockNumber',

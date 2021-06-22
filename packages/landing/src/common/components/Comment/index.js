@@ -36,11 +36,11 @@ const Comment = ({ ...props }) => {
             width: '100%',
           }}
         >
-          <text>
+          <span>
             This is awesome. I love the original idea of this project. Please
             keep it up!
-          </text>
-          <text style={{ marginLeft: 10 }}>3 days 13 hours ago</text>
+          </span>
+          <span style={{ marginLeft: 10 }}>3 days 13 hours ago</span>
         </div>
 
         <div
@@ -52,8 +52,8 @@ const Comment = ({ ...props }) => {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <text>35 Likes </text>
-            <text style={{ marginLeft: 50 }}>Also contributed 3.5 DOT</text>
+            <span>35 Likes </span>
+            <span style={{ marginLeft: 50 }}>Also contributed 3.5 DOT</span>
           </div>
 
           {/* <button className="button">

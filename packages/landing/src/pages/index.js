@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -25,6 +26,17 @@ import GlobalStyle, {
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 
 const AppModern = () => {
+  
+  useEffect(async () => {
+    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
+    const allInjected = await web3Enable('my cool dapp');
+    console.log('allInjected: ', allInjected);
+    const allAccounts = await web3Accounts();
+    console.log('allAccounts: ', allAccounts);
+    const { address } = allAccounts[0];
+    console.log('address: ', address);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <PolkadotProvider>

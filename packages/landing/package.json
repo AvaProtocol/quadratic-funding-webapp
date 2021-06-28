@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@glidejs/glide": "^3.4.1",
-    "@polkadot/api": "^4.7.2",
+    "@polkadot/api": "^4.16.2",
+    "@polkadot/extension-dapp": "^0.38.7",
     "@reach/accordion": "^0.11.2",
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "@redq/reuse-modal": "^1.1.9",
@@ -50,6 +51,7 @@
     "react-image-gallery": "1.0.8",
     "react-masonry-component": "^6.2.1",
     "react-particles-js": "^3.4.1",
+    "react-redux": "^7.2.4",
     "react-reveal": "^1.2.2",
     "react-rnd": "^10.2.3",
     "react-scroll-parallax": "^2.3.4",

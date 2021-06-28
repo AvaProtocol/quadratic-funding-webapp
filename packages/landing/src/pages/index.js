@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -24,8 +25,9 @@ import GlobalStyle, {
   ContentWrapper,
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
+import actions from '../redux/actions';
 
-const AppModern = () => {
+const AppModern = ({ setAccount }) => {
   
   useEffect(async () => {
     const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
@@ -35,6 +37,7 @@ const AppModern = () => {
     console.log('allAccounts: ', allAccounts);
     const { address } = allAccounts[0];
     console.log('address: ', address);
+    setAccount(address);
   }, []);
 
   return (
@@ -87,4 +90,11 @@ const AppModern = () => {
     </ThemeProvider>
   );
 };
-export default AppModern;
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+	setAccount: (account) => dispatch(actions.setAccount(account)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppModern);

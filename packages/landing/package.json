@@ -14,6 +14,7 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "@cloudbase/js-sdk": "^1.5.0",
     "@glidejs/glide": "^3.4.1",
     "@polkadot/api": "^4.16.2",
     "@polkadot/extension-dapp": "^0.38.7",

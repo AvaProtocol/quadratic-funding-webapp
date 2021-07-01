@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { openModal } from '@redq/reuse-modal';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -16,6 +17,7 @@ import DesignedAndBuilt from 'containers/AppModern/DesignedAndBuilt';
 import PricingPolicy from 'containers/AppModern/PricingPolicy';
 import TeamPortfolio from 'containers/AppModern/TeamPortfoilo';
 import Testimonial from 'containers/AppModern/Testimonial';
+import PrivacyPortal from 'containers/CryptoModern/Privacy';
 // import Newsletter from 'containers/AppModern/Newsletter';
 import NewsletterSection from 'containers/Agency/NewsletterSection';
 import Footer from 'containers/AppModern/Footer';
@@ -26,6 +28,12 @@ import GlobalStyle, {
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import actions from '../redux/actions';
+import { DropdownMenu } from 'common/components/Dropdown';
+
+
+const SimpleModal = () => {
+  return (<div>12312312312k3l12jl3kj12kl3</div>);
+}
 
 const AppModern = ({ setAccount }) => {
   
@@ -38,6 +46,64 @@ const AppModern = ({ setAccount }) => {
     const { address } = allAccounts[0];
     console.log('address: ', address);
     setAccount(address);
+
+    const cloudbase = (await import('@cloudbase/js-sdk')).default;
+    console.log('cloudbase: ', cloudbase);
+
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+
+    const testComment = async () => {
+
+      const result = await app.callFunction({
+        name: 'comment',
+        data: {
+          address: '5GcD1vPdWzBd3VPTPgVFWL9K7b27A2tPYcVTJoGwKcLjdG5w',
+          comment: "It's cool!",
+          projectIndex: 0
+        }
+      });
+      console.log('result: ', result);
+    }
+
+    testComment();
+
+
+    openModal({
+      config: {
+        className: 'customModal',
+        disableDragging: false,
+        enableResizing: {
+          bottom: true,
+          bottomLeft: true,
+          bottomRight: true,
+          left: true,
+          right: true,
+          top: true,
+          topLeft: true,
+          topRight: true,
+        },
+        width: 480,
+        height: 650,
+        animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
+        animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
+        transition: {
+          mass: 1,
+          tension: 130,
+          friction: 26,
+        }, // react-spring config props
+      },
+      withRnd: false,
+      overlayClassName: 'customeOverlayClass',
+      closeOnClickOutside: false,
+      component: SimpleModal,
+      componentProps: { customData: 'your custom props' },
+    });
+
+
+
   }, []);
 
   return (
@@ -72,6 +138,7 @@ const AppModern = ({ setAccount }) => {
               <Banner />
               <NewsletterSection />
               <ProjectSection />
+              <PrivacyPortal />
               {/* <Features />
               <AppSlider />
               <DashboardFeatures />

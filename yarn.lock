@@ -185,6 +185,105 @@
     "@babel/helper-validator-identifier" "^7.14.0"
     to-fast-properties "^2.0.0"
 
+"@cloudbase/adapter-interface@^0.4.0":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@cloudbase/adapter-interface/-/adapter-interface-0.4.1.tgz#92c37e1a844d0964dd686806c70cb00e6ccabae2"
+  integrity sha512-DJBhBUMg6pYByaw4II7rawbW8nu+x+faZFIxIkWeTRSxboW/jS3NpBQ7kAbycEJVAB2DO77FsnaHKYAMLnvwzw==
+
+"@cloudbase/analytics@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/analytics/-/analytics-1.1.0.tgz#445f599d0da069d42f41dbf443fd4884266dd2e9"
+  integrity sha512-y6YY3U2J8apuN05TlU/Fjn4jA6HnJuaDqPyk+HSDMSF4FBaMML30LXcAPfC84B+BjOhDtBTotPDhFZCdOGnkSQ==
+  dependencies:
+    "@cloudbase/functions" "^1.3.0"
+    "@cloudbase/types" "^1.1.2"
+
+"@cloudbase/app@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/app/-/app-1.3.0.tgz#c9cf743c781d670f6c8fc6173cca4be33e018f3f"
+  integrity sha512-5FLT9UcgNe5GGwDzrb8tZ75qVz9IBbqaXYKEGEaRsMCldusYHDYALgNdR8jEqiqFC16qKE1h+aFj5Hf4OH+61g==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
+    "@cloudbase/types" "^1.1.2"
+    "@cloudbase/utilities" "^1.3.0"
+    cloudbase-adapter-wx_mp "0.2.0"
+
+"@cloudbase/auth@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/auth/-/auth-1.4.0.tgz#927fa9bee32d69d8f67757345b659e3c7f8b8026"
+  integrity sha512-8KT9P4L6d+VnpXShVWisKLj9QGVpIBScCS5sKO7b7RljzVXYeXVpRF5tQ2cJ4JXFbSDDNN6vAbIaEGpaga9bXA==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
+    "@cloudbase/app" "^1.3.0"
+    "@cloudbase/types" "^1.1.2"
+    "@cloudbase/utilities" "^1.3.0"
+    sourcemapped-stacktrace "^1.1.11"
+
+"@cloudbase/database@0.9.18-next":
+  version "0.9.18-next"
+  resolved "https://registry.yarnpkg.com/@cloudbase/database/-/database-0.9.18-next.tgz#3c8919512c891783f3acaad7228da2dfcfd951d7"
+  integrity sha512-iXruD1T5scc/h+zNc7o3EdoiEr5l0eLhMH47UsIprp5livB7tdZTDX9U5EBXflYmRIG/1TrK983GsvCbKWT7iw==
+  dependencies:
+    bson "^4.0.2"
+    lodash.clonedeep "4.5.0"
+    lodash.set "4.3.2"
+    lodash.unset "4.5.2"
+
+"@cloudbase/functions@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/functions/-/functions-1.3.0.tgz#b9fdb05d4b8784c9ce56f2a944e1d2e33cc9dbdf"
+  integrity sha512-PK7XjDkpolGfeha1wHOzjE7pV8jgWepU4Lo194oOxt9CYpQKI11HxlzzesgD8U9xLN8azaxAq2vMIzEAFoc4+w==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
+    "@cloudbase/types" "^1.1.2"
+    "@cloudbase/utilities" "^1.3.0"
+
+"@cloudbase/js-sdk@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/js-sdk/-/js-sdk-1.5.0.tgz#cb0f928c7fe1c01f3eeb97b8f08161dece15cb9d"
+  integrity sha512-Ka3v68XESji0RqGQFuvGa8ABPmm30GLVruBiJpI5UjVRYEgEmVOmzUG+dNf6j62Zkk7mKLWQ/XwZXF0V/3nfWQ==
+  dependencies:
+    "@cloudbase/analytics" "^1.1.0"
+    "@cloudbase/app" "^1.3.0"
+    "@cloudbase/auth" "^1.4.0"
+    "@cloudbase/database" "0.9.18-next"
+    "@cloudbase/functions" "^1.3.0"
+    "@cloudbase/realtime" "^1.1.3"
+    "@cloudbase/storage" "^1.3.0"
+    "@cloudbase/types" "^1.1.2"
+    "@cloudbase/utilities" "^1.3.0"
+
+"@cloudbase/realtime@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@cloudbase/realtime/-/realtime-1.1.3.tgz#2f45cb1d61cb1b63d712389e8f395991edcca558"
+  integrity sha512-MTEQP0lvzuk1P0rWfSVHIFk+ace8bqnMjejuACMiMazmeVLJEFIr4EMBY2LsnudFWOiEBBuG9IbX4MQfhgtltw==
+  dependencies:
+    "@cloudbase/types" "^1.1.2"
+
+"@cloudbase/storage@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/storage/-/storage-1.3.0.tgz#e27eaaa57fa3952020880fcb48cec35a2211e8a7"
+  integrity sha512-0gNner6ZAq6vKvzMUGP816EjJM9I5uFXXojlBvZbYtaoJChO1xAd6MISm8zEwsTT77APr8uCPOEqJtgZpvJ0SQ==
+  dependencies:
+    "@cloudbase/types" "^1.1.2"
+    "@cloudbase/utilities" "^1.3.0"
+
+"@cloudbase/types@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cloudbase/types/-/types-1.1.2.tgz#bce444bca6f3846a4a9a08e088e3a4ada1d91a3b"
+  integrity sha512-xMeIeUEfpR95VbJCKYi5n+Wfzgu5BSB5msS3gROuvV5tiBs5fG125XscfRw+BiKsF3bgRox1W2bushFE8g8F3Q==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
+
+"@cloudbase/utilities@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cloudbase/utilities/-/utilities-1.3.0.tgz#88368d2818a0d56bba53a30578d4248183603f6e"
+  integrity sha512-l5qxdS1yA4IVt+OYwHC+bLeVmt5IUhTyR4xvuccXDWnzAoYl1l2yhqWIiArrsskAy9weqNFRF+WneMB+f58Ybw==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
+    "@cloudbase/types" "^1.1.2"
+    crypto-js "3"
+
 "@ctrl/tinycolor@^3.4.0":
   version "3.4.0"
   resolved "https://registry.npm.taobao.org/@ctrl/tinycolor/download/@ctrl/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
@@ -2104,6 +2203,13 @@ browserslist@4.16.6:
     escalade "^3.1.1"
     node-releases "^1.1.71"
 
+bson@^4.0.2:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.4.0.tgz#6a4cac7de8c5cc24a9bcc059cd42a9852e2bad4a"
+  integrity sha512-uX9Zqzv2DpFXJgQOWKD8nbf0dTQV57WM8eiXDXVWeJYgiu/zIRz61OGLJKwbfSEEjZJ+AgS+7TUT7Y8EloTaqQ==
+  dependencies:
+    buffer "^5.6.0"
+
 buffer-alloc-unsafe@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/buffer-alloc-unsafe/download/buffer-alloc-unsafe-1.1.0.tgz#bd7dc26ae2972d0eda253be061dba992349c19f0"
@@ -2159,7 +2265,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.1.0, buffer@^5.2.1, buffer@^5.5.0:
+buffer@^5.1.0, buffer@^5.2.1, buffer@^5.5.0, buffer@^5.6.0:
   version "5.7.1"
   resolved "https://registry.npm.taobao.org/buffer/download/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha1-umLnwTEzBTWCGXFghRqPZI6Z7tA=
@@ -2560,6 +2666,13 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.npm.taobao.org/clone/download/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
+
+cloudbase-adapter-wx_mp@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/cloudbase-adapter-wx_mp/-/cloudbase-adapter-wx_mp-0.2.0.tgz#21bd81acec852373ee8b62ab4de57e535eec0059"
+  integrity sha512-GiQGm11cH0K8oKY5tuJZm7DgsM2+WUw5toteMJlKTLMH4ouFrizu5J228I2kXtEWU+u/wE+5tuNGrEdhlfpkZQ==
+  dependencies:
+    "@cloudbase/adapter-interface" "^0.4.0"
 
 cloudinary-core@^2.11.3:
   version "2.11.4"
@@ -3002,6 +3115,11 @@ crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@3:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -6166,7 +6284,7 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.npm.taobao.org/lodash.camelcase/download/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
-lodash.clonedeep@^4.5.0:
+lodash.clonedeep@4.5.0, lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.nlark.com/lodash.clonedeep/download/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
@@ -6267,6 +6385,11 @@ lodash.once@^4.0.0:
   resolved "https://registry.npm.taobao.org/lodash.once/download/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
 
+lodash.set@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
+
 lodash.snakecase@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npm.taobao.org/lodash.snakecase/download/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
@@ -6291,6 +6414,11 @@ lodash.union@^4.6.0:
   version "4.6.0"
   resolved "https://registry.npm.taobao.org/lodash.union/download/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
   integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
+
+lodash.unset@4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/lodash.unset/-/lodash.unset-4.5.2.tgz#370d1d3e85b72a7e1b0cdf2d272121306f23e4ed"
+  integrity sha1-Nw0dPoW3Kn4bDN8tJyEhMG8j5O0=
 
 lodash.values@^2.4.1:
   version "2.4.1"
@@ -9298,6 +9426,11 @@ source-map-url@^0.4.0:
   resolved "https://registry.npm.taobao.org/source-map-url/download/source-map-url-0.4.1.tgz?cache=0&sync_timestamp=1612210621814&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsource-map-url%2Fdownload%2Fsource-map-url-0.4.1.tgz#0af66605a745a5a2f91cf1bbf8a7afbc283dec56"
   integrity sha1-CvZmBadFpaL5HPG7+KevvCg97FY=
 
+source-map@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
+  integrity sha1-dc449SvwczxafwwRjYEzSiu19BI=
+
 source-map@0.7.3:
   version "0.7.3"
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
@@ -9319,6 +9452,13 @@ source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+
+sourcemapped-stacktrace@^1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/sourcemapped-stacktrace/-/sourcemapped-stacktrace-1.1.11.tgz#e2dede7fc148599c52a4f883276e527f8452657d"
+  integrity sha512-O0pcWjJqzQFVsisPlPXuNawJHHg9N9UgpJ/aDmvi9+vnS3x1C0NhwkVFzzZ1VN0Xo+bekyweoqYvBw5ZBKiNnQ==
+  dependencies:
+    source-map "0.5.6"
 
 spdx-correct@^3.0.0:
   version "3.1.1"

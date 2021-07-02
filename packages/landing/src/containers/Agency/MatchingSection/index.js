@@ -80,8 +80,6 @@ const MatchingSection = ({ row, col, rid }) => {
     setTotalMatching(totalMatchingAmount);
   }, [contributions]);
 
-  console.log('projectDetail: ', projectDetail);
-
   return (
     <MatchingWrapper>
       <Container>
@@ -92,10 +90,10 @@ const MatchingSection = ({ row, col, rid }) => {
             <Box className="col" {...col}>
               <div className="block matcing">
                 <div className="count-down">
-                  <text className="title">Project {projectDetail.name}</text>
-                  <text className="count-down-text">
+                  <span className="title">Project {projectDetail.name}</span>
+                  <span className="count-down-text">
                     {projectDetail.description}
-                  </text>
+                  </span>
                 </div>
                 <div className="contribute-info">
                   {_.map(latestContributions, (item) => {

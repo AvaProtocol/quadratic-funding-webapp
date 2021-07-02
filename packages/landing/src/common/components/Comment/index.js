@@ -7,6 +7,7 @@ import Button from 'common/components/Button';
 import CommentStyle from './comment.style';
 
 const Comment = ({ ...props }) => {
+  const { content } = props;
   return (
     <CommentStyle {...props}>
       <div
@@ -17,8 +18,8 @@ const Comment = ({ ...props }) => {
           marginRight: 20,
         }}
       >
-        <image className="photo"></image>
-        <text style={{ marginTop: 10 }}>@username</text>
+        <img className="photo"></img>
+        <span style={{ marginTop: 10 }}>@username</span>
       </div>
 
       <div
@@ -37,8 +38,7 @@ const Comment = ({ ...props }) => {
           }}
         >
           <span>
-            This is awesome. I love the original idea of this project. Please
-            keep it up!
+            {content}
           </span>
           <span style={{ marginLeft: 10 }}>3 days 13 hours ago</span>
         </div>
@@ -55,11 +55,6 @@ const Comment = ({ ...props }) => {
             <span>35 Likes </span>
             <span style={{ marginLeft: 50 }}>Also contributed 3.5 DOT</span>
           </div>
-
-          {/* <button className="button">
-            <FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>
-            <text className="button-text">Like</text>
-          </button> */}
           <Button
             type="button"
             icon={<FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>}

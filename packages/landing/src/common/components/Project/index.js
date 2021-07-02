@@ -12,7 +12,7 @@ const Project = ({ project, Icon, ...props }) => {
   const {
     name,
     description,
-    id,
+    project_index,
     owner,
     socialElements,
     username,
@@ -21,7 +21,7 @@ const Project = ({ project, Icon, ...props }) => {
   } = project;
   return (
     <ProjectStyle {...props}>
-      <Link href={{ pathname: `/detail/${id}`, query: { rid: roundId } }}>
+      <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
         <div>
           <div>
             <span className="title">{name}</span>

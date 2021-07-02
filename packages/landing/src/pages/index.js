@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { openModal } from '@redq/reuse-modal';
+import { openModal, closeModal } from '@redq/reuse-modal';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -18,7 +18,6 @@ import PricingPolicy from 'containers/AppModern/PricingPolicy';
 import TeamPortfolio from 'containers/AppModern/TeamPortfoilo';
 import Testimonial from 'containers/AppModern/Testimonial';
 import PrivacyPortal from 'containers/CryptoModern/Privacy';
-// import Newsletter from 'containers/AppModern/Newsletter';
 import NewsletterSection from 'containers/Agency/NewsletterSection';
 import Footer from 'containers/AppModern/Footer';
 import ProjectSection from 'containers/Agency/ProjectSection';
@@ -28,48 +27,47 @@ import GlobalStyle, {
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import actions from '../redux/actions';
-import { DropdownMenu } from 'common/components/Dropdown';
+import _ from 'lodash';
+import { overflow } from 'styled-system';
 
-
-const SimpleModal = () => {
-  return (<div>12312312312k3l12jl3kj12kl3</div>);
+const SimpleModal = ({addresses, onClick}) => {
+  console.log('SimpleModal, addresses: ', addresses);
+  const addressList = _.map(addresses, (address) => {
+    return (
+      <div style={{ height: 20, borderWidth: 1,  borderColor: 'blue', borderStyle: 'solid', marginTop: 5, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
+        closeModal();
+        onClick(address);
+      }}>
+        <span>{address}</span>
+      </div>
+    );
+  });
+  return (
+    <div style={{ overflow: 'scroll' }}>
+      <div style={{ fontSize: 15, fontWeight: 'bold', marginTop: 10, marginLeft: 5 }}>Select a wallet address:</div>
+      <div>{addressList}</div>
+    </div>
+  );
 }
 
 const AppModern = ({ setAccount }) => {
   
   useEffect(async () => {
-    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
-    const allInjected = await web3Enable('my cool dapp');
-    console.log('allInjected: ', allInjected);
-    const allAccounts = await web3Accounts();
-    console.log('allAccounts: ', allAccounts);
-    const { address } = allAccounts[0];
-    console.log('address: ', address);
-    setAccount(address);
-
     const cloudbase = (await import('@cloudbase/js-sdk')).default;
-    console.log('cloudbase: ', cloudbase);
-
     const app = cloudbase.init({
       env: 'quadratic-funding-1edc914e16f235',
       region: 'ap-guangzhou'
     });
+    const auth = app.auth();
+    await auth.anonymousAuthProvider().signIn();
 
-    const testComment = async () => {
+    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
+    const allInjected = await web3Enable('my cool dapp');
+    const allAccounts = await web3Accounts();
 
-      const result = await app.callFunction({
-        name: 'comment',
-        data: {
-          address: '5GcD1vPdWzBd3VPTPgVFWL9K7b27A2tPYcVTJoGwKcLjdG5w',
-          comment: "It's cool!",
-          projectIndex: 0
-        }
-      });
-      console.log('result: ', result);
-    }
-
-    testComment();
-
+    const addresses = _.map(allAccounts, (account) => {
+      return account.address;
+    });
 
     openModal({
       config: {
@@ -86,7 +84,6 @@ const AppModern = ({ setAccount }) => {
           topRight: true,
         },
         width: 480,
-        height: 650,
         animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
         animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
         transition: {
@@ -99,11 +96,10 @@ const AppModern = ({ setAccount }) => {
       overlayClassName: 'customeOverlayClass',
       closeOnClickOutside: false,
       component: SimpleModal,
-      componentProps: { customData: 'your custom props' },
+      componentProps: { addresses, onClick: (address) => {
+        setAccount(address);
+      } },
     });
-
-
-
   }, []);
 
   return (

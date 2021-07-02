@@ -19,7 +19,7 @@ function reducer(state = initState, action) {
     case actions.SET_ACCOUNT:
       {
         console.log('actions.SET_ACCOUNT, state: ', state);
-        const { account } = state;
+        const { account } = action;
         return { ...state, account };
       }
       return state;

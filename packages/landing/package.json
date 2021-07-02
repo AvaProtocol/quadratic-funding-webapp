@@ -21,7 +21,7 @@
     "@redq/reuse-modal": "^1.1.9",
     "@styled-system/theme-get": "^5.1.2",
     "antd": "^4.15.5",
-    "chart.js": "2.6.0",
+    "chart.js": "2.9.4",
     "cloudinary-react": "^1.7.0",
     "firebase-admin": "^9.4.1",
     "firebase-functions": "^3.11.0",

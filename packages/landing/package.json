@@ -28,6 +28,7 @@
     "firebase-admin": "^9.4.1",
     "firebase-functions": "^3.11.0",
     "lodash": "^4.17.21",
+    "momnet": "^2.29.1",
     "next": "^10.0.1",
     "next-compose-plugins": "^2.2.1",
     "next-fonts": "1.5.1",
@@ -61,7 +62,8 @@
     "react-stickynode": "3.0.4",
     "styled-components": "^5.2.1",
     "styled-system": "5.1.5",
-    "swiper": "^6.4.11"
+    "swiper": "^6.4.11",
+    "truncate-middle": "^1.0.6"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",

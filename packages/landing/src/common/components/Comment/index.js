@@ -5,9 +5,23 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import Button from 'common/components/Button';
 
 import CommentStyle from './comment.style';
+import moment from 'moment';
+
+const truncateMiddle = require('truncate-middle');
 
 const Comment = ({ ...props }) => {
-  const { content } = props;
+  const { comment: commentObject } = props;
+  const { comment, timestamp, user  } = commentObject;
+
+  const datetime = moment(timestamp);
+  const daysElapsed = moment().diff(datetime, 'days');
+  let datetimeText = null;
+  if (daysElapsed < 1) {
+    datetimeText = datetime.fromNow();
+  } else {
+    datetimeText = datetime.format('LL');
+  }
+
   return (
     <CommentStyle {...props}>
       <div
@@ -19,7 +33,7 @@ const Comment = ({ ...props }) => {
         }}
       >
         <img className="photo"></img>
-        <span style={{ marginTop: 10 }}>@username</span>
+        <span style={{ marginTop: 10 }}>{truncateMiddle(user, 4, 4, '...')}</span>
       </div>
 
       <div
@@ -38,9 +52,9 @@ const Comment = ({ ...props }) => {
           }}
         >
           <span>
-            {content}
+            {comment}
           </span>
-          <span style={{ marginLeft: 10 }}>3 days 13 hours ago</span>
+          <span style={{ marginLeft: 10 }}>{datetimeText}</span>
         </div>
 
         <div
@@ -52,14 +66,8 @@ const Comment = ({ ...props }) => {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>35 Likes </span>
             <span style={{ marginLeft: 50 }}>Also contributed 3.5 DOT</span>
           </div>
-          <Button
-            type="button"
-            icon={<FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>}
-            title="Like"
-          />
         </div>
       </div>
     </CommentStyle>

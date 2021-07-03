@@ -46,29 +46,23 @@ const Comments = ({
       region: 'ap-guangzhou'
     });
 
-    console.log('onCommentC123213123123licked');
-
-    const data =  {
-      address: props.account,
-      comment: textareaValue,
-      projectIndex,
-    };
-
-    console.log('data: ', data);
-
     const result = await app.callFunction({
       name: 'comment',
-      data,
+      data: {
+        address: props.account,
+        comment: textareaValue,
+        projectIndex,
+      }
     });
 
-    console.log('kkkkkkkkkk');
+    setTextareaValue('');
 
     getComments();
   }
 
   const getCommentList = (comments) => {
     const comnentList = _.map(_.clone(comments).reverse(), (comment) => {
-      return (<Comment key={comment.timestamp} content={comment.comment} ></Comment>);
+      return (<Comment key={comment.timestamp} comment={comment} ></Comment>);
     });
     console.log('getCommentList, comments: ', comments);
     return comnentList;

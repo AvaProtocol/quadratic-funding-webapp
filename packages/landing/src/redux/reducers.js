@@ -4,12 +4,10 @@ import actions from './actions';
 const initState = {
   count: 0,
   account: null,
+  projects: [],
 };
 
 function reducer(state = initState, action) {
-  console.log('state: ', state);
-  console.log('action: ', action);
-  
   switch (action.type) {
     case actions.INCREASE:
       {
@@ -18,11 +16,15 @@ function reducer(state = initState, action) {
       }
     case actions.SET_ACCOUNT:
       {
-        console.log('actions.SET_ACCOUNT, state: ', state);
         const { account } = action;
         return { ...state, account };
       }
-      return state;
+    case actions.SET_PROJECTS:
+      {
+        const { projects } = action;
+        console.log('SET_PROJECTS, projects: ', projects);
+        return { ...state, projects };
+      }
   }
 }
 

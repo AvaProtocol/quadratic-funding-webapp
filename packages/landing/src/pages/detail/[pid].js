@@ -55,17 +55,6 @@ const Detail = () => {
               <ProjectDetailSection />
               <CommentsSection projectIndex={pid} />
             </ContentWrapper>
-            {/* <LineCharts /> */}
-            {/* <NewsletterSection /> */}
-            {/* <FeatureSection /> */}
-            {/* <AboutUsSection /> */}
-            {/* <WorkHistory /> */}
-            {/* <BlogSection /> */}
-            {/* <QualitySection /> */}
-            {/* <VideoSection /> */}
-            {/* <TestimonialSection /> */}
-            {/* <ProjectSection /> */}
-            {/* <FaqSection /> */}
             <Footer />
           </AppWrapper>
           {/* End of agency wrapper section */}

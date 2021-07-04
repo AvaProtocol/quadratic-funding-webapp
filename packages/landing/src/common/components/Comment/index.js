@@ -1,9 +1,4 @@
 import React from 'react';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import Button from 'common/components/Button';
-
 import CommentStyle from './comment.style';
 import moment from 'moment';
 

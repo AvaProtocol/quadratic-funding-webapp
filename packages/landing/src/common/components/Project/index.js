@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +8,8 @@ import Button from 'common/components/Button';
 
 import ProjectStyle from './project.style';
 import { ellipsisAddress } from 'common/utils';
+import _ from 'lodash';
+import reduxHelper from '../../../redux/helper';
 
 const Project = ({ project, Icon, ...props }) => {
   const {
@@ -19,15 +22,53 @@ const Project = ({ project, Icon, ...props }) => {
     create_block_number,
     roundId,
   } = project;
+
+  const projectIndex = parseInt(project_index);
+  const { projectRecords, account } = props;
+
+  const [projectRecord, setProjectRecord] = useState({})
+  
+  useEffect(async () => {
+    const foundRecord = _.find(projectRecords, (projectRecord) => {
+      return projectRecord.index === projectIndex;
+    });
+    setProjectRecord(foundRecord);
+  }, [projectRecords]);
+
+  const likeAccount = _.find(projectRecord.likes, (like) => {
+    return like === account;
+  });
+
+  const onLikeClicked = async () => {
+    console.log('onLikeClicked');
+    const cloudbase = (await import('@cloudbase/js-sdk')).default;
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+
+    const result = await app.callFunction({
+      name: 'like',
+      data: {
+        projectIndex,
+        address: account,
+        isLike: _.isNil(likeAccount)
+      }
+    });
+
+    reduxHelper.getProjects();
+  }
+
   return (
     <ProjectStyle {...props}>
-      <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
+      
         <div>
-          <div>
-            <span className="title">{name}</span>
-            <span className="description">{description}</span>
-          </div>
-
+          <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
+            <div>
+              <span className="title">{name}</span>
+              <span className="description">{description}</span>
+            </div>
+          </Link>
           <div className="identity">
             <div className="infomation">
               {/* <image className="photo"></image> */}
@@ -47,8 +88,9 @@ const Project = ({ project, Icon, ...props }) => {
             <div className="buttons">
               <Button
                 type="button"
-                icon={<FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>}
+                icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
                 title="Like"
+                onClick = {onLikeClicked}
               />
               <Button
                 className="button"
@@ -59,9 +101,13 @@ const Project = ({ project, Icon, ...props }) => {
             </div>
           </div>
         </div>
-      </Link>
     </ProjectStyle>
   );
 };
 
-export default Project;
+const mapStateToProps = (state) => ({
+  projectRecords: state.projects,
+  account: state.account,
+});
+
+export default connect(mapStateToProps)(Project);

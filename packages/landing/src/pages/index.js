@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { openModal, closeModal } from '@redq/reuse-modal';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
@@ -9,15 +10,6 @@ import { ResetCSS } from 'common/assets/css/style';
 import Sticky from 'react-stickynode';
 import Navbar from 'containers/AppModern/Navbar';
 import Banner from 'containers/AppModern/Banner';
-import AppSlider from 'containers/AppModern/AppSlider';
-import Features from 'containers/AppModern/Features';
-import DashboardFeatures from 'containers/AppModern/Dashboard';
-import ProductSlide from 'containers/AppModern/ProductSlide';
-import DesignedAndBuilt from 'containers/AppModern/DesignedAndBuilt';
-import PricingPolicy from 'containers/AppModern/PricingPolicy';
-import TeamPortfolio from 'containers/AppModern/TeamPortfoilo';
-import Testimonial from 'containers/AppModern/Testimonial';
-import PrivacyPortal from 'containers/CryptoModern/Privacy';
 import NewsletterSection from 'containers/Agency/NewsletterSection';
 import Footer from 'containers/AppModern/Footer';
 import ProjectSection from 'containers/Agency/ProjectSection';
@@ -27,8 +19,7 @@ import GlobalStyle, {
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import actions from '../redux/actions';
-import _ from 'lodash';
-import { overflow } from 'styled-system';
+
 
 const SimpleModal = ({addresses, onClick}) => {
   console.log('SimpleModal, addresses: ', addresses);
@@ -134,16 +125,6 @@ const AppModern = ({ setAccount }) => {
               <Banner />
               <NewsletterSection />
               <ProjectSection />
-              <PrivacyPortal />
-              {/* <Features />
-              <AppSlider />
-              <DashboardFeatures />
-              <Testimonial />
-              <ProductSlide />
-              <DesignedAndBuilt />
-              <PricingPolicy />
-              <TeamPortfolio />
-              <Newsletter /> */}
             </ContentWrapper>
             <Footer />
           </AppWrapper>

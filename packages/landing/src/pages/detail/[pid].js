@@ -53,7 +53,7 @@ const Detail = () => {
             <ContentWrapper>
               <MatchingSection rid={rid} />
               <ProjectDetailSection />
-              <CommentsSection />
+              <CommentsSection projectIndex={pid} />
             </ContentWrapper>
             {/* <LineCharts /> */}
             {/* <NewsletterSection /> */}

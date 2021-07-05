@@ -185,7 +185,7 @@ const ProjectSection = ({
                       wrapperStyle={blockWrapperStyle}
                       iconStyle={iconStyle}
                       contentStyle={contentStyle}
-                      project={{ ...project, id: index, roundId }}
+                      project={{ ...project, roundId }}
                       title={project.name}
                     />
                   </Box>

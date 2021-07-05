@@ -1,3 +1,6 @@
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { openModal, closeModal } from '@redq/reuse-modal';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -14,7 +17,7 @@ import DesignedAndBuilt from 'containers/AppModern/DesignedAndBuilt';
 import PricingPolicy from 'containers/AppModern/PricingPolicy';
 import TeamPortfolio from 'containers/AppModern/TeamPortfoilo';
 import Testimonial from 'containers/AppModern/Testimonial';
-// import Newsletter from 'containers/AppModern/Newsletter';
+import PrivacyPortal from 'containers/CryptoModern/Privacy';
 import NewsletterSection from 'containers/Agency/NewsletterSection';
 import Footer from 'containers/AppModern/Footer';
 import ProjectSection from 'containers/Agency/ProjectSection';
@@ -23,8 +26,82 @@ import GlobalStyle, {
   ContentWrapper,
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
+import actions from '../redux/actions';
+import _ from 'lodash';
+import { overflow } from 'styled-system';
 
-const AppModern = () => {
+const SimpleModal = ({addresses, onClick}) => {
+  console.log('SimpleModal, addresses: ', addresses);
+  const addressList = _.map(addresses, (address) => {
+    return (
+      <div style={{ height: 20, borderWidth: 1,  borderColor: 'blue', borderStyle: 'solid', marginTop: 5, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
+        closeModal();
+        onClick(address);
+      }}>
+        <span>{address}</span>
+      </div>
+    );
+  });
+  return (
+    <div style={{ overflow: 'scroll' }}>
+      <div style={{ fontSize: 15, fontWeight: 'bold', marginTop: 10, marginLeft: 5 }}>Select a wallet address:</div>
+      <div>{addressList}</div>
+    </div>
+  );
+}
+
+const AppModern = ({ setAccount }) => {
+  
+  useEffect(async () => {
+    const cloudbase = (await import('@cloudbase/js-sdk')).default;
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+    const auth = app.auth();
+    await auth.anonymousAuthProvider().signIn();
+
+    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
+    const allInjected = await web3Enable('my cool dapp');
+    const allAccounts = await web3Accounts();
+
+    const addresses = _.map(allAccounts, (account) => {
+      return account.address;
+    });
+
+    openModal({
+      config: {
+        className: 'customModal',
+        disableDragging: false,
+        enableResizing: {
+          bottom: true,
+          bottomLeft: true,
+          bottomRight: true,
+          left: true,
+          right: true,
+          top: true,
+          topLeft: true,
+          topRight: true,
+        },
+        width: 480,
+        animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
+        animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
+        transition: {
+          mass: 1,
+          tension: 130,
+          friction: 26,
+        }, // react-spring config props
+      },
+      withRnd: false,
+      overlayClassName: 'customeOverlayClass',
+      closeOnClickOutside: false,
+      component: SimpleModal,
+      componentProps: { addresses, onClick: (address) => {
+        setAccount(address);
+      } },
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <PolkadotProvider>
@@ -57,6 +134,7 @@ const AppModern = () => {
               <Banner />
               <NewsletterSection />
               <ProjectSection />
+              <PrivacyPortal />
               {/* <Features />
               <AppSlider />
               <DashboardFeatures />
@@ -75,4 +153,11 @@ const AppModern = () => {
     </ThemeProvider>
   );
 };
-export default AppModern;
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+	setAccount: (account) => dispatch(actions.setAccount(account)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppModern);

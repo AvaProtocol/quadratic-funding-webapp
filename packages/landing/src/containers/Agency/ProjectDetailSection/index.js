@@ -33,9 +33,9 @@ const ProjectDetailSection = ({ project }) => {
         ) : (
           <>
             <div className="title">
-              <text style={{ fontSize: 30, fontWeight: 'bold' }}>
+              <span style={{ fontSize: 30, fontWeight: 'bold' }}>
                 Project Details
-              </text>
+              </span>
               <div className="buttons">
                 <Button
                   type="button"
@@ -52,16 +52,16 @@ const ProjectDetailSection = ({ project }) => {
             </div>
 
             <div className="content">
-              <text style={{ fontSize: 14 }}>Created by</text>
-              <text className="mt-15">
+              <span style={{ fontSize: 14 }}>Created by</span>
+              <span className="mt-15">
                 {projectDetail.username || ellipsisAddress(projectDetail.owner)}{' '}
                 at block #{projectDetail.create_block_number}
                 <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank">
                   View on Subscan
                 </a>
-              </text>
+              </span>
 
-              <text className="mt-30">{projectDetail.description}</text>
+              <span className="mt-30">{projectDetail.description}</span>
 
               <div
                 style={{
@@ -71,7 +71,7 @@ const ProjectDetailSection = ({ project }) => {
                 }}
               >
                 {_.map(projectDetail.contents, (content) => {
-                  return <text className="mt-15">{projectDetail.content}</text>;
+                  return <span className="mt-15">{projectDetail.content}</span>;
                 })}
               </div>
 
@@ -80,7 +80,7 @@ const ProjectDetailSection = ({ project }) => {
                   return (
                     <div className="mt-15">
                       <FontAwesomeIcon icon={social.icon}></FontAwesomeIcon>
-                      <text className="ml-10">{social.link}</text>
+                      <span className="ml-10">{social.link}</span>
                     </div>
                   );
                 })}
@@ -92,16 +92,16 @@ const ProjectDetailSection = ({ project }) => {
                 <GroupedBar className="chart" />
               </div>
 
-              <text className="mt-30">Team Members</text>
+              <span className="mt-30">Team Members</span>
               <div className="team-members">
                 {_.map(projectDetail.teamMembers, (member) => {
                   return (
                     <div className="member">
                       {/* <image className="photo"></image> */}
-                      <text className="mt-10 text-center">{member.name}</text>
-                      <text className="mt-10 text-center">
+                      <span className="mt-10 text-center">{member.name}</span>
+                      <span className="mt-10 text-center">
                         {member.experience}
-                      </text>
+                      </span>
                     </div>
                   );
                 })}

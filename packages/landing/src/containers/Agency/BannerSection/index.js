@@ -17,8 +17,8 @@ const BannerSection = ({ row, col }) => {
           <Box className="col" {...col}>
             <div className="block">
               <div className="count-down">
-                <text className="title">Quadratic Funding Program</text>
-                <text className="count-down-text">7D 10H 35M till end</text>
+                <span className="title">Quadratic Funding Program</span>
+                <span className="count-down-text">7D 10H 35M till end</span>
               </div>
               <div className="participate">
                 <Button title="Participate" />

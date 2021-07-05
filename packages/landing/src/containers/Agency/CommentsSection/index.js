@@ -29,6 +29,8 @@ const CommentsSection = ({
     }
   }, [polkadotContext.projectDetail]);
 
+  const { projectIndex } = props;
+
   return (
     <CommentsSectionWrapper
       {...props}
@@ -41,7 +43,7 @@ const CommentsSection = ({
             <Button title="Transactions" className={tab === 2 ? 'selected' : 'notSelected'} onClick={() => setTab(2)}></Button>
           </div>
           {
-            tab === 0 && (<Comments></Comments>)
+            tab === 0 && (<Comments projectIndex={projectIndex} ></Comments>)
           }
           {
             tab === 1 && (<Contributors contributions={contributions}></Contributors>)

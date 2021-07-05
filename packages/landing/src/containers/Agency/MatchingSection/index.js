@@ -1,17 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import cloudbase from '@cloudbase/js-sdk';
+import { InputNumber } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
+import qfConfig from '../../../quadraticFunding/config';
 import config from '../../../config';
 import { unitToNumber } from 'common/utils';
+import { flex, height } from 'styled-system';
 
 const { oak } = config;
 
-const MatchingSection = ({ row, col, rid }) => {
+const MatchingSection = ({ row, col, rid, account }) => {
   const polkadotContext = useContext(PolkadotContext);
   const [loading, setLoading] = useState(true);
   const [round, setRound] = useState({});
@@ -20,6 +25,7 @@ const MatchingSection = ({ row, col, rid }) => {
   const [latestContributions, setLatestContributions] = useState([]);
   const [total, setTotal] = useState(0);
   const [totalMatching, setTotalMatching] = useState(0);
+  const [voteAmount, setVoteAmount] = useState(10);
 
   const getMatchingFund = (matching) => {
     const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
@@ -80,6 +86,44 @@ const MatchingSection = ({ row, col, rid }) => {
     setTotalMatching(totalMatchingAmount);
   }, [contributions]);
 
+  const onParticipateClicked = async () => {
+    const { web3FromAddress } = await import('@polkadot/extension-dapp');
+    const { WsProvider, ApiPromise } = await import('@polkadot/api');
+    const { endpoint, types } = qfConfig;
+
+    const wsProvider = new WsProvider(endpoint);
+    const api = await ApiPromise.create({
+      provider: wsProvider,
+      types,
+    });
+
+    const injector = await web3FromAddress(account);
+    const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
+    const roundIndex = parseInt(rid);
+
+    const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount);
+    await extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => { 
+      if (!status.isFinalized) {
+        return;
+      }
+
+      const app = cloudbase.init({
+        env: 'quadratic-funding-1edc914e16f235',
+        region: 'ap-guangzhou'
+      });
+
+      await app.callFunction({
+        name: 'vote',
+        data: {
+          address: account,
+          roundIndex,
+          projectIndex,
+          voteAmount,
+        }
+      });
+    });
+  }
+
   return (
     <MatchingWrapper>
       <Container>
@@ -115,13 +159,14 @@ const MatchingSection = ({ row, col, rid }) => {
                 <span>
                   + {getMatchingFund(projectDetail.matching)} {oak.symbol} match
                 </span>
-                <div>
-                  <div className="total">
-                    <div className="current"></div>
-                  </div>
-                </div>
+                
                 <div className="participate">
-                  <Button title="Participate" />
+                  <div style={{ height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }} >
+                    <InputNumber size='large' min={1} max={9999} defaultValue={10} value={voteAmount} onChange={(value)=> {
+                      setVoteAmount(value);
+                    }} />
+                  </div>
+                  <Button style={{ marginLeft: 20 }} title="Participate" onClick={onParticipateClicked} />
                 </div>
               </div>
             </Box>
@@ -204,4 +249,8 @@ MatchingSection.defaultProps = {
   },
 };
 
-export default MatchingSection;
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps)(MatchingSection);

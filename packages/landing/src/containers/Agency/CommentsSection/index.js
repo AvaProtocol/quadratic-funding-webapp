@@ -29,7 +29,7 @@ const CommentsSection = ({
     }
   }, [polkadotContext.projectDetail]);
 
-  const { projectIndex } = props;
+  const { projectIndex, roundIndex } = props;
 
   return (
     <CommentsSectionWrapper
@@ -49,7 +49,7 @@ const CommentsSection = ({
             tab === 1 && (<Contributors contributions={contributions}></Contributors>)
           }
           {
-            tab === 2 && (<Transactions></Transactions>)
+            tab === 2 && (<Transactions roundIndex={roundIndex} projectIndex={projectIndex}></Transactions>)
           }
         </div>
       </Container>

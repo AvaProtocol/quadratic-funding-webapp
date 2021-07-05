@@ -17,6 +17,7 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
   const initQuadraticFunding = async () => {
     const og = new QuadraticFunding();
     await og.init();
+    console.log('initQuadraticFunding!!!!!!!, og: ', og);
     setQuadraticFunding(og);
   };
 
@@ -57,9 +58,10 @@ const PolkadotProvider = ({ children, projectId, roundId }) => {
     _.forEach(results, (item, index) => {
       newProjects.push({ ...item.toHuman(), id: index });
     });
+    console.log('newProjects: ', newProjects);
     setProjects(newProjects);
 
-    await getIdentity(newProjects);
+    // await getIdentity(newProjects);
   };
 
   // Get all rounds information

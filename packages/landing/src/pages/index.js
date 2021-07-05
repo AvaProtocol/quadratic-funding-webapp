@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { openModal, closeModal } from '@redq/reuse-modal';
+import cloudbase from '@cloudbase/js-sdk';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -19,6 +20,7 @@ import GlobalStyle, {
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import actions from '../redux/actions';
+
 
 
 const SimpleModal = ({addresses, onClick}) => {
@@ -44,7 +46,6 @@ const SimpleModal = ({addresses, onClick}) => {
 const AppModern = ({ setAccount }) => {
   
   useEffect(async () => {
-    const cloudbase = (await import('@cloudbase/js-sdk')).default;
     const app = cloudbase.init({
       env: 'quadratic-funding-1edc914e16f235',
       region: 'ap-guangzhou'

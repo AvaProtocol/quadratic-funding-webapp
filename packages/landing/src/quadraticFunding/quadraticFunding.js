@@ -18,7 +18,7 @@ class QuadraticFunding {
         provider: wsProvider,
         types,
       });
-
+      console.log('QuadraticFunding.init, api: ', api);
       this.api = api;
     }
   }

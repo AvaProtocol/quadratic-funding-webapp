@@ -23,8 +23,6 @@ const ProjectSection = ({
   sectionHeader,
   sectionTitle,
   sectionSubTitle,
-  featureTitle,
-  featureDescription,
   iconStyle,
   contentStyle,
   blockWrapperStyle,

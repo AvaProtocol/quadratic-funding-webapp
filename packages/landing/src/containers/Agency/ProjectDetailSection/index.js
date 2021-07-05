@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
@@ -12,18 +13,76 @@ import Button from 'common/components/Button';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
 import { ellipsisAddress } from 'common/utils';
+import reduxHelper from '../../../redux/helper';
 
-const ProjectDetailSection = ({ project }) => {
+const ProjectDetailSection = (props) => {
+  const { project }  = props;
   const polkadotContext = useContext(PolkadotContext);
   const [loading, setLoading] = useState(true);
   const [projectDetail, setProjectDetail] = useState({});
 
   useEffect(() => {
+    
+  }, [polkadotContext.projectDetail]);
+
+  
+  const { projectRecords, account } = props;
+  const [projectRecord, setProjectRecord] = useState({})
+  
+  useEffect(async () => {
     if (!_.isEmpty(polkadotContext)) {
       setLoading(false);
       setProjectDetail(polkadotContext.projectDetail);
     }
-  }, [polkadotContext.projectDetail]);
+    if (!polkadotContext.projectDetail) {
+      return;
+    }
+    const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
+    const foundRecord = _.find(projectRecords, (projectRecord) => {
+      return projectRecord.index === projectIndex;
+    });
+    
+    setProjectRecord(foundRecord);
+  }, [projectRecords, polkadotContext.projectDetail]);
+
+  let likeAccount = null;
+  if (projectRecord) {
+    likeAccount = _.find(projectRecord.likes, (like) => {
+      return like === account;
+    });
+  }
+  
+  const onLikeClicked = async () => {
+    if (!polkadotContext.projectDetail) {
+      return;
+    }
+    const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
+    const cloudbase = (await import('@cloudbase/js-sdk')).default;
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+
+    const result = await app.callFunction({
+      name: 'like',
+      data: {
+        projectIndex,
+        address: account,
+        isLike: _.isNil(likeAccount)
+      }
+    });
+
+    reduxHelper.getProjects();
+  }
+
+  let likeText = "Like";
+  if (projectRecord && !_.isEmpty(projectRecord.likes)) {
+    if (projectRecord.likes.length === 1){
+      likeText = `${projectRecord.likes.length} Like`;
+    } else {
+      likeText = `${projectRecord.likes.length} Likes`;
+    }
+  }
 
   return (
     <ProjectDetailWrapper>
@@ -39,8 +98,9 @@ const ProjectDetailSection = ({ project }) => {
               <div className="buttons">
                 <Button
                   type="button"
-                  icon={<FontAwesomeIcon icon={faThumbsUp}></FontAwesomeIcon>}
-                  title="Like"
+                  icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
+                  title={likeText}
+                  onClick={onLikeClicked}
                 />
                 <Button
                   className="ml-5"
@@ -114,4 +174,9 @@ const ProjectDetailSection = ({ project }) => {
   );
 };
 
-export default ProjectDetailSection;
+const mapStateToProps = (state) => ({
+  projectRecords: state.projects,
+  account: state.account,
+});
+
+export default connect(mapStateToProps)(ProjectDetailSection);

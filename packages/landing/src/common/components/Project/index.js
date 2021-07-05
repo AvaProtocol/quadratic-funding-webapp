@@ -59,6 +59,15 @@ const Project = ({ project, Icon, ...props }) => {
     reduxHelper.getProjects();
   }
 
+  let likeText = "Like";
+  if (projectRecord && !_.isEmpty(projectRecord.likes)) {
+    if (projectRecord.likes.length === 1){
+      likeText = `${projectRecord.likes.length} Like`;
+    } else {
+      likeText = `${projectRecord.likes.length} Likes`;
+    }
+  }
+
   return (
     <ProjectStyle {...props}>
       
@@ -89,7 +98,7 @@ const Project = ({ project, Icon, ...props }) => {
               <Button
                 type="button"
                 icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
-                title="Like"
+                title={likeText}
                 onClick = {onLikeClicked}
               />
               <Button

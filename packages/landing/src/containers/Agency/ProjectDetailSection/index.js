@@ -34,17 +34,14 @@ const ProjectDetailSection = (props) => {
       setLoading(false);
       setProjectDetail(polkadotContext.projectDetail);
     }
-    console.log('aaaa projectDetail: ', polkadotContext.projectDetail);
     if (!polkadotContext.projectDetail) {
       return;
     }
     const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
-    console.log('asdfasdfasdf, projectRecords: ', projectRecords);
-    console.log('asdfasdfasdf, projectIndex: ', projectIndex);
     const foundRecord = _.find(projectRecords, (projectRecord) => {
       return projectRecord.index === projectIndex;
     });
-    console.log('asdfasdfasdf, foundRecord: ', foundRecord);
+    
     setProjectRecord(foundRecord);
   }, [projectRecords, polkadotContext.projectDetail]);
 
@@ -56,7 +53,6 @@ const ProjectDetailSection = (props) => {
   }
   
   const onLikeClicked = async () => {
-    console.log('onLikeClicked');
     if (!polkadotContext.projectDetail) {
       return;
     }
@@ -79,6 +75,14 @@ const ProjectDetailSection = (props) => {
     reduxHelper.getProjects();
   }
 
+  let likeText = "Like";
+  if (projectRecord && !_.isEmpty(projectRecord.likes)) {
+    if (projectRecord.likes.length === 1){
+      likeText = `${projectRecord.likes.length} Like`;
+    } else {
+      likeText = `${projectRecord.likes.length} Likes`;
+    }
+  }
 
   return (
     <ProjectDetailWrapper>
@@ -95,7 +99,7 @@ const ProjectDetailSection = (props) => {
                 <Button
                   type="button"
                   icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
-                  title="Like"
+                  title={likeText}
                   onClick={onLikeClicked}
                 />
                 <Button

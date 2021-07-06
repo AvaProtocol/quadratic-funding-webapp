@@ -12,6 +12,7 @@ import { PolkadotContext } from 'common/contexts/PolkadotContext';
 const CommentsSection = ({
   ...props
 }) => {
+  const { voteRecords } = props;
   const [tab, setTab] = useState(0);
   const polkadotContext = useContext(PolkadotContext);
   const [projectDetail, setProjectDetail] = useState({});
@@ -49,7 +50,7 @@ const CommentsSection = ({
             tab === 1 && (<Contributors contributions={contributions}></Contributors>)
           }
           {
-            tab === 2 && (<Transactions roundIndex={roundIndex} projectIndex={projectIndex}></Transactions>)
+            tab === 2 && (<Transactions roundIndex={roundIndex} projectIndex={projectIndex} voteRecords={voteRecords}></Transactions>)
           }
         </div>
       </Container>

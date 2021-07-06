@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 
 import Container from 'common/components/UI/Container';
@@ -101,12 +101,6 @@ const ProjectDetailSection = (props) => {
                   icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
                   title={likeText}
                   onClick={onLikeClicked}
-                />
-                <Button
-                  className="ml-5"
-                  type="button"
-                  icon={<FontAwesomeIcon icon={faStar}></FontAwesomeIcon>}
-                  title="Favorite"
                 />
               </div>
             </div>

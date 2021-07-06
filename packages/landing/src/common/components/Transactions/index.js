@@ -2,29 +2,9 @@ import React, { useState, useEffect }  from 'react';
 import _ from 'lodash';
 import cloudbase from '@cloudbase/js-sdk';
 import TransactionsStyle from './transactions.style';
-import { margin, marginTop } from 'styled-system';
 
 const Transactions = ({ ...props }) => {
-
-  const { projectIndex, roundIndex} = props;
-  const [votes, setVotes] = useState([]);
-
-  useEffect(async () => {
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-
-    console.log('projectIndex: ', projectIndex);
-    console.log('roundIndex: ', roundIndex);
-
-    const db = app.database();
-    const result = await db.collection('votes')
-      .get();
-    console.log('result: ', result);
-
-    setVotes(result.data);
-  }, []);
+  const { voteRecords } = props;
 
   const getVoteList = (votes) => {
     return _.map(votes, (vote) => {
@@ -41,9 +21,7 @@ const Transactions = ({ ...props }) => {
 
   return (
     <TransactionsStyle {...props}>
-      <div>
-        {getVoteList(votes)}
-      </div>
+      <div>{getVoteList(voteRecords)}</div>
     </TransactionsStyle>
   );
 };

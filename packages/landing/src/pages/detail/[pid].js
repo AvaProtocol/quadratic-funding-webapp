@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Sticky from 'react-stickynode';
 import { ThemeProvider } from 'styled-components';
@@ -22,6 +22,30 @@ import _ from 'lodash';
 const Detail = () => {
   const router = useRouter();
   const { pid, rid } = router.query;
+
+  const [voteRecords, setVoteRecords] = useState([]);
+
+  const getVoteRecords = async () => {
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+
+    const db = app.database();
+    const result = await db.collection('votes').where({
+      projectIndex: parseInt(pid),
+      roundIndex: parseInt(rid),
+    }).get();
+
+    console.log('result.data: ', result.data);
+    setVoteRecords(result.data);
+  }
+
+  useEffect(getVoteRecords, []);
+
+  const onVoted = () => {
+    getVoteRecords();
+  }
 
   if (_.isEmpty(pid) || _.isEmpty(rid)) {
     return <ErrorPage statusCode="404"></ErrorPage>;
@@ -51,9 +75,9 @@ const Detail = () => {
               <Navbar />
             </Sticky>
             <ContentWrapper>
-              <MatchingSection rid={rid} />
+              <MatchingSection rid={rid} onVote={onVoted} />
               <ProjectDetailSection />
-              <CommentsSection projectIndex={pid} roundIndex={rid} />
+              <CommentsSection projectIndex={pid} roundIndex={rid} voteRecords={voteRecords} />
             </ContentWrapper>
             <Footer />
           </AppWrapper>

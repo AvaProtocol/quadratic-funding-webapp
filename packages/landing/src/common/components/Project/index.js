@@ -101,12 +101,6 @@ const Project = ({ project, Icon, ...props }) => {
                 title={likeText}
                 onClick = {onLikeClicked}
               />
-              <Button
-                className="button"
-                type="button"
-                icon={<FontAwesomeIcon icon={faStar}></FontAwesomeIcon>}
-                title="Favorite"
-              />
             </div>
           </div>
         </div>

@@ -35,11 +35,8 @@ const Project = ({ project, Icon, ...props }) => {
     setProjectRecord(foundRecord);
   }, [projectRecords]);
 
-  const likeAccount = _.find(projectRecord.likes, (like) => {
-    return like === account;
-  });
-
-  const onLikeClicked = async () => {
+  const onLikeClicked = async (event) => {
+    event.stopPropagation();
     console.log('onLikeClicked');
     const cloudbase = (await import('@cloudbase/js-sdk')).default;
     const app = cloudbase.init({
@@ -59,8 +56,18 @@ const Project = ({ project, Icon, ...props }) => {
     reduxHelper.getProjects();
   }
 
+  
+
   let likeText = "Like";
+  let likeAccount = null;
+
+  // Because projectRecord dependes on requesting data from network
+  // So We must check it
   if (projectRecord && !_.isEmpty(projectRecord.likes)) {
+    likeAccount = _.find(projectRecord.likes, (like) => {
+      return like === account;
+    });
+
     if (projectRecord.likes.length === 1){
       likeText = `${projectRecord.likes.length} Like`;
     } else {
@@ -70,40 +77,39 @@ const Project = ({ project, Icon, ...props }) => {
 
   return (
     <ProjectStyle {...props}>
-      
-        <div>
-          <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
-            <div>
-              <span className="title">{name}</span>
-              <span className="description">{description}</span>
-            </div>
-          </Link>
-          <div className="identity">
-            <div className="infomation">
-              {/* <image className="photo"></image> */}
-              {Icon}
-              <div style={{ textAlign: 'left' }}>
-                <span className="username">{`Username: ${
-                  username || ellipsisAddress(owner)
-                }`}</span>
-                <span className="created">
-                  Created at block #{create_block_number}
-                </span>
+      <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
+          <div>
+              <div>
+                <span className="title">{name}</span>
+                <span className="description">{description}</span>
               </div>
-            </div>
+              <div className="identity">
+                <div className="infomation">
+                  {/* <image className="photo"></image> */}
+                  {Icon}
+                  <div style={{ textAlign: 'left' }}>
+                    <span className="username">{`Username: ${
+                      username || ellipsisAddress(owner)
+                    }`}</span>
+                    <span className="created">
+                      Created at block #{create_block_number}
+                    </span>
+                  </div>
+                </div>
 
-            <span className="creator">{socialElements}</span>
+                <span className="creator">{socialElements}</span>
 
-            <div className="buttons">
-              <Button
-                type="button"
-                icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
-                title={likeText}
-                onClick = {onLikeClicked}
-              />
-            </div>
+                <div className="buttons">
+                  <Button
+                    type="button"
+                    icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
+                    title={likeText}
+                    onClick = {onLikeClicked}
+                  />
+                </div>
+              </div>
           </div>
-        </div>
+        </Link>
     </ProjectStyle>
   );
 };

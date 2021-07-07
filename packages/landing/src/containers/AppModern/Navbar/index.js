@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 import ScrollSpyMenu from 'common/components/ScrollSpyMenu';
 import Scrollspy from 'react-scrollspy';
@@ -6,18 +7,17 @@ import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { Icon } from 'react-icons-kit';
 import { menu } from 'react-icons-kit/feather/menu';
 import { x } from 'react-icons-kit/feather/x';
-import { search } from 'react-icons-kit/feather/search';
 import Logo from 'common/components/UIElements/Logo';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import useOnClickOutside from 'common/hooks/useOnClickOutside';
 import NavbarWrapper, { MenuArea, MobileMenu, Search } from './navbar.style';
-import LogoImage from 'common/assets/image/appModern/logo-white.png';
-import LogoImageAlt from 'common/assets/image/appModern/logo.png';
 
 import { navbar } from 'common/data/AppModern';
 
-const Navbar = ({ isLight }) => {
+const truncateMiddle = require('truncate-middle');
+
+const Navbar = ({ isLight, account, onAddressClick }) => {
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',
@@ -102,30 +102,9 @@ const Navbar = ({ isLight }) => {
 
         <MenuArea className={state.searchToggle ? 'active' : ''}>
           <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} />
+          {account && <Button style={{ marginLeft: 20 }} title={truncateMiddle(account, 4, 4, '...')} onClick={onAddressClick}/>}
           {/* end of main menu */}
-
-          {/* <Search className="search" ref={searchRef}>
-            <form onSubmit={handleSearchForm}>
-              <input
-                type="text"
-                value={state.search}
-                placeholder="Enter your keyword"
-                onChange={handleOnChange}
-              />
-            </form>
-            <Button
-              className="text"
-              variant="textButton"
-              icon={<Icon icon={state.searchToggle ? x : search} />}
-              onClick={() => toggleHandler('search')}
-            />
-          </Search> */}
-          {/* end of search */}
-
-          {/* <AnchorLink href="#trail" offset={84}>
-            <Button className="trail" title="Try for Free" />
-          </AnchorLink> */}
-
+          
           <Button
             className="menubar"
             icon={
@@ -173,4 +152,8 @@ const Navbar = ({ isLight }) => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  account: state && state.account,
+});
+
+export default connect(mapStateToProps)(Navbar);

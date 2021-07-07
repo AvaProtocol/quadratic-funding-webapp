@@ -19,24 +19,24 @@ const data = {
       path: '#Recommended',
       offset: '84',
     },
-    {
-      id: 2,
-      label: 'Tutorial',
-      path: '#Tutorial',
-      offset: '81',
-    },
-    {
-      id: 3,
-      label: 'FAQ',
-      path: '#FAQ',
-      offset: '81',
-    },
-    {
-      id: 4,
-      label: 'Become a Matching Partner',
-      path: '#Become a Matching Partner',
-      offset: '81',
-    },
+    // {
+    //   id: 2,
+    //   label: 'Tutorial',
+    //   path: '#Tutorial',
+    //   offset: '81',
+    // },
+    // {
+    //   id: 3,
+    //   label: 'FAQ',
+    //   path: '#FAQ',
+    //   offset: '81',
+    // },
+    // {
+    //   id: 4,
+    //   label: 'Become a Matching Partner',
+    //   path: '#Become a Matching Partner',
+    //   offset: '81',
+    // },
   ],
   // Temporary hard code data 
   projects: [

@@ -27,7 +27,7 @@ const SimpleModal = ({addresses, onClick}) => {
   console.log('SimpleModal, addresses: ', addresses);
   const addressList = _.map(addresses, (address) => {
     return (
-      <div style={{ height: 20, borderWidth: 1,  borderColor: 'blue', borderStyle: 'solid', marginTop: 5, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
+      <div style={{ height: 20, borderWidth: 1,  color: 'white', borderStyle: 'solid', borderColor: '#ccc', borderRadius: 5, marginTop: 10, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
         closeModal();
         onClick(address);
       }}>
@@ -36,16 +36,20 @@ const SimpleModal = ({addresses, onClick}) => {
     );
   });
   return (
-    <div style={{ overflow: 'scroll' }}>
-      <div style={{ fontSize: 15, fontWeight: 'bold', marginTop: 10, marginLeft: 5 }}>Select a wallet address:</div>
-      <div>{addressList}</div>
+    <div style={{ height: 300, backgroundColor: '#d1397c', overflow: 'hidden' }}>
+      <div style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, marginLeft: 15, color: 'white' }}>Select a wallet address:</div>
+      <div style={{ height: '100%', overflow: 'scroll', margin: '0px 10px'}}>{addressList}</div>
     </div>
   );
 }
 
+const CloseComponent = () => {
+  return (<div />);
+}
+
 const AppModern = ({ setAccount }) => {
-  
-  useEffect(async () => {
+
+  const showAccountSelectionModal = async () => {
     const app = cloudbase.init({
       env: 'quadratic-funding-1edc914e16f235',
       region: 'ap-guangzhou'
@@ -83,6 +87,7 @@ const AppModern = ({ setAccount }) => {
           tension: 130,
           friction: 26,
         }, // react-spring config props
+        
       },
       withRnd: false,
       overlayClassName: 'customeOverlayClass',
@@ -91,8 +96,15 @@ const AppModern = ({ setAccount }) => {
       componentProps: { addresses, onClick: (address) => {
         setAccount(address);
       } },
+      closeComponent: CloseComponent,
     });
-  }, []);
+  }
+  
+  useEffect(showAccountSelectionModal, []);
+
+  const onAddressClicked = () => {
+    showAccountSelectionModal();
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,7 +132,7 @@ const AppModern = ({ setAccount }) => {
           {/* start app classic landing */}
           <AppWrapper>
             <Sticky top={0} innerZ={9999} activeClass="sticky-active">
-              <Navbar isLight={true}/>
+              <Navbar isLight={true} onAddressClick={onAddressClicked}/>
             </Sticky>
             <ContentWrapper>
               <Banner />

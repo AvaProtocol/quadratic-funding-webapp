@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import { openModal } from '@redq/reuse-modal';
 import Fade from 'react-reveal/Fade';
 import ScrollSpyMenu from 'common/components/ScrollSpyMenu';
 import Scrollspy from 'react-scrollspy';
@@ -7,17 +8,20 @@ import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { Icon } from 'react-icons-kit';
 import { menu } from 'react-icons-kit/feather/menu';
 import { x } from 'react-icons-kit/feather/x';
+import cloudbase from '@cloudbase/js-sdk';
 import Logo from 'common/components/UIElements/Logo';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import useOnClickOutside from 'common/hooks/useOnClickOutside';
 import NavbarWrapper, { MenuArea, MobileMenu, Search } from './navbar.style';
+import actions from '../../../redux/actions';
+import AccountSelectionModal, {CloseComponent} from '../../../common/components/AccountSelectionModal';
 
 import { navbar } from 'common/data/AppModern';
 
 const truncateMiddle = require('truncate-middle');
 
-const Navbar = ({ isLight, account, onAddressClick }) => {
+const Navbar = ({ isLight, account, setAccount }) => {
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',
@@ -83,6 +87,57 @@ const Navbar = ({ isLight, account, onAddressClick }) => {
     });
   };
 
+  const showAccountSelectionModal = async () => {
+    const app = cloudbase.init({
+      env: 'quadratic-funding-1edc914e16f235',
+      region: 'ap-guangzhou'
+    });
+    const auth = app.auth();
+    await auth.anonymousAuthProvider().signIn();
+
+    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
+    const allInjected = await web3Enable('my cool dapp');
+    const allAccounts = await web3Accounts();
+
+    const addresses = _.map(allAccounts, (account) => {
+      return account.address;
+    });
+
+    openModal({
+      config: {
+        className: 'customModal',
+        disableDragging: false,
+        enableResizing: {
+          bottom: true,
+          bottomLeft: true,
+          bottomRight: true,
+          left: true,
+          right: true,
+          top: true,
+          topLeft: true,
+          topRight: true,
+        },
+        width: 480,
+        animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
+        animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
+        transition: {
+          mass: 1,
+          tension: 130,
+          friction: 26,
+        }, // react-spring config props
+        
+      },
+      withRnd: false,
+      overlayClassName: 'customeOverlayClass',
+      closeOnClickOutside: false,
+      component: AccountSelectionModal,
+      componentProps: { addresses, onClick: (address) => {
+        setAccount(address);
+      } },
+      closeComponent: CloseComponent,
+    });
+  }
+
   return (
     <NavbarWrapper className="navbar">
       <Container>
@@ -102,9 +157,9 @@ const Navbar = ({ isLight, account, onAddressClick }) => {
 
         <MenuArea className={state.searchToggle ? 'active' : ''}>
           <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} />
-          {account && <Button style={{ marginLeft: 20 }} title={truncateMiddle(account, 4, 4, '...')} onClick={onAddressClick}/>}
+          {account && <Button style={{ marginLeft: 20 }} title={truncateMiddle(account, 4, 4, '...')} onClick={showAccountSelectionModal}/>}
           {/* end of main menu */}
-          
+
           <Button
             className="menubar"
             icon={
@@ -156,4 +211,8 @@ const mapStateToProps = (state) => ({
   account: state && state.account,
 });
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch) => ({
+	setAccount: (account) => dispatch(actions.setAccount(account)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

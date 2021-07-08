@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { openModal, closeModal } from '@redq/reuse-modal';
+import { openModal } from '@redq/reuse-modal';
 import cloudbase from '@cloudbase/js-sdk';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
@@ -20,32 +20,7 @@ import GlobalStyle, {
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import actions from '../redux/actions';
-
-
-
-const SimpleModal = ({addresses, onClick}) => {
-  console.log('SimpleModal, addresses: ', addresses);
-  const addressList = _.map(addresses, (address) => {
-    return (
-      <div style={{ height: 20, borderWidth: 1,  color: 'white', borderStyle: 'solid', borderColor: '#ccc', borderRadius: 5, marginTop: 10, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
-        closeModal();
-        onClick(address);
-      }}>
-        <span>{address}</span>
-      </div>
-    );
-  });
-  return (
-    <div style={{ height: 300, backgroundColor: '#d1397c', overflow: 'hidden' }}>
-      <div style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, marginLeft: 15, color: 'white' }}>Select a wallet address:</div>
-      <div style={{ height: '100%', overflow: 'scroll', margin: '0px 10px'}}>{addressList}</div>
-    </div>
-  );
-}
-
-const CloseComponent = () => {
-  return (<div />);
-}
+import AccountSelectionModal, {CloseComponent} from '../common/components/AccountSelectionModal';
 
 const AppModern = ({ setAccount }) => {
 
@@ -92,7 +67,7 @@ const AppModern = ({ setAccount }) => {
       withRnd: false,
       overlayClassName: 'customeOverlayClass',
       closeOnClickOutside: false,
-      component: SimpleModal,
+      component: AccountSelectionModal,
       componentProps: { addresses, onClick: (address) => {
         setAccount(address);
       } },

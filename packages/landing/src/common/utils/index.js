@@ -22,9 +22,9 @@ const ellipsisAddress = (address, showLength = 8) => {
 const unitToNumber = (unit) => {
   const arrs = unit.split(' ');
   let magnification = 1;
-  if (arrs[1] === 'kUnit') {
+  if (arrs[1] === 'KOAK') {
     magnification = 1000;
-  } else if (arrs[1] === 'mUnit') {
+  } else if (arrs[1] === 'MOAK') {
     magnification = 1000000;
   }
   return Number(arrs[0]) * magnification;

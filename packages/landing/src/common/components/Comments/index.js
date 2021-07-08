@@ -18,8 +18,6 @@ const Comments = ({
   const [textareaValue, setTextareaValue] = useState('');
 
   const getComments = async () => {
-    console.log('projectRecords: ', projectRecords);
-    console.log('projectIndex: ', projectIndex);
     const projects = _.filter(projectRecords, (projectRecord) => {
       return projectRecord.index === projectIndex;
     });
@@ -58,7 +56,6 @@ const Comments = ({
       }, 0);
       return (<Comment key={comment.timestamp} comment={comment} voteAmount={voteAmount} ></Comment>);
     });
-    console.log('getCommentList, comments: ', comments);
     return comnentList;
   }
 

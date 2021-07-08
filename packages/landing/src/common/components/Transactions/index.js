@@ -1,6 +1,6 @@
-import React, { useState, useEffect }  from 'react';
+import React from 'react';
 import _ from 'lodash';
-import cloudbase from '@cloudbase/js-sdk';
+import moment from 'moment';
 import TransactionsStyle from './transactions.style';
 
 const Transactions = ({ ...props }) => {
@@ -9,11 +9,21 @@ const Transactions = ({ ...props }) => {
   const getVoteList = (votes) => {
     return _.map(votes, (vote) => {
       const { address, amount, timestamp } = vote;
+
+      const datetime = moment(timestamp);
+      const daysElapsed = moment().diff(datetime, 'days');
+      let datetimeText = null;
+      if (daysElapsed < 1) {
+        datetimeText = datetime.fromNow();
+      } else {
+        datetimeText = datetime.format('LL');
+      }
+
       return (
         <div style={{ border: '1px solid #ccc', marginTop: 10, padding: 10 }}>
           <div>user: {address}</div>
-          <div>amnout: {amount}</div>
-          <div>timestamp: {timestamp}</div>
+          <div>amnout: {amount} OAK</div>
+          <div>datetime: {datetimeText}</div>
         </div>
       );
     });

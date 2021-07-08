@@ -115,6 +115,9 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
     return prev + unitToNumber(contribution.value);
   }, 0);
 
+  console.log('polkadotContext.rounds: ', polkadotContext.rounds);
+  // console.log('projectDetail.matching: ', projectDetail.matching);
+
   return (
     <MatchingWrapper>
       <Container>
@@ -132,7 +135,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
                 </div>
                 <div className="contribute-info">
                   <div className="contribute">
-                    <span>+ {totalContributionValue.toFixed(3)} {oak.symbol} contribution from {contributions.length} contributors</span>
+                    <span>+ {totalContributionValue.toFixed(4)} {oak.symbol} contribution from {contributions.length} contributors</span>
                   </div>
                 </div>
                 <span>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</span>

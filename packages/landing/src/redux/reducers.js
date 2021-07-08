@@ -22,7 +22,6 @@ function reducer(state = initState, action) {
     case actions.SET_PROJECTS:
       {
         const { projects } = action;
-        console.log('SET_PROJECTS, projects: ', projects);
         return { ...state, projects };
       }
   }

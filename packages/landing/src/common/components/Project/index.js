@@ -10,6 +10,7 @@ import ProjectStyle from './project.style';
 import { ellipsisAddress } from 'common/utils';
 import _ from 'lodash';
 import reduxHelper from '../../../redux/helper';
+import backend from '../../backend'
 
 const Project = ({ project, Icon, ...props }) => {
   const {
@@ -38,20 +39,17 @@ const Project = ({ project, Icon, ...props }) => {
   const onLikeClicked = async (event) => {
     event.stopPropagation();
     console.log('onLikeClicked');
-    const cloudbase = (await import('@cloudbase/js-sdk')).default;
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-
-    const result = await app.callFunction({
+    const data = {
+      projectIndex,
+      address: account,
+      isLike: _.isNil(likeAccount)
+    }
+    console.log('onLikeClicked, data: ', data);
+    const result = await backend.getApp().callFunction({
       name: 'like',
-      data: {
-        projectIndex,
-        address: account,
-        isLike: _.isNil(likeAccount)
-      }
+      data,
     });
+    console.log('onLikeClicked, result: ', result);
 
     reduxHelper.getProjects();
   }

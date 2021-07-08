@@ -1,35 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import cloudbase from '@cloudbase/js-sdk';
 
 import Button from 'common/components/Button';
 import CommentsStyle from './comments.style';
 import Comment from '../Comment';
+import backend from '../../backend';
 
 const Comments = ({
   ...props
 }) => {
-  const { projectIndex: projectIndexStr, voteRecords } = props;
+  const { projectIndex: projectIndexStr, voteRecords, projectRecords } = props;
   const projectIndex = parseInt(projectIndexStr);
 
   const [comments, setComments] = useState([]);
   const [textareaValue, setTextareaValue] = useState('');
 
   const getComments = async () => {
-    const cloudbase = (await import('@cloudbase/js-sdk')).default;
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
+    console.log('projectRecords: ', projectRecords);
+    console.log('projectIndex: ', projectIndex);
+    const projects = _.filter(projectRecords, (projectRecord) => {
+      return projectRecord.index === projectIndex;
     });
 
-    const db = app.database();
-    const result = await db.collection("projects")
-      .where({ index: projectIndex })
-      .get();
-
-    console.log('getComments, result: ', result);
-    
-    const projects = result.data;
     if (projects.length === 1) {
       const project = projects[0];
       setComments(project.comments);
@@ -40,12 +34,7 @@ const Comments = ({
 
   const onCommentClicked = async () => {
     console.log('onCommentClicked');
-    const cloudbase = (await import('@cloudbase/js-sdk')).default;
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-
+    const app = backend.getApp();
     const result = await app.callFunction({
       name: 'comment',
       data: {
@@ -95,6 +84,7 @@ const Comments = ({
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  projectRecords: state.projects,
 });
 
 export default connect(mapStateToProps)(Comments);

@@ -4,6 +4,10 @@ import Sticky from 'react-stickynode';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
 import { ResetCSS } from 'common/assets/css/style';
+import { useRouter } from 'next/router';
+import ErrorPage from 'next/error';
+import _ from 'lodash';
+
 import GlobalStyle, {
   AppWrapper,
   ContentWrapper,
@@ -14,10 +18,8 @@ import Footer from 'containers/AppModern/Footer';
 import ProjectDetailSection from 'containers/Agency/ProjectDetailSection';
 import CommentsSection from 'containers/Agency/CommentsSection';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
+import backend from '../../common/backend';
 
-import { useRouter } from 'next/router';
-import ErrorPage from 'next/error';
-import _ from 'lodash';
 
 const Detail = () => {
   const router = useRouter();
@@ -26,13 +28,7 @@ const Detail = () => {
   const [voteRecords, setVoteRecords] = useState([]);
 
   const getVoteRecords = async () => {
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-
-    const db = app.database();
-    const result = await db.collection('votes').where({
+    const result = await backend.getDatabase().collection('votes').where({
       projectIndex: parseInt(pid),
       roundIndex: parseInt(rid),
     }).get();

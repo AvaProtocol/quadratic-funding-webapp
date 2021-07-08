@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { openModal } from '@redq/reuse-modal';
 import Fade from 'react-reveal/Fade';
@@ -16,12 +16,14 @@ import useOnClickOutside from 'common/hooks/useOnClickOutside';
 import NavbarWrapper, { MenuArea, MobileMenu, Search } from './navbar.style';
 import actions from '../../../redux/actions';
 import AccountSelectionModal, {CloseComponent} from '../../../common/components/AccountSelectionModal';
+import backend from '../../../common/backend';
 
 import { navbar } from 'common/data/AppModern';
 
 const truncateMiddle = require('truncate-middle');
 
 const Navbar = ({ isLight, account, setAccount }) => {
+  console.log('Navbar, account: ', account);
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',
@@ -33,6 +35,13 @@ const Navbar = ({ isLight, account, setAccount }) => {
   useOnClickOutside(searchRef, () =>
     setState({ ...state, searchToggle: false })
   );
+
+
+  useEffect(() => {
+    if (!account) {
+      showAccountSelectionModal();
+    }
+  }, []);
 
   const toggleHandler = (type) => {
     if (type === 'search') {
@@ -88,15 +97,8 @@ const Navbar = ({ isLight, account, setAccount }) => {
   };
 
   const showAccountSelectionModal = async () => {
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-    const auth = app.auth();
-    await auth.anonymousAuthProvider().signIn();
-
     const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
-    const allInjected = await web3Enable('my cool dapp');
+    await web3Enable('quadratic-funding-webapp');
     const allAccounts = await web3Accounts();
 
     const addresses = _.map(allAccounts, (account) => {
@@ -207,9 +209,12 @@ const Navbar = ({ isLight, account, setAccount }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  account: state && state.account,
-});
+const mapStateToProps = (state) => {
+  console.log('123123123123, state: ', state);
+  return {
+    account: state.account,
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
 	setAccount: (account) => dispatch(actions.setAccount(account)),

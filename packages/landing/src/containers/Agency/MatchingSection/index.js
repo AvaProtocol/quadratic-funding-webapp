@@ -13,7 +13,8 @@ import { Spin } from 'antd';
 import qfConfig from '../../../quadraticFunding/config';
 import config from '../../../config';
 import { unitToNumber } from 'common/utils';
-
+import backend from '../../../common/backend';
+import 'antd/dist/antd.css';
 
 const { oak } = config;
 
@@ -81,12 +82,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
           return;
         }
 
-        const app = cloudbase.init({
-          env: 'quadratic-funding-1edc914e16f235',
-          region: 'ap-guangzhou'
-        });
-
-        await app.callFunction({
+        await backend.getApp().callFunction({
           name: 'vote',
           data: {
             address: account,

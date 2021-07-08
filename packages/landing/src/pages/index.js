@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import _ from 'lodash';
-import { openModal } from '@redq/reuse-modal';
-import cloudbase from '@cloudbase/js-sdk';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -19,68 +16,8 @@ import GlobalStyle, {
   ContentWrapper,
 } from 'containers/AppModern/appModern.style';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
-import actions from '../redux/actions';
-import AccountSelectionModal, {CloseComponent} from '../common/components/AccountSelectionModal';
 
-const AppModern = ({ setAccount }) => {
-
-  const showAccountSelectionModal = async () => {
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-    const auth = app.auth();
-    await auth.anonymousAuthProvider().signIn();
-
-    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
-    const allInjected = await web3Enable('my cool dapp');
-    const allAccounts = await web3Accounts();
-
-    const addresses = _.map(allAccounts, (account) => {
-      return account.address;
-    });
-
-    openModal({
-      config: {
-        className: 'customModal',
-        disableDragging: false,
-        enableResizing: {
-          bottom: true,
-          bottomLeft: true,
-          bottomRight: true,
-          left: true,
-          right: true,
-          top: true,
-          topLeft: true,
-          topRight: true,
-        },
-        width: 480,
-        animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
-        animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
-        transition: {
-          mass: 1,
-          tension: 130,
-          friction: 26,
-        }, // react-spring config props
-        
-      },
-      withRnd: false,
-      overlayClassName: 'customeOverlayClass',
-      closeOnClickOutside: false,
-      component: AccountSelectionModal,
-      componentProps: { addresses, onClick: (address) => {
-        setAccount(address);
-      } },
-      closeComponent: CloseComponent,
-    });
-  }
-  
-  useEffect(showAccountSelectionModal, []);
-
-  const onAddressClicked = () => {
-    showAccountSelectionModal();
-  }
-
+const AppModern = () => {
   return (
     <ThemeProvider theme={theme}>
       <PolkadotProvider>
@@ -107,7 +44,7 @@ const AppModern = ({ setAccount }) => {
           {/* start app classic landing */}
           <AppWrapper>
             <Sticky top={0} innerZ={9999} activeClass="sticky-active">
-              <Navbar isLight={true} onAddressClick={onAddressClicked}/>
+              <Navbar isLight={true}/>
             </Sticky>
             <ContentWrapper>
               <Banner />
@@ -123,10 +60,6 @@ const AppModern = ({ setAccount }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+export default AppModern;
 
-const mapDispatchToProps = (dispatch) => ({
-	setAccount: (account) => dispatch(actions.setAccount(account)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppModern);

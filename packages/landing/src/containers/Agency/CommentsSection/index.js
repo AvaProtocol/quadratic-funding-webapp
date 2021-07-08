@@ -44,7 +44,7 @@ const CommentsSection = ({
             <Button title="Transactions" className={tab === 2 ? 'selected' : 'notSelected'} onClick={() => setTab(2)}></Button>
           </div>
           {
-            tab === 0 && (<Comments projectIndex={projectIndex} ></Comments>)
+            tab === 0 && (<Comments projectIndex={projectIndex} voteRecords={voteRecords}></Comments>)
           }
           {
             tab === 1 && (<Contributors contributions={contributions}></Contributors>)

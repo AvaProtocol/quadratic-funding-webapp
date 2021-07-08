@@ -9,7 +9,7 @@ import Comment from '../Comment';
 const Comments = ({
   ...props
 }) => {
-  const { projectIndex: projectIndexStr } = props;
+  const { projectIndex: projectIndexStr, voteRecords } = props;
   const projectIndex = parseInt(projectIndexStr);
 
   const [comments, setComments] = useState([]);
@@ -62,7 +62,12 @@ const Comments = ({
 
   const getCommentList = (comments) => {
     const comnentList = _.map(_.clone(comments).reverse(), (comment) => {
-      return (<Comment key={comment.timestamp} comment={comment} ></Comment>);
+      const voteAmount = _.reduce(voteRecords, (prev, vote) => {
+        if (vote.address === comment.user && vote.projectIndex === projectIndex) {
+          return prev + vote.amount;
+        }
+      }, 0);
+      return (<Comment key={comment.timestamp} comment={comment} voteAmount={voteAmount} ></Comment>);
     });
     console.log('getCommentList, comments: ', comments);
     return comnentList;

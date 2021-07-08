@@ -5,7 +5,7 @@ import moment from 'moment';
 const truncateMiddle = require('truncate-middle');
 
 const Comment = ({ ...props }) => {
-  const { comment: commentObject } = props;
+  const { comment: commentObject, voteAmount } = props;
   const { comment, timestamp, user  } = commentObject;
 
   const datetime = moment(timestamp);
@@ -61,7 +61,7 @@ const Comment = ({ ...props }) => {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ marginLeft: 50 }}>Also contributed 3.5 DOT</span>
+            {voteAmount > 0 && <span style={{ marginLeft: 50 }}>Also contributed {voteAmount} OAK</span>}
           </div>
         </div>
       </div>

@@ -77,6 +77,7 @@ const MatchingWrapper = styled.section`
     display: flex;
     background-color: rgba(237, 237, 240);
     height: 300px;
+    width: 640px;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;

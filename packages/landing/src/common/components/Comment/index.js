@@ -1,6 +1,7 @@
-import React from 'react';
-import CommentStyle from './comment.style';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import Jdenticon from 'react-jdenticon';
+import CommentStyle from './comment.style';
 
 const truncateMiddle = require('truncate-middle');
 
@@ -27,7 +28,7 @@ const Comment = ({ ...props }) => {
           marginRight: 20,
         }}
       >
-        <img className="photo"></img>
+        <Jdenticon className="photo" size={70} value={user} />
         <span style={{ marginTop: 10 }}>{truncateMiddle(user, 4, 4, '...')}</span>
       </div>
 

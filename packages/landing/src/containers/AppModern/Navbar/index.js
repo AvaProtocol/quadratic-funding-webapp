@@ -140,6 +140,10 @@ const Navbar = ({ isLight, account, setAccount }) => {
     });
   }
 
+  const openOutterLink = (url) => {
+    window.open(url);
+  }
+
   return (
     <NavbarWrapper className="navbar">
       <Container>
@@ -158,7 +162,11 @@ const Navbar = ({ isLight, account, setAccount }) => {
         {/* end of logo */}
 
         <MenuArea className={state.searchToggle ? 'active' : ''}>
-          <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} />
+          {/* <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} /> */}
+          <Button style={{ marginLeft: 20 }} title='Recommended'/>
+          <Button style={{ marginLeft: 20 }} title='Tutorial' onClick={() => openOutterLink('https://docs.oak.tech/')}/>
+          <Button style={{ marginLeft: 20 }} title='FAQ'/>
+          <Button style={{ marginLeft: 20 }} title='Become a Matching Partner' onClick={() => openOutterLink('https://w95291cx5qx.typeform.com/to/oAluO6qK')}/>
           {account && <Button style={{ marginLeft: 20 }} title={truncateMiddle(account, 4, 4, '...')} onClick={showAccountSelectionModal}/>}
           {/* end of main menu */}
 
@@ -209,12 +217,9 @@ const Navbar = ({ isLight, account, setAccount }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log('123123123123, state: ', state);
-  return {
+const mapStateToProps = (state) => ({
     account: state.account,
-  }
-};
+});
 
 const mapDispatchToProps = (dispatch) => ({
 	setAccount: (account) => dispatch(actions.setAccount(account)),

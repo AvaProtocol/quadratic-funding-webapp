@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import cloudbase from '@cloudbase/js-sdk';
 import { WsProvider, ApiPromise } from '@polkadot/api';
 import { InputNumber, notification } from 'antd';
 import Box from 'common/components/Box';
@@ -14,6 +13,7 @@ import qfConfig from '../../../quadraticFunding/config';
 import config from '../../../config';
 import { unitToNumber } from 'common/utils';
 import backend from '../../../common/backend';
+import MatchingCarousel from './matchingCarousel';
 import 'antd/dist/antd.css';
 
 const { oak } = config;
@@ -94,18 +94,24 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
 
         notification.open({
           message: 'Vote successfully!',
-          description: `Your ${voteAmount} OAK vote has been successful. Thanks!`
+          description: `Your ${voteAmount} OAK vote has been successful. Thanks!`,
+          top: 100,
         });
 
         setIsVoting(false);
         onVote();
+      });
+      notification.open({
+        message: 'Vote successfully!',
+        description: `Your ${voteAmount} OAK vote has been successful. Thanks!`
       });
     } catch (error) {
       console.log('onParticipateClicked, error: ', error);
       setIsVoting(false);
       notification.open({
         message: 'Vote failed!',
-        description: `Your ${voteAmount} OAK vote has been failed!`
+        description: `Your ${voteAmount} OAK vote has been failed!`,
+        top: 100,
       });
       return;
     }
@@ -146,7 +152,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
                     }} />
                     <span style={{ marginLeft: 5}}>OAK</span>
                   </div>
-                  <Button isLoading={isVoting} style={{ marginLeft: 20 }} title="Participate" onClick={onParticipateClicked} />
+                  <Button type="button" isLoading={isVoting} style={{ marginLeft: 20 }} title="Participate" onClick={onParticipateClicked} />
                 </div>
               </div>
             </Box>
@@ -154,7 +160,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
             <Box className="col" {...col}>
               <div className="block">
                 <div className="carousell">
-                  <span>Carousell</span>
+                  <MatchingCarousel />
                 </div>
               </div>
             </Box>

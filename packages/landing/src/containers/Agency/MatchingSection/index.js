@@ -63,9 +63,10 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
   const onParticipateClicked = async () => {
     setIsVoting(true);
     try {
-      const { web3FromAddress } = await import('@polkadot/extension-dapp');
+      const { web3FromAddress, web3Enable } = await import('@polkadot/extension-dapp');
       const { endpoint, types } = qfConfig;
 
+      await web3Enable('quadratic-funding-webapp');
       const wsProvider = new WsProvider(endpoint);
       const api = await ApiPromise.create({
         provider: wsProvider,
@@ -77,7 +78,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
       const roundIndex = parseInt(rid);
 
       const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount * 10**10);
-      extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => { 
+      extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => {
         if (!status.isFinalized) {
           return;
         }
@@ -100,10 +101,9 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
 
         setIsVoting(false);
         onVote();
-      });
-      notification.open({
-        message: 'Vote successfully!',
-        description: `Your ${voteAmount} OAK vote has been successful. Thanks!`
+      }).catch((error) => {
+        console.log('Transaction failed. error: ', error);
+        setIsVoting(false);
       });
     } catch (error) {
       console.log('onParticipateClicked, error: ', error);

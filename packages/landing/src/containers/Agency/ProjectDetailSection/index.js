@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 
 import Container from 'common/components/UI/Container';
-import Comments from 'common/components/Comments';
 import LineCharts from 'common/components/LineCharts';
 import GroupedBar from 'common/components/GroupedBar';
 import ProjectDetailWrapper from './projectDetailSection.style';
@@ -14,6 +13,7 @@ import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
 import { ellipsisAddress } from 'common/utils';
 import reduxHelper from '../../../redux/helper';
+import backend from '../../../common/backend';
 
 const ProjectDetailSection = (props) => {
   const { project }  = props;
@@ -57,13 +57,7 @@ const ProjectDetailSection = (props) => {
       return;
     }
     const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
-    const cloudbase = (await import('@cloudbase/js-sdk')).default;
-    const app = cloudbase.init({
-      env: 'quadratic-funding-1edc914e16f235',
-      region: 'ap-guangzhou'
-    });
-
-    const result = await app.callFunction({
+    await backend.getApp().callFunction({
       name: 'like',
       data: {
         projectIndex,
@@ -101,12 +95,6 @@ const ProjectDetailSection = (props) => {
                   icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
                   title={likeText}
                   onClick={onLikeClicked}
-                />
-                <Button
-                  className="ml-5"
-                  type="button"
-                  icon={<FontAwesomeIcon icon={faStar}></FontAwesomeIcon>}
-                  title="Favorite"
                 />
               </div>
             </div>

@@ -1,9 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Sticky from 'react-stickynode';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
 import { ResetCSS } from 'common/assets/css/style';
+import { useRouter } from 'next/router';
+import ErrorPage from 'next/error';
+import _ from 'lodash';
+
 import GlobalStyle, {
   AppWrapper,
   ContentWrapper,
@@ -14,14 +18,30 @@ import Footer from 'containers/AppModern/Footer';
 import ProjectDetailSection from 'containers/Agency/ProjectDetailSection';
 import CommentsSection from 'containers/Agency/CommentsSection';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
+import backend from '../../common/backend';
 
-import { useRouter } from 'next/router';
-import ErrorPage from 'next/error';
-import _ from 'lodash';
 
 const Detail = () => {
   const router = useRouter();
   const { pid, rid } = router.query;
+
+  const [voteRecords, setVoteRecords] = useState([]);
+
+  const getVoteRecords = async () => {
+    const result = await backend.getDatabase().collection('votes').where({
+      projectIndex: parseInt(pid),
+      roundIndex: parseInt(rid),
+    }).get();
+
+    console.log('result.data: ', result.data);
+    setVoteRecords(result.data);
+  }
+
+  useEffect(getVoteRecords, []);
+
+  const onVoted = () => {
+    getVoteRecords();
+  }
 
   if (_.isEmpty(pid) || _.isEmpty(rid)) {
     return <ErrorPage statusCode="404"></ErrorPage>;
@@ -51,9 +71,9 @@ const Detail = () => {
               <Navbar />
             </Sticky>
             <ContentWrapper>
-              <MatchingSection rid={rid} />
+              <MatchingSection rid={rid} onVote={onVoted} />
               <ProjectDetailSection />
-              <CommentsSection projectIndex={pid} />
+              <CommentsSection projectIndex={pid} roundIndex={rid} voteRecords={voteRecords} />
             </ContentWrapper>
             <Footer />
           </AppWrapper>

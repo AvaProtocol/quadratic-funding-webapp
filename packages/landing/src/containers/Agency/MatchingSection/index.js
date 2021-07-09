@@ -1,25 +1,33 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { WsProvider, ApiPromise } from '@polkadot/api';
+import { InputNumber, notification } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { Spin } from 'antd';
+import qfConfig from '../../../quadraticFunding/config';
 import config from '../../../config';
 import { unitToNumber } from 'common/utils';
+import backend from '../../../common/backend';
+import MatchingCarousel from './matchingCarousel';
+import 'antd/dist/antd.css';
 
 const { oak } = config;
 
-const MatchingSection = ({ row, col, rid }) => {
+const MatchingSection = ({ row, col, rid, account, onVote }) => {
   const polkadotContext = useContext(PolkadotContext);
+
   const [loading, setLoading] = useState(true);
   const [round, setRound] = useState({});
   const [projectDetail, setProjectDetail] = useState({});
   const [contributions, setContributions] = useState([]);
-  const [latestContributions, setLatestContributions] = useState([]);
-  const [total, setTotal] = useState(0);
   const [totalMatching, setTotalMatching] = useState(0);
+  const [voteAmount, setVoteAmount] = useState(10);
+  const [isVoting, setIsVoting] = useState(false);
 
   const getMatchingFund = (matching) => {
     const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
@@ -44,34 +52,6 @@ const MatchingSection = ({ row, col, rid }) => {
   ]);
 
   useEffect(() => {
-    const { length } = contributions;
-    switch (length) {
-      case 0: {
-        setLatestContributions([]);
-        break;
-      }
-
-      case 1: {
-        setLatestContributions([contributions[0]]);
-        break;
-      }
-
-      default: {
-        setLatestContributions([
-          contributions[length - 1],
-          contributions[length - 2],
-        ]);
-        break;
-      }
-    }
-
-    let totalContribute = 0;
-    _.forEach(contributions, (item) => {
-      totalContribute = totalContribute + unitToNumber(item.value);
-    });
-
-    setTotal(totalContribute);
-
     let totalMatchingAmount = 0;
     _.forEach(round.grants, (item) => {
       totalMatchingAmount += item.matching;
@@ -79,6 +59,70 @@ const MatchingSection = ({ row, col, rid }) => {
 
     setTotalMatching(totalMatchingAmount);
   }, [contributions]);
+
+  const onParticipateClicked = async () => {
+    setIsVoting(true);
+    try {
+      const { web3FromAddress, web3Enable } = await import('@polkadot/extension-dapp');
+      const { endpoint, types } = qfConfig;
+
+      await web3Enable('quadratic-funding-webapp');
+      const wsProvider = new WsProvider(endpoint);
+      const api = await ApiPromise.create({
+        provider: wsProvider,
+        types,
+      });
+
+      const injector = await web3FromAddress(account);
+      const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
+      const roundIndex = parseInt(rid);
+
+      const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount * 10**10);
+      extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => {
+        if (!status.isFinalized) {
+          return;
+        }
+
+        await backend.getApp().callFunction({
+          name: 'vote',
+          data: {
+            address: account,
+            roundIndex,
+            projectIndex,
+            amount: voteAmount,
+          }
+        });
+
+        notification.open({
+          message: 'Vote successfully!',
+          description: `Your ${voteAmount} OAK vote has been successful. Thanks!`,
+          top: 100,
+        });
+
+        setIsVoting(false);
+        onVote();
+      }).catch((error) => {
+        console.log('Transaction failed. error: ', error);
+        setIsVoting(false);
+      });
+    } catch (error) {
+      console.log('onParticipateClicked, error: ', error);
+      setIsVoting(false);
+      notification.open({
+        message: 'Vote failed!',
+        description: `Your ${voteAmount} OAK vote has been failed!`,
+        top: 100,
+      });
+      return;
+    }
+  }
+
+  const totalContributionValue = _.reduce(contributions, (prev, contribution) => {
+    return prev + unitToNumber(contribution.value);
+  }, 0);
+
+  console.log('polkadotContext.rounds: ', polkadotContext.rounds);
+  // console.log('projectDetail.matching: ', projectDetail.matching);
 
   return (
     <MatchingWrapper>
@@ -96,32 +140,19 @@ const MatchingSection = ({ row, col, rid }) => {
                   </span>
                 </div>
                 <div className="contribute-info">
-                  {_.map(latestContributions, (item) => {
-                    return (
-                      <div className="contribute" key={item.account_id}>
-                        <span>
-                          + {unitToNumber(item.value)} {oak.symbol} contribution
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <span style={{ marginTop: '10px' }}>
-                  ${total * oak.price} Raised{' '}
-                  <span style={{ fontSize: 12 }}>
-                    from {contributions.length} contributors
-                  </span>
-                </span>
-                <span>
-                  + {getMatchingFund(projectDetail.matching)} {oak.symbol} match
-                </span>
-                <div>
-                  <div className="total">
-                    <div className="current"></div>
+                  <div className="contribute">
+                    <span>+ {totalContributionValue.toFixed(4)} {oak.symbol} contribution from {contributions.length} contributors</span>
                   </div>
                 </div>
+                <span>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</span>
                 <div className="participate">
-                  <Button title="Participate" />
+                  <div style={{ height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }} >
+                    <InputNumber size='large' min={1} max={9999} defaultValue={10} value={voteAmount} onChange={(value)=> {
+                      setVoteAmount(value);
+                    }} />
+                    <span style={{ marginLeft: 5}}>OAK</span>
+                  </div>
+                  <Button type="button" isLoading={isVoting} style={{ marginLeft: 20 }} title="Participate" onClick={onParticipateClicked} />
                 </div>
               </div>
             </Box>
@@ -129,7 +160,7 @@ const MatchingSection = ({ row, col, rid }) => {
             <Box className="col" {...col}>
               <div className="block">
                 <div className="carousell">
-                  <span>Carousell</span>
+                  <MatchingCarousel />
                 </div>
               </div>
             </Box>
@@ -204,4 +235,8 @@ MatchingSection.defaultProps = {
   },
 };
 
-export default MatchingSection;
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps)(MatchingSection);

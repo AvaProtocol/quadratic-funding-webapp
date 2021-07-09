@@ -12,6 +12,7 @@ import { PolkadotContext } from 'common/contexts/PolkadotContext';
 const CommentsSection = ({
   ...props
 }) => {
+  const { voteRecords } = props;
   const [tab, setTab] = useState(0);
   const polkadotContext = useContext(PolkadotContext);
   const [projectDetail, setProjectDetail] = useState({});
@@ -29,7 +30,7 @@ const CommentsSection = ({
     }
   }, [polkadotContext.projectDetail]);
 
-  const { projectIndex } = props;
+  const { projectIndex, roundIndex } = props;
 
   return (
     <CommentsSectionWrapper
@@ -43,13 +44,13 @@ const CommentsSection = ({
             <Button title="Transactions" className={tab === 2 ? 'selected' : 'notSelected'} onClick={() => setTab(2)}></Button>
           </div>
           {
-            tab === 0 && (<Comments projectIndex={projectIndex} ></Comments>)
+            tab === 0 && (<Comments projectIndex={projectIndex} voteRecords={voteRecords}></Comments>)
           }
           {
             tab === 1 && (<Contributors contributions={contributions}></Contributors>)
           }
           {
-            tab === 2 && (<Transactions></Transactions>)
+            tab === 2 && (<Transactions roundIndex={roundIndex} projectIndex={projectIndex} voteRecords={voteRecords}></Transactions>)
           }
         </div>
       </Container>

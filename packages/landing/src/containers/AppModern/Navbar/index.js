@@ -15,7 +15,9 @@ import Container from 'common/components/UI/Container';
 import useOnClickOutside from 'common/hooks/useOnClickOutside';
 import NavbarWrapper, { MenuArea, MobileMenu, Search } from './navbar.style';
 import actions from '../../../redux/actions';
-import AccountSelectionModal, {CloseComponent} from '../../../common/components/AccountSelectionModal';
+import AccountSelectionModal, {
+  CloseComponent,
+} from '../../../common/components/AccountSelectionModal';
 import backend from '../../../common/backend';
 
 import { navbar } from 'common/data/AppModern';
@@ -35,7 +37,6 @@ const Navbar = ({ isLight, account, setAccount }) => {
   useOnClickOutside(searchRef, () =>
     setState({ ...state, searchToggle: false })
   );
-
 
   useEffect(() => {
     if (!account) {
@@ -97,7 +98,9 @@ const Navbar = ({ isLight, account, setAccount }) => {
   };
 
   const showAccountSelectionModal = async () => {
-    const { web3Enable, web3Accounts } = await import('@polkadot/extension-dapp');
+    const { web3Enable, web3Accounts } = await import(
+      '@polkadot/extension-dapp'
+    );
     await web3Enable('quadratic-funding-webapp');
     const allAccounts = await web3Accounts();
 
@@ -127,29 +130,35 @@ const Navbar = ({ isLight, account, setAccount }) => {
           tension: 130,
           friction: 26,
         }, // react-spring config props
-        
       },
       withRnd: false,
       overlayClassName: 'customeOverlayClass',
       closeOnClickOutside: false,
       component: AccountSelectionModal,
-      componentProps: { addresses, onClick: (address) => {
-        setAccount(address);
-      } },
+      componentProps: {
+        addresses,
+        onClick: (address) => {
+          setAccount(address);
+        },
+      },
       closeComponent: CloseComponent,
     });
-  }
+  };
 
   const openOutterLink = (url) => {
     window.open(url);
-  }
+  };
 
   return (
     <NavbarWrapper className="navbar">
       <Container>
         <Logo
           href="/"
-          logoSrc={ isLight ? "https://res.cloudinary.com/forgelab-io/image/upload/v1619317508/OAK/oak-logo.png" : "https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png" }
+          logoSrc={
+            isLight
+              ? 'https://res.cloudinary.com/forgelab-io/image/upload/v1619317508/OAK/oak-logo.png'
+              : 'https://res.cloudinary.com/forgelab-io/image/upload/v1618793068/OAK/logo-horizontal.png'
+          }
           title="App Modern"
           className="main-logo"
         />
@@ -163,11 +172,26 @@ const Navbar = ({ isLight, account, setAccount }) => {
 
         <MenuArea className={state.searchToggle ? 'active' : ''}>
           {/* <ScrollSpyMenu className="menu" menuItems={navMenu} offset={-84} /> */}
-          <Button style={{ marginLeft: 20 }} title='Recommended'/>
-          <Button style={{ marginLeft: 20 }} title='Tutorial' onClick={() => openOutterLink('https://docs.oak.tech/')}/>
-          <Button style={{ marginLeft: 20 }} title='FAQ'/>
-          <Button style={{ marginLeft: 20 }} title='Become a Matching Partner' onClick={() => openOutterLink('https://w95291cx5qx.typeform.com/to/oAluO6qK')}/>
-          {account && <Button style={{ marginLeft: 20 }} title={truncateMiddle(account, 4, 4, '...')} onClick={showAccountSelectionModal}/>}
+          <Button
+            style={{ marginLeft: 20 }}
+            title="Tutorial"
+            onClick={() => openOutterLink('https://docs.oak.tech/')}
+          />
+          <Button style={{ marginLeft: 20 }} title="Github" />
+          <Button
+            style={{ marginLeft: 20 }}
+            title="Create a Grant"
+            onClick={() =>
+              openOutterLink('https://w95291cx5qx.typeform.com/to/oAluO6qK')
+            }
+          />
+          {account && (
+            <Button
+              style={{ marginLeft: 20 }}
+              title={truncateMiddle(account, 4, 4, '...')}
+              onClick={showAccountSelectionModal}
+            />
+          )}
           {/* end of main menu */}
 
           <Button
@@ -218,11 +242,11 @@ const Navbar = ({ isLight, account, setAccount }) => {
 };
 
 const mapStateToProps = (state) => ({
-    account: state.account,
+  account: state.account,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	setAccount: (account) => dispatch(actions.setAccount(account)),
+  setAccount: (account) => dispatch(actions.setAccount(account)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

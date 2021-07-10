@@ -182,7 +182,7 @@ const Navbar = ({ isLight, account, setAccount }) => {
             style={{ marginLeft: 20 }}
             title="Create a Grant"
             onClick={() =>
-              openOutterLink('https://w95291cx5qx.typeform.com/to/oAluO6qK')
+              openOutterLink('https://8mu1f1dexqf.typeform.com/to/FF8ARJhs')
             }
           />
           {account && (

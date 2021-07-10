@@ -554,7 +554,7 @@ export const footer = {
     {
       id: 2,
       icon: group,
-      title: 'Join in Chat Community',
+      title: 'Join in Chats',
       description:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore.',
     },

@@ -177,7 +177,15 @@ const Navbar = ({ isLight, account, setAccount }) => {
             title="Tutorial"
             onClick={() => openOutterLink('https://docs.oak.tech/')}
           />
-          <Button style={{ marginLeft: 20 }} title="Github" />
+          <Button
+            style={{ marginLeft: 20 }}
+            title="Github"
+            onClick={() =>
+              openOutterLink(
+                'https://github.com/OAK-Foundation/quadratic-funding-webapp'
+              )
+            }
+          />
           <Button
             style={{ marginLeft: 20 }}
             title="Create a Grant"

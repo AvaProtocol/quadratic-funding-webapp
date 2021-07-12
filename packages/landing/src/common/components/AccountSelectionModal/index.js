@@ -15,10 +15,10 @@ const AccountSelectionModal = ({addresses, onClick, ...props}) => {
     closeModal();
   }
 
-  if (!_.isEmpty(addresses)) {
+  if (_.isEmpty(addresses)) {
     return (
       <ModalStyle {...props}>
-        <div className='titleRow noWallet'>No wallets</div>
+        <div className='titleRow noWallet'>No wallet</div>
         <div className='content'>Please install <a href='https://polkadot.js.org/extension/'>Polkadot{'\u007B'}.js{'\u007d'} extension</a>, and create wallet.</div>
         <Button className='button' title="OK" onClick={onCommentClicked}></Button>
       </ModalStyle>

@@ -39,7 +39,7 @@ const Footer = () => {
         <MenuArea>
           <Logo
             className="logo"
-            href="/appclassic"
+            href="https://oak.tech/"
             logoSrc={logo}
             title="App Classic"
           />

@@ -10,9 +10,8 @@ import Transactions from 'common/components/Transactions';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 
 const CommentsSection = ({
-  ...props
+  voteRecords, projectIndex, roundIndex, ...props
 }) => {
-  const { voteRecords } = props;
   const [tab, setTab] = useState(0);
   const polkadotContext = useContext(PolkadotContext);
   const [projectDetail, setProjectDetail] = useState({});
@@ -30,12 +29,8 @@ const CommentsSection = ({
     }
   }, [polkadotContext.projectDetail]);
 
-  const { projectIndex, roundIndex } = props;
-
   return (
-    <CommentsSectionWrapper
-      {...props}
-    >
+    <CommentsSectionWrapper {...props}>
       <Container>
         <div>
           <div className="buttons">

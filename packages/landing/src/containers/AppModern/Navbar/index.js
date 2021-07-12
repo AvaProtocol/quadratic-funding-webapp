@@ -2,25 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { openModal } from '@redq/reuse-modal';
 import Fade from 'react-reveal/Fade';
-import ScrollSpyMenu from 'common/components/ScrollSpyMenu';
 import Scrollspy from 'react-scrollspy';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { Icon } from 'react-icons-kit';
 import { menu } from 'react-icons-kit/feather/menu';
 import { x } from 'react-icons-kit/feather/x';
-import cloudbase from '@cloudbase/js-sdk';
 import Logo from 'common/components/UIElements/Logo';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import useOnClickOutside from 'common/hooks/useOnClickOutside';
-import NavbarWrapper, { MenuArea, MobileMenu, Search } from './navbar.style';
-import actions from '../../../redux/actions';
-import AccountSelectionModal, {
-  CloseComponent,
-} from '../../../common/components/AccountSelectionModal';
-import backend from '../../../common/backend';
-
+import AccountSelectionModal from 'common/components/AccountSelectionModal';
 import { navbar } from 'common/data/AppModern';
+import actions from 'redux/actions';
+import NavbarWrapper, { MenuArea, MobileMenu } from './navbar.style';
 
 const truncateMiddle = require('truncate-middle');
 
@@ -59,28 +53,6 @@ const Navbar = ({ isLight, account, setAccount }) => {
         ...state,
         mobileMenu: !state.mobileMenu,
       });
-    }
-  };
-
-  const handleOnChange = (event) => {
-    setState({
-      ...state,
-      search: event.target.value,
-    });
-  };
-
-  const handleSearchForm = (event) => {
-    event.preventDefault();
-
-    if (state.search !== '') {
-      console.log('search data: ', state.search);
-
-      setState({
-        ...state,
-        search: '',
-      });
-    } else {
-      console.log('Please fill this field.');
     }
   };
 
@@ -141,7 +113,6 @@ const Navbar = ({ isLight, account, setAccount }) => {
           setAccount(address);
         },
       },
-      closeComponent: CloseComponent,
     });
   };
 

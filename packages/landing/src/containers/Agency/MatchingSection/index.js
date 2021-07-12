@@ -79,6 +79,14 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
 
       const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount * 10**10);
       extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => {
+        if (status.status.isBroadcast) {
+          notification.open({
+            message: 'Processing',
+            description: `Your vote is processing.`,
+            top: 100,
+          });
+        }
+
         if (!status.isFinalized) {
           return;
         }

@@ -17,6 +17,7 @@ function reducer(state = initState, action) {
     case actions.SET_ACCOUNT:
       {
         const { account } = action;
+        window.localStorage.setItem('account', account);
         return { ...state, account };
       }
     case actions.SET_PROJECTS:

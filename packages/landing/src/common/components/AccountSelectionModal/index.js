@@ -1,26 +1,55 @@
 import { closeModal } from '@redq/reuse-modal';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import ModalStyle from './modal.style';
+import Button from 'common/components/Button';
 
-const AccountSelectionModal = ({addresses, onClick}) => {
-  console.log('AccountSelectionModal, addresses: ', addresses);
+const AccountSelectionModal = ({addresses, onClick, ...props}) => {
+
+  const onAddressRowClicked = (address) => {
+    closeModal();
+    onClick(address);
+  }
+
+  const onCommentClicked = () => {
+    closeModal();
+  }
+
+  if (_.isEmpty(addresses)) {
+    return (
+      <ModalStyle {...props}>
+        <div className='titleRow noWallet'>No wallet</div>
+        <div className='content'>Please install <a href='https://polkadot.js.org/extension/'>Polkadot{'\u007B'}.js{'\u007d'} extension</a>, and create wallet.</div>
+        <Button className='button' title="OK" onClick={onCommentClicked}></Button>
+      </ModalStyle>
+    );
+  }
+
   const addressList = _.map(addresses, (address) => {
     return (
-      <div style={{ height: 20, borderWidth: 1,  color: 'white', borderStyle: 'solid', borderColor: '#ccc', borderRadius: 5, marginTop: 10, marginLeft: 5, marginRight: 5, padding: 5 }} key={address} onClick={() => {
-        closeModal();
-        onClick(address);
-      }}>
+      <div
+        key={address}
+        className='addressRow'
+        onClick={() => onAddressRowClicked(address)}>
         <span>{address}</span>
       </div>
     );
   });
+
   return (
-    <div style={{ height: 300, backgroundColor: '#d1397c', overflow: 'hidden' }}>
-      <div style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, marginLeft: 15, color: 'white' }}>Select a wallet address:</div>
-      <div style={{ height: '100%', overflow: 'scroll', margin: '0px 10px'}}>{addressList}</div>
-    </div>
+    <ModalStyle {...props}>
+      <div className='titleRow'>Select a wallet address:</div>
+      <div className='addressList'>{addressList}</div>
+    </ModalStyle>
   );
 }
 
-export default AccountSelectionModal;
+const mapStateToProps = (state) => ({
+  account: state.account,
+  projectRecords: state.projects,
+});
+
+export default connect(mapStateToProps)(AccountSelectionModal);
 
 export const CloseComponent = () => {
   return (<div />);

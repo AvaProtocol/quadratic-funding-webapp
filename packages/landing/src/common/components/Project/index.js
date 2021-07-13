@@ -11,8 +11,9 @@ import { ellipsisAddress } from 'common/utils';
 import _ from 'lodash';
 import reduxHelper from '../../../redux/helper';
 import backend from '../../backend'
+import notificationHelper from '../../../common/utils/notification.helper';
 
-const Project = ({ project, Icon, ...props }) => {
+const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   const {
     name,
     description,
@@ -25,7 +26,6 @@ const Project = ({ project, Icon, ...props }) => {
   } = project;
 
   const projectIndex = parseInt(project_index);
-  const { projectRecords, account } = props;
 
   const [projectRecord, setProjectRecord] = useState({})
   
@@ -38,23 +38,23 @@ const Project = ({ project, Icon, ...props }) => {
 
   const onLikeClicked = async (event) => {
     event.stopPropagation();
-    console.log('onLikeClicked');
-    const data = {
-      projectIndex,
-      address: account,
-      isLike: _.isNil(likeAccount)
+
+    if (_.isEmpty(account)) {
+      notificationHelper.showNoWalletNotification();
+      return;
     }
-    console.log('onLikeClicked, data: ', data);
+
     const result = await backend.getApp().callFunction({
       name: 'like',
-      data,
+      data: {
+        projectIndex,
+        address: account,
+        isLike: _.isNil(likeAccount)
+      },
     });
-    console.log('onLikeClicked, result: ', result);
 
     reduxHelper.getProjects();
-  }
-
-  
+  }  
 
   let likeText = "Like";
   let likeAccount = null;

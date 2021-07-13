@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import cloudbase from '@cloudbase/js-sdk';
 
 import Button from 'common/components/Button';
 import CommentsStyle from './comments.style';
 import Comment from '../Comment';
 import backend from '../../backend';
+import notificationHelper from '../../../common/utils/notification.helper';
 
 const Comments = ({
-  ...props
+  projectIndex: projectIndexStr, voteRecords, projectRecords, account, ...props
 }) => {
-  const { projectIndex: projectIndexStr, voteRecords, projectRecords } = props;
   const projectIndex = parseInt(projectIndexStr);
 
   const [comments, setComments] = useState([]);
@@ -31,12 +30,16 @@ const Comments = ({
   useEffect(getComments, []);
 
   const onCommentClicked = async () => {
-    console.log('onCommentClicked');
+    if (_.isEmpty(account)) {
+      notificationHelper.showNoWalletNotification();
+      return;
+    }
+
     const app = backend.getApp();
     const result = await app.callFunction({
       name: 'comment',
       data: {
-        address: props.account,
+        address: account,
         comment: textareaValue,
         projectIndex,
       }

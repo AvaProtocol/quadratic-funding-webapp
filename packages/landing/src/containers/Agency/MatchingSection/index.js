@@ -2,18 +2,18 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { WsProvider, ApiPromise } from '@polkadot/api';
-import { InputNumber, notification } from 'antd';
+import { InputNumber, Spin } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
-import { Spin } from 'antd';
 import qfConfig from '../../../quadraticFunding/config';
 import config from '../../../config';
 import { unitToNumber } from 'common/utils';
 import backend from '../../../common/backend';
 import MatchingCarousel from './matchingCarousel';
+import notificationHelper from '../../../common/utils/notification.helper';
 import 'antd/dist/antd.css';
 
 const { oak } = config;
@@ -61,6 +61,11 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
   }, [contributions]);
 
   const onParticipateClicked = async () => {
+    if (_.isEmpty(account)) {
+      notificationHelper.showNoWalletNotification();
+      return;
+    }
+
     setIsVoting(true);
     try {
       const { web3FromAddress, web3Enable } = await import('@polkadot/extension-dapp');
@@ -102,11 +107,9 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
         setIsVoting(false);
         onVote();
       }).catch((error) => {
-        console.log('Transaction failed. error: ', error);
         setIsVoting(false);
       });
     } catch (error) {
-      console.log('onParticipateClicked, error: ', error);
       setIsVoting(false);
       notification.open({
         message: 'Vote failed!',
@@ -120,9 +123,6 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
   const totalContributionValue = _.reduce(contributions, (prev, contribution) => {
     return prev + unitToNumber(contribution.value);
   }, 0);
-
-  console.log('polkadotContext.rounds: ', polkadotContext.rounds);
-  // console.log('projectDetail.matching: ', projectDetail.matching);
 
   return (
     <MatchingWrapper>

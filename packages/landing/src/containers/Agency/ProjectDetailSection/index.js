@@ -3,30 +3,23 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
+import { Spin } from 'antd';
 
 import Container from 'common/components/UI/Container';
 import LineCharts from 'common/components/LineCharts';
 import GroupedBar from 'common/components/GroupedBar';
-import ProjectDetailWrapper from './projectDetailSection.style';
 import Button from 'common/components/Button';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
-import { Spin } from 'antd';
 import { ellipsisAddress } from 'common/utils';
 import reduxHelper from '../../../redux/helper';
 import backend from '../../../common/backend';
+import notificationHelper from '../../../common/utils/notification.helper';
+import ProjectDetailWrapper from './projectDetailSection.style';
 
-const ProjectDetailSection = (props) => {
-  const { project }  = props;
+const ProjectDetailSection = ({projectRecords, account}) => {
   const polkadotContext = useContext(PolkadotContext);
   const [loading, setLoading] = useState(true);
   const [projectDetail, setProjectDetail] = useState({});
-
-  useEffect(() => {
-    
-  }, [polkadotContext.projectDetail]);
-
-  
-  const { projectRecords, account } = props;
   const [projectRecord, setProjectRecord] = useState({})
   
   useEffect(async () => {
@@ -53,6 +46,12 @@ const ProjectDetailSection = (props) => {
   }
   
   const onLikeClicked = async () => {
+    if (_.isEmpty(account)) {
+      notificationHelper.showNoWalletNotification();
+      return;
+    }
+
+
     if (!polkadotContext.projectDetail) {
       return;
     }

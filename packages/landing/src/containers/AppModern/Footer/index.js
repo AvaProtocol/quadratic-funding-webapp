@@ -28,11 +28,11 @@ const Footer = () => {
       <Container>
         <WidgetArea>
           {widgets.map((item) => (
-            <Box className="col" key={`footer-widget--key${item.id}`}>
+            <a className="col" key={`footer-widget--key${item.id}`} href={item.link}>
               <Image src={item.icon} alt={item.title} />
               <Heading as="h3" content={item.title} />
               <Text content={item.description} />
-            </Box>
+            </a>
           ))}
         </WidgetArea>
         {/* End of footer widgets area */}

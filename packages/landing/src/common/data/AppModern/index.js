@@ -483,6 +483,7 @@ export const footer = {
       title: 'Github Access',
       description:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore.',
+      link: 'https://github.com/OAK-Foundation/quadratic-funding-webapp',
     },
   ],
   logo: footerLogo,

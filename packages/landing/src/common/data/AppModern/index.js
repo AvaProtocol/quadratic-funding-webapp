@@ -468,21 +468,21 @@ export const footer = {
       icon: chat,
       title: 'Join the Community',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore.',
+        'To learn more about OAK Network, please check out our Github, and follow our news on Medium and Twitter.',
     },
     {
       id: 2,
       icon: group,
       title: 'Join in Chats',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore.',
+        'Enagage with thousands of community members in our OAK Discord Channel, or WeChat Chinese groups.',
     },
     {
       id: 3,
       icon: github,
       title: 'Github Access',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit sed eiusmod tempor incididunt labore dolore.',
+        'The best way to get updated with our development status is to check out our Github repositories.',
       link: 'https://github.com/OAK-Foundation/quadratic-funding-webapp',
     },
   ],

@@ -6,6 +6,7 @@ import Image from 'common/components/Image';
 import Logo from 'common/components/UIElements/Logo';
 import Heading from 'common/components/Heading';
 import Container from 'common/components/UI/Container';
+import Box from 'common/components/Box';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import FooterArea, {

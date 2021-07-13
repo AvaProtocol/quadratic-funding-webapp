@@ -72,6 +72,11 @@ const Banner = () => {
       closeOnClickOutside: true,
     });
   };
+
+  const onCreateGrantClicked = () => {
+    window.open('https://8mu1f1dexqf.typeform.com/to/FF8ARJhs');
+  }
+
   return (
     <BannerWrapper id="home">
       <Container>
@@ -96,7 +101,8 @@ const Banner = () => {
                 variant="textButton"
                 icon={<Icon icon={arrowCircleRight} />}
                 iconPosition="right"
-                title="Create Project"
+                title="Create a Grant"
+                onClick={onCreateGrantClicked}
               />
             </ButtonGroup>
           </Fade>

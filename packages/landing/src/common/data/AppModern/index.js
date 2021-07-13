@@ -516,12 +516,12 @@ export const footer = {
   socialMedia: [
     {
       name: 'twitter',
-      link: 'https://twitter.com/OAKSubstrate',
+      link: 'https://twitter.com/oak_network',
       icon: faTwitter,
     },
     {
       name: 'discord',
-      link: 'https://discord.gg/xKKq5AXV',
+      link: 'https://discord.gg/7W9UDvsbwh',
       icon: faDiscord,
     },
     {
@@ -531,7 +531,6 @@ export const footer = {
     },
     {
       name: 'telegram',
-      link: '',
       icon: faTelegram,
     },
     {
@@ -551,7 +550,7 @@ export const footer = {
     },
     {
       name: 'email',
-      link: 'https://twitter.com/OAKSubstrate',
+      link: 'contact@oak.tech',
       icon: faEnvelopeSquare,
     },
   ],

@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
-import Box from 'common/components/Box';
+import { Popover } from 'antd';
+import { Image as CloudImage } from 'cloudinary-react';
 import Text from 'common/components/Text';
 import Image from 'common/components/Image';
 import Logo from 'common/components/UIElements/Logo';
@@ -17,6 +17,7 @@ import FooterArea, {
 } from './footer.style';
 
 import { footer } from 'common/data/AppModern';
+import config from '../../../config';
 
 const Footer = () => {
   const { logo, menu, widgets, socialMedia } = footer;
@@ -70,6 +71,20 @@ const Footer = () => {
                         icon={item.icon}
                       ></FontAwesomeIcon>
                     </a>
+                  );
+                case 'wechat':
+                  return (
+                    <Popover content={<CloudImage style={{ width: 160, height: 160 }} className="wechat-qrcode" cloudName={config.cloudName} version={config.cloudVersion} publicId="OAK/socialMedia/wechat" />}>
+                      <a
+                        className="third-link text-storm gr-hover-text-primary"
+                        key={name}
+                      >
+                        <FontAwesomeIcon
+                          className="icon-gray"
+                          icon={item.icon}
+                        ></FontAwesomeIcon>
+                      </a>
+                    </Popover>
                   );
                 default:
                   return (

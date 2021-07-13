@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import Fade from 'react-reveal/Fade';
 import { Icon } from 'react-icons-kit';
-import { playCircle } from 'react-icons-kit/fa/playCircle';
 import { arrowCircleRight } from 'react-icons-kit/fa/arrowCircleRight';
 import { openModal, closeModal } from '@redq/reuse-modal';
 import Text from 'common/components/Text';
@@ -16,10 +15,7 @@ import BannerWrapper, {
   RatingInfo,
   BannerImage,
   ButtonGroup,
-  VideoGroup,
   VideoWrapper,
-  CustomerWrapper,
-  ImageWrapper,
 } from './banner.style';
 
 import { client } from 'common/data/AppModern';

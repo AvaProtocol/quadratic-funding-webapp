@@ -7,6 +7,7 @@ import CommentsStyle from './comments.style';
 import Comment from '../Comment';
 import backend from '../../backend';
 import notificationHelper from '../../../common/utils/notification.helper';
+import reduxHelper from '../../../redux/helper';
 
 const Comments = ({
   projectIndex: projectIndexStr, voteRecords, projectRecords, account, ...props
@@ -27,7 +28,7 @@ const Comments = ({
     }
   }
 
-  useEffect(getComments, []);
+  useEffect(getComments, [projectRecords]);
 
   const onCommentClicked = async () => {
     if (_.isEmpty(account)) {
@@ -36,7 +37,7 @@ const Comments = ({
     }
 
     const app = backend.getApp();
-    const result = await app.callFunction({
+    await app.callFunction({
       name: 'comment',
       data: {
         address: account,
@@ -47,7 +48,7 @@ const Comments = ({
 
     setTextareaValue('');
 
-    getComments();
+    reduxHelper.getProjects();
   }
 
   const getCommentList = (comments) => {

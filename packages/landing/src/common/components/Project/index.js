@@ -86,7 +86,7 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
                   {/* <image className="photo"></image> */}
                   {Icon}
                   <div style={{ textAlign: 'left' }}>
-                    <span className="username">{`Username: ${
+                    <span className="username">{`Creator: ${
                       username || ellipsisAddress(owner)
                     }`}</span>
                     <span className="created">

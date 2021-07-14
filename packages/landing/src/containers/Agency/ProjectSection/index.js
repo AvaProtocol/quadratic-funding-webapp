@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import _ from 'lodash';
+import { Spin, Select } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Input from 'common/components/Input';
@@ -12,8 +13,9 @@ import Heading from 'common/components/Heading';
 import Text from 'common/components/Text';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import ProjectSectionWrapper from './projectSection.style';
-import _ from 'lodash';
-import { Spin, Select } from 'antd';
+
+
+const SECOND_PER_BLOCK = 3;
 
 const { Option } = Select;
 
@@ -34,6 +36,25 @@ const ProjectSection = ({
   const [rounds, setRounds] = useState([]);
   const [roundId, setRoundId] = useState(null);
   const [roundTitle, setRoundTitle] = useState('There are no active rounds');
+
+  const convertBlocksToTimeText = (blockNumbers) => {
+    const secondsInBlocks = blockNumbers * SECOND_PER_BLOCK;
+    const days = Math.floor(secondsInBlocks / 60 / 60 / 24);
+    const hours = Math.floor(secondsInBlocks / 60 / 60) - days * 24;
+    const minutes = Math.floor(secondsInBlocks / 60) - (days * 24 + hours) * 60;
+    const seconds = secondsInBlocks - ((days * 24 + hours) * 60 + minutes) * 60;
+    let timeText = `${seconds} seconds`;
+    if (minutes !== 0) {
+      timeText = `${minutes} minutes ${timeText}`;
+    }
+    if (hours !== 0) {
+      timeText = `${hours} hours ${timeText}`;
+    }
+    if (days !== 0) {
+      timeText = `${days} days ${timeText}`;
+    }
+    return timeText;
+  }
 
   useEffect(() => {
     if (!_.isEmpty(polkadotContext)) {
@@ -92,15 +113,11 @@ const ProjectSection = ({
       const endBlockNumber = Number(activeRound.end.replaceAll(',', ''));
       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
         setRoundTitle(
-          `Countdown to the end of this round(#${activeRound.id + 1}) ${
-            endBlockNumber - blockNumber
-          } blocks`
+          `Round #${activeRound.id + 1} ends in ${convertBlocksToTimeText(endBlockNumber - blockNumber)}`
         );
       } else if (blockNumber < startBlockNumber) {
         setRoundTitle(
-          `Countdown to the start of this round(#${activeRound.id + 1}) ${
-            startBlockNumber - blockNumber
-          } blocks`
+          `Round #${activeRound.id + 1} will start in ${convertBlocksToTimeText(startBlockNumber - blockNumber)}`
         );
       } else if (!_.isEmpty(nextRound)) {
         const nextStartBlockNumber = Number(
@@ -108,12 +125,10 @@ const ProjectSection = ({
         );
         if (blockNumber < nextStartBlockNumber) {
           setRoundTitle(
-            `Countdown to the next round(#${nextRound.id + 1}) ${
-              nextStartBlockNumber - blockNumber
-            } blocks`
+            `Round #${activeRound.id + 1} will start in ${convertBlocksToTimeText(nextStartBlockNumber - blockNumber)}`
           );
         } else {
-          setRoundTitle(`This round(#${activeRound.id + 1}) is ended`);
+          setRoundTitle(`Round #${activeRound.id + 1} is ended`);
         }
       }
     }

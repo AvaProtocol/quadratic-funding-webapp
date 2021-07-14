@@ -14,7 +14,6 @@ import Text from 'common/components/Text';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import ProjectSectionWrapper from './projectSection.style';
 
-
 const SECOND_PER_BLOCK = 3;
 
 const { Option } = Select;
@@ -39,22 +38,14 @@ const ProjectSection = ({
 
   const convertBlocksToTimeText = (blockNumbers) => {
     const secondsInBlocks = blockNumbers * SECOND_PER_BLOCK;
-    const days = Math.floor(secondsInBlocks / 60 / 60 / 24);
-    const hours = Math.floor(secondsInBlocks / 60 / 60) - days * 24;
+    const days = Math.floor(secondsInBlocks / 86400); // 60* 60 * 24
+    const hours = Math.floor(secondsInBlocks / 3600) - days * 24;
     const minutes = Math.floor(secondsInBlocks / 60) - (days * 24 + hours) * 60;
     const seconds = secondsInBlocks - ((days * 24 + hours) * 60 + minutes) * 60;
-    let timeText = `${seconds} seconds`;
-    if (minutes !== 0) {
-      timeText = `${minutes} minutes ${timeText}`;
-    }
-    if (hours !== 0) {
-      timeText = `${hours} hours ${timeText}`;
-    }
-    if (days !== 0) {
-      timeText = `${days} days ${timeText}`;
-    }
+    let timeText = `${days} days ${hours} hours ${minutes} minutes ${seconds} seseconds`;
+
     return timeText;
-  }
+  };
 
   useEffect(() => {
     if (!_.isEmpty(polkadotContext)) {
@@ -113,11 +104,15 @@ const ProjectSection = ({
       const endBlockNumber = Number(activeRound.end.replaceAll(',', ''));
       if (blockNumber >= startBlockNumber && blockNumber <= endBlockNumber) {
         setRoundTitle(
-          `Round #${activeRound.id + 1} ends in ${convertBlocksToTimeText(endBlockNumber - blockNumber)}`
+          `Round #${activeRound.id + 1} ends in ${convertBlocksToTimeText(
+            endBlockNumber - blockNumber
+          )}`
         );
       } else if (blockNumber < startBlockNumber) {
         setRoundTitle(
-          `Round #${activeRound.id + 1} will start in ${convertBlocksToTimeText(startBlockNumber - blockNumber)}`
+          `Round #${activeRound.id + 1} will start in ${convertBlocksToTimeText(
+            startBlockNumber - blockNumber
+          )}`
         );
       } else if (!_.isEmpty(nextRound)) {
         const nextStartBlockNumber = Number(
@@ -125,7 +120,11 @@ const ProjectSection = ({
         );
         if (blockNumber < nextStartBlockNumber) {
           setRoundTitle(
-            `Round #${activeRound.id + 1} will start in ${convertBlocksToTimeText(nextStartBlockNumber - blockNumber)}`
+            `Round #${
+              activeRound.id + 1
+            } will start in ${convertBlocksToTimeText(
+              nextStartBlockNumber - blockNumber
+            )}`
           );
         } else {
           setRoundTitle(`Round #${activeRound.id + 1} is ended`);

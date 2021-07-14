@@ -35,9 +35,24 @@ export const unitToNumber = (unit) => {
 /**
  * number with thousand commas, maximum 2 fraction digits.
  * @param {*} num number/string
- * @returns 
+ * @returns formated text
  */
 export const numberWithCommas = (num) => {
   num = _.toNumber(num);
   return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
 }
+
+/**
+ * Get grant matching amount
+ * @param {*} contributions 
+ * @returns matching value
+ */
+export const getMatching = (contributions) => {
+  let sqrtValue = 0;
+  _.forEach(contributions, (item) => {
+    const value = unitToNumber(item.value);
+    sqrtValue += Math.sqrt(value);
+  });
+
+  return sqrtValue ** 2;
+};

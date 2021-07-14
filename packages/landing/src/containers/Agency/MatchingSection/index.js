@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,15 +7,14 @@ import { InputNumber, Spin } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
-import MatchingWrapper from './matchingSection.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
-import qfConfig from '../../../quadraticFunding/config';
-import config from '../../../config';
-import { unitToNumber } from 'common/utils';
-import backend from '../../../common/backend';
+import notificationHelper from 'common/utils/notification.helper';
+import { unitToNumber, numberWithCommas, getMatching } from 'common/utils';
+import qfConfig from 'quadraticFunding/config';
+import backend from 'common/backend';
 import MatchingCarousel from './matchingCarousel';
-import notificationHelper from '../../../common/utils/notification.helper';
-import { numberWithCommas } from 'common/utils';
+import config from '../../../config';
+import MatchingWrapper from './matchingSection.style';
 import 'antd/dist/antd.css';
 
 const { oak } = config;
@@ -133,6 +133,54 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
     return prev + unitToNumber(contribution.value);
   }, 0);
 
+  const calculateGrantMatchings = (grants) => {
+    const matchings = []
+    _.forEach(grants, (grant) => {
+      const { contributions } = grant;
+      const matching = getMatching(contributions);
+      matchings.push(matching);
+    });
+    return matchings;
+  }
+
+  const voteToGrant = (grant, address, amount) => {
+    const foundContribution = _.find(grant.contributions, (contribution) => {
+      return contribution.account_id === address;
+    });
+    if (foundContribution) {
+      const oldAmount = unitToNumber(foundContribution.value);
+      foundContribution.value = `${oldAmount + amount} OAK`;
+    } else {
+      grant.contributions.push({
+        account_id: address,
+        value: `${amount} OAK`,
+      })
+    }
+    
+  }
+
+  const getEstimatedMatching = (address, voteAmount) => {
+    if (_.isEmpty(round)) {
+      return 0;
+    }
+
+    const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
+
+    //  calculate old matching
+    const { grants } = round;
+    const oldMatchings = calculateGrantMatchings(grants);
+    
+    // Vote and calculate new matching
+    const newGrants =  _.cloneDeep(grants);
+    const foundGrantIndex = _.findIndex(newGrants, (grant) => {
+      return grant.project_index === projectIndex.toString();
+    })
+    voteToGrant(newGrants[foundGrantIndex], address, voteAmount);
+    const newMatchings = calculateGrantMatchings(newGrants);
+    const estimatedMatching =  (newMatchings[foundGrantIndex] - oldMatchings[foundGrantIndex]) / totalMatching * unitToNumber(round.matching_fund);
+    return estimatedMatching;
+  }
+
   return (
     <MatchingWrapper>
       <Container>
@@ -156,6 +204,7 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
                 <span>+ {numberWithCommas(getMatchingFund(projectDetail.matching))} {oak.symbol} match</span>
                 <div className="participate">
                   <div style={{ height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }} >
+                    <span style={{ marginRight: 20 }}>Estimated matching: {numberWithCommas(getEstimatedMatching(account, voteAmount))} OAK</span>
                     <InputNumber size='large' min={1} max={9999} defaultValue={10} value={voteAmount} onChange={(value)=> {
                       setVoteAmount(value);
                     }} />

@@ -28,7 +28,7 @@ const Comment = ({ ...props }) => {
           marginRight: 20,
         }}
       >
-        <Jdenticon className="photo" size={70} value={user} />
+        <Jdenticon className="photo" size='70' value={user} />
         <span style={{ marginTop: 10 }}>{truncateMiddle(user, 4, 4, '...')}</span>
       </div>
 

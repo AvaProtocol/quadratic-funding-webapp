@@ -14,6 +14,7 @@ import { unitToNumber } from 'common/utils';
 import backend from '../../../common/backend';
 import MatchingCarousel from './matchingCarousel';
 import notificationHelper from '../../../common/utils/notification.helper';
+import { numberWithCommas } from 'common/utils';
 import 'antd/dist/antd.css';
 
 const { oak } = config;
@@ -149,10 +150,10 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
                 </div>
                 <div className="contribute-info">
                   <div className="contribute">
-                    <span>+ {totalContributionValue.toFixed(4)} {oak.symbol} contribution from {contributions.length} contributors</span>
+                    <span>+ {numberWithCommas(totalContributionValue)} {oak.symbol} contribution from {numberWithCommas(contributions.length)} contributors</span>
                   </div>
                 </div>
-                <span>+ {getMatchingFund(projectDetail.matching)} {oak.symbol} match</span>
+                <span>+ {numberWithCommas(getMatchingFund(projectDetail.matching))} {oak.symbol} match</span>
                 <div className="participate">
                   <div style={{ height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }} >
                     <InputNumber size='large' min={1} max={9999} defaultValue={10} value={voteAmount} onChange={(value)=> {

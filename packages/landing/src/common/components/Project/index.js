@@ -9,9 +9,10 @@ import Button from 'common/components/Button';
 import ProjectStyle from './project.style';
 import { ellipsisAddress } from 'common/utils';
 import _ from 'lodash';
-import reduxHelper from '../../../redux/helper';
-import backend from '../../backend'
-import notificationHelper from '../../../common/utils/notification.helper';
+import reduxHelper from 'redux/helper';
+import backend from 'common/backend'
+import notificationHelper from 'common/utils/notification.helper';
+import { numberWithCommas } from 'common/utils';
 
 const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   const {
@@ -65,12 +66,8 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
     likeAccount = _.find(projectRecord.likes, (like) => {
       return like === account;
     });
-
-    if (projectRecord.likes.length === 1){
-      likeText = `${projectRecord.likes.length} Like`;
-    } else {
-      likeText = `${projectRecord.likes.length} Likes`;
-    }
+    
+    likeText = `${numberWithCommas(projectRecord.likes.length)} ${projectRecord.likes.length === 1 ? 'Like' : 'Likes'}`;
   }
 
   return (

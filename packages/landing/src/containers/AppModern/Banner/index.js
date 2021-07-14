@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import Fade from 'react-reveal/Fade';
 import { Icon } from 'react-icons-kit';
 import { arrowCircleRight } from 'react-icons-kit/fa/arrowCircleRight';
-import { openModal, closeModal } from '@redq/reuse-modal';
 import Text from 'common/components/Text';
 import Image from 'common/components/Image';
 import Button from 'common/components/Button';
@@ -15,55 +14,16 @@ import BannerWrapper, {
   RatingInfo,
   BannerImage,
   ButtonGroup,
-  VideoWrapper,
 } from './banner.style';
 
 import microsoft from 'common/assets/image/appModern/envato-icon.png';
 import bannerImg from 'common/assets/image/appModern/banner2.png';
 import circleBorder from 'common/assets/image/appModern/shape.svg';
-// close button for modal
-const CloseModalButton = () => (
-  <Button
-    className="modalCloseBtn"
-    variant="fab"
-    onClick={() => closeModal()}
-    icon={<i className="flaticon-plus-symbol" />}
-  />
-);
-
-const ModalContent = () => (
-  <VideoWrapper>
-    <iframe
-      title="Video"
-      src="https://www.youtube.com/embed/8ME-QAlW6Ww"
-      frameBorder="0"
-    />
-  </VideoWrapper>
-);
+import { numberWithCommas } from 'common/utils';
 
 const Banner = () => {
   const polkadotContext = useContext(PolkadotContext);
   const { blockNumber } = polkadotContext;
-
-  // modal handler
-  const handleVideoModal = () => {
-    openModal({
-      config: {
-        className: 'video-modal',
-        disableDragging: true,
-        default: {
-          width: 'auto',
-          height: 'auto',
-          x: 0,
-          y: 0,
-        },
-      },
-      component: ModalContent,
-      componentProps: {},
-      closeComponent: CloseModalButton,
-      closeOnClickOutside: true,
-    });
-  };
 
   const onCreateGrantClicked = () => {
     window.open('https://8mu1f1dexqf.typeform.com/to/FF8ARJhs');
@@ -88,7 +48,7 @@ const Banner = () => {
             <Heading as="h1" content="Quadratic Funding Program" />
           </Fade>
           <Fade up delay={200}>
-            <Text content={`Current Block Number #${blockNumber}`} />
+            <Text content={`Current Block Number #${numberWithCommas(blockNumber)}`} />
           </Fade>
           <Fade up delay={300}>
             <ButtonGroup>

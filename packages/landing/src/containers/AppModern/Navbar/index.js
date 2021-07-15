@@ -94,7 +94,8 @@ const Navbar = ({ isLight, account, setAccount }) => {
           topLeft: true,
           topRight: true,
         },
-        width: 480,
+        width: 750,
+        height: 'auto',
         animationFrom: { transform: 'scale(0.3)' }, // react-spring <Spring from={}> props value
         animationTo: { transform: 'scale(1)' }, //  react-spring <Spring to={}> props value
         transition: {
@@ -164,13 +165,17 @@ const Navbar = ({ isLight, account, setAccount }) => {
               openOutterLink('https://8mu1f1dexqf.typeform.com/to/FF8ARJhs')
             }
           />
-          {account && (
+          {
             <Button
               style={{ marginLeft: 20 }}
-              title={truncateMiddle(account, 4, 4, '...')}
+              title={
+                account
+                  ? truncateMiddle(account, 4, 4, '...')
+                  : 'Connect a Wallet'
+              }
               onClick={showAccountSelectionModal}
             />
-          )}
+          }
           {/* end of main menu */}
 
           <Button

@@ -69,6 +69,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
     }
 
     setIsVoting(true);
+
     try {
       const { web3FromAddress, web3Enable } = await import(
         '@polkadot/extension-dapp'

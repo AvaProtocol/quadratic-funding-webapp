@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
-import { Spin, Select } from 'antd';
+import { Row, Col, Spin, Select } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Input from 'common/components/Input';
@@ -188,11 +188,17 @@ const ProjectSection = ({
               </div>
             )}
 
-            <Box className="row" {...row}>
+            <Row {...row} gutter={36}>
               {roundProjects.map((project, index) => {
                 return (
-                  <Box className="col" {...col} key={`project-${index}`}>
+                  <Col
+                    {...col}
+                    span={8}
+                    key={`project-${index}`}
+                    style={{ marginBottom: '36px' }}
+                  >
                     <FeatureBlock
+                      style={{ border: '1px #ddd solid' }}
                       icon={<i className="flaticon-atom" />}
                       wrapperStyle={blockWrapperStyle}
                       iconStyle={iconStyle}
@@ -200,10 +206,10 @@ const ProjectSection = ({
                       project={{ ...project, roundId }}
                       title={project.name}
                     />
-                  </Box>
+                  </Col>
                 );
               })}
-            </Box>
+            </Row>
           </>
         )}
       </Container>

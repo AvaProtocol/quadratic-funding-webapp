@@ -9,7 +9,6 @@ import {faTwitter, faDiscord,faTelegram,faGithubSquare} from '@fortawesome/free-
 
 import Container from 'common/components/UI/Container';
 import LineCharts from 'common/components/LineCharts';
-import GroupedBar from 'common/components/GroupedBar';
 import ButtonLike from 'common/components/ButtonLike';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { ellipsisAddress } from 'common/utils';
@@ -22,8 +21,7 @@ import member1 from 'common/assets/image/person/1.png';
 import member2 from 'common/assets/image/person/2.png';
 import member3 from 'common/assets/image/person/3.png';
 
-
-const ProjectDetailSection = ({projectRecords, account}) => {
+const ProjectDetailSection = ({projectRecords, account, rid}) => {
   const polkadotContext = useContext(PolkadotContext);
   const [loading, setLoading] = useState(true);
   const [projectDetail, setProjectDetail] = useState({});
@@ -126,9 +124,8 @@ const ProjectDetailSection = ({projectRecords, account}) => {
                       Contribution Chart
                     </h2>
                   </Col>
-                <LineCharts className="chart" />
 
-                <GroupedBar className="chart" />
+                  <Col span={24}><LineCharts className="chart" rid={rid} /></Col>
               </Row>
 
               <Row className="team-members">

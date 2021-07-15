@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { WsProvider, ApiPromise } from '@polkadot/api';
+import qfConfig from '../../quadraticFunding/config'
 
 /**
  * Ellipsis a address
@@ -56,3 +58,17 @@ export const getMatching = (contributions) => {
 
   return sqrtValue ** 2;
 };
+
+let web3Api = null;
+
+export const getWeb3Api = async() => {
+  if (!web3Api) {
+    const { endpoint, types } = qfConfig;
+    const wsProvider = new WsProvider(endpoint);
+    web3Api = await ApiPromise.create({
+      provider: wsProvider,
+      types,
+    });
+  }
+  return web3Api;
+}

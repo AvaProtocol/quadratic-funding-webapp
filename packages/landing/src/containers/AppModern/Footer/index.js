@@ -74,11 +74,8 @@ const Footer = () => {
                   );
                 case 'wechat':
                   return (
-                    <Popover content={<CloudImage style={{ width: 160, height: 160 }} className="wechat-qrcode" cloudName={config.cloudName} version={config.cloudVersion} publicId="OAK/socialMedia/wechat" />}>
-                      <a
-                        className="third-link text-storm gr-hover-text-primary"
-                        key={name}
-                      >
+                    <Popover key={name} content={<CloudImage style={{ width: 160, height: 160 }} className="wechat-qrcode" cloudName={config.cloudName} version={config.cloudVersion} publicId="OAK/socialMedia/wechat" />}>
+                      <a className="third-link text-storm gr-hover-text-primary">
                         <FontAwesomeIcon
                           className="icon-gray"
                           icon={item.icon}

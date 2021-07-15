@@ -2,19 +2,18 @@ import _ from 'lodash';
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { WsProvider, ApiPromise } from '@polkadot/api';
-import { InputNumber, Spin } from 'antd';
+import { InputNumber, Spin, notification } from 'antd';
 import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import notificationHelper from 'common/utils/notification.helper';
 import { unitToNumber, numberWithCommas, getMatching } from 'common/utils';
-import qfConfig from 'quadraticFunding/config';
 import backend from 'common/backend';
 import MatchingCarousel from './matchingCarousel';
 import config from '../../../config';
 import MatchingWrapper from './matchingSection.style';
+import { getWeb3Api } from 'common/utils';
 import 'antd/dist/antd.css';
 
 const { oak } = config;
@@ -70,19 +69,13 @@ const MatchingSection = ({ row, col, rid, account, onVote }) => {
     setIsVoting(true);
     try {
       const { web3FromAddress, web3Enable } = await import('@polkadot/extension-dapp');
-      const { endpoint, types } = qfConfig;
-
       await web3Enable('quadratic-funding-webapp');
-      const wsProvider = new WsProvider(endpoint);
-      const api = await ApiPromise.create({
-        provider: wsProvider,
-        types,
-      });
-
+      
       const injector = await web3FromAddress(account);
       const projectIndex = parseInt(polkadotContext.projectDetail.project_index);
       const roundIndex = parseInt(rid);
 
+      const api = await getWeb3Api();
       const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount * 10**10);
       extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => {
         if (status.status.isBroadcast) {

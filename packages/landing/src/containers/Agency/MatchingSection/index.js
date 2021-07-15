@@ -3,13 +3,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { InputNumber, Spin, notification } from 'antd';
-import Box from 'common/components/Box';
 import Button from 'common/components/Button';
 import Container from 'common/components/UI/Container';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import notificationHelper from 'common/utils/notification.helper';
 import { unitToNumber, getMatching, formatNumberThousands } from 'common/utils';
-import qfConfig from 'quadraticFunding/config';
 import backend from 'common/backend';
 import MatchingCarousel from './matchingCarousel';
 import config from '../../../config';
@@ -120,7 +118,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
           setIsVoting(false);
           onVote();
         })
-        .catch((error) => {
+        .catch(() => {
           setIsVoting(false);
         });
     } catch (error) {

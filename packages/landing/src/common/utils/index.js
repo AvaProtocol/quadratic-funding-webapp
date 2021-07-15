@@ -32,21 +32,31 @@ export const unitToNumber = (unit) => {
     magnification = 1000000;
   }
   return Number(arrs[0]) * magnification;
-}
+};
 
 /**
- * number with thousand commas, maximum 2 fraction digits.
- * @param {*} num number/string
- * @returns formated text
+ * Formatting number with thousand separator, and always leave two digits of float number
+ * @param  {number} num e.g. 1000000.65
+ * @return {string}   "1,000,000.65"
  */
-export const numberWithCommas = (num) => {
-  num = _.toNumber(num);
-  return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+export function formatNumberThousands(num) {
+  if (_.isUndefined(num)) {
+    return num;
+  }
+
+  const numStr = num.toString();
+  const parts = numStr.split('.');
+
+  const decimalStr = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const period = _.isUndefined(parts[1]) ? '' : '.';
+  const floatStr = _.isUndefined(parts[1]) ? '0' : parts[1].substr(0, 2);
+
+  return `${decimalStr}${period}${floatStr}`;
 }
 
 /**
  * Get grant matching amount
- * @param {*} contributions 
+ * @param {*} contributions
  * @returns matching value
  */
 export const getMatching = (contributions) => {

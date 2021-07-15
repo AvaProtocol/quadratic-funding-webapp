@@ -19,7 +19,7 @@ import BannerWrapper, {
 import microsoft from 'common/assets/image/appModern/envato-icon.png';
 import bannerImg from 'common/assets/image/appModern/banner2.png';
 import circleBorder from 'common/assets/image/appModern/shape.svg';
-import { numberWithCommas } from 'common/utils';
+import { formatNumberThousands } from 'common/utils';
 
 const Banner = () => {
   const polkadotContext = useContext(PolkadotContext);
@@ -27,32 +27,34 @@ const Banner = () => {
 
   const onCreateGrantClicked = () => {
     window.open('https://8mu1f1dexqf.typeform.com/to/FF8ARJhs');
-  }
+  };
 
   const onParticipateClicked = () => {
     // Because of screen offset, we jump to the id, and it will be better.
     window.location.href = '#newsletterSection';
-  }
+  };
 
   return (
     <BannerWrapper id="home">
       <Container>
         <BannerContent>
-          <Fade up>
-            <RatingInfo>
-              <Rating rating={4} />
-              4.9 of 5 By <img src={microsoft} alt="Microsoft" />
-            </RatingInfo>
-          </Fade>
           <Fade up delay={100}>
-            <Heading as="h1" content="Quadratic Funding Program" />
+            <Heading as="h1" content="Polkadot Quadratic Funding Campaign" />
           </Fade>
           <Fade up delay={200}>
-            <Text content={`Current Block Number #${numberWithCommas(blockNumber)}`} />
+            <Text
+              content={`Current Block Number #${formatNumberThousands(
+                blockNumber
+              )}`}
+            />
           </Fade>
           <Fade up delay={300}>
             <ButtonGroup>
-              <Button className="primary" title="Participate" onClick={onParticipateClicked}/>
+              <Button
+                className="primary"
+                title="Participate"
+                onClick={onParticipateClicked}
+              />
               <Button
                 className="text"
                 variant="textButton"

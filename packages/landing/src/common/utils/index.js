@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { WsProvider, ApiPromise } from '@polkadot/api';
-import qfConfig from '../../quadraticFunding/config'
+import qfConfig from '../../quadraticFunding/config';
 
 /**
  * Ellipsis a address
@@ -49,7 +49,11 @@ export function formatNumberThousands(num) {
 
   const decimalStr = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const period = _.isUndefined(parts[1]) ? '' : '.';
-  const floatStr = _.isUndefined(parts[1]) ? '0' : parts[1].substr(0, 2);
+  const floatStr = _.isEmpty(period)
+    ? ''
+    : _.isUndefined(parts[1])
+    ? '0'
+    : parts[1].substr(0, 2);
 
   return `${decimalStr}${period}${floatStr}`;
 }
@@ -71,7 +75,7 @@ export const getMatching = (contributions) => {
 
 let web3Api = null;
 
-export const getWeb3Api = async() => {
+export const getWeb3Api = async () => {
   if (!web3Api) {
     const { endpoint, types } = qfConfig;
     const wsProvider = new WsProvider(endpoint);
@@ -81,4 +85,4 @@ export const getWeb3Api = async() => {
     });
   }
   return web3Api;
-}
+};

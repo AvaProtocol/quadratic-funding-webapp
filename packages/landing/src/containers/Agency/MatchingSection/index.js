@@ -225,25 +225,30 @@ const MatchingSection = ({ rid, account, onVote }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <InputNumber
-                      size="large"
-                      min={1}
-                      max={9999}
-                      defaultValue={10}
-                      value={voteAmount}
-                      onChange={(value) => {
-                        setVoteAmount(value);
-                      }}
-                    />
-                    <span style={{ marginLeft: 5 }}>OAK</span>
-
-                    <Button
-                      type="button"
-                      isLoading={isVoting}
-                      style={{ marginLeft: 20 }}
-                      title="Participate"
-                      onClick={onParticipateClicked}
-                    />
+                    <Row>
+                      <Col>
+                        <InputNumber
+                          size="large"
+                          min={1}
+                          max={9999}
+                          defaultValue={10}
+                          value={voteAmount}
+                          onChange={(value) => {
+                            setVoteAmount(value);
+                          }}
+                        />
+                        <span style={{ marginLeft: 5 }}>OAK</span>
+                      </Col>
+                      <Col>
+                        <Button
+                          type="button"
+                          isLoading={isVoting}
+                          style={{ marginLeft: 20 }}
+                          title="Participate"
+                          onClick={onParticipateClicked}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
                   <Col>
                     <span style={{ marginRight: 20 }}>

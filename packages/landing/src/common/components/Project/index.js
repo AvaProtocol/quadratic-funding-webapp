@@ -10,9 +10,9 @@ import ProjectStyle from './project.style';
 import { ellipsisAddress } from 'common/utils';
 import _ from 'lodash';
 import reduxHelper from 'redux/helper';
-import backend from 'common/backend'
+import backend from 'common/backend';
 import notificationHelper from 'common/utils/notification.helper';
-import { numberWithCommas } from 'common/utils';
+import { formatNumberThousands } from 'common/utils';
 
 const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   const {
@@ -28,8 +28,8 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
 
   const projectIndex = parseInt(project_index);
 
-  const [projectRecord, setProjectRecord] = useState({})
-  
+  const [projectRecord, setProjectRecord] = useState({});
+
   useEffect(async () => {
     const foundRecord = _.find(projectRecords, (projectRecord) => {
       return projectRecord.index === projectIndex;
@@ -50,14 +50,14 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
       data: {
         projectIndex,
         address: account,
-        isLike: _.isNil(likeAccount)
+        isLike: _.isNil(likeAccount),
       },
     });
 
     reduxHelper.getProjects();
-  }  
+  };
 
-  let likeText = "Like";
+  let likeText = 'Like';
   let likeAccount = null;
 
   // Because projectRecord dependes on requesting data from network
@@ -66,45 +66,54 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
     likeAccount = _.find(projectRecord.likes, (like) => {
       return like === account;
     });
-    
-    likeText = `${numberWithCommas(projectRecord.likes.length)} ${projectRecord.likes.length === 1 ? 'Like' : 'Likes'}`;
+
+    likeText = `${formatNumberThousands(projectRecord.likes.length)} ${
+      projectRecord.likes.length === 1 ? 'Like' : 'Likes'
+    }`;
   }
 
   return (
     <ProjectStyle {...props}>
-      <Link href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}>
+      <Link
+        href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}
+      >
+        <div>
           <div>
-              <div>
-                <span className="title">{name}</span>
-                <span className="description">{description}</span>
-              </div>
-              <div className="identity">
-                <div className="infomation">
-                  {/* <image className="photo"></image> */}
-                  {Icon}
-                  <div style={{ textAlign: 'left' }}>
-                    <span className="username">{`Creator: ${
-                      username || ellipsisAddress(owner)
-                    }`}</span>
-                    <span className="created">
-                      Created at block #{create_block_number}
-                    </span>
-                  </div>
-                </div>
-
-                <span className="creator">{socialElements}</span>
-
-                <div className="buttons">
-                  <Button
-                    type="button"
-                    icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
-                    title={likeText}
-                    onClick = {onLikeClicked}
-                  />
-                </div>
-              </div>
+            <span className="title">{name}</span>
+            <span className="description">{description}</span>
           </div>
-        </Link>
+          <div className="identity">
+            <div className="infomation">
+              {/* <image className="photo"></image> */}
+              {Icon}
+              <div style={{ textAlign: 'left' }}>
+                <span className="username">{`Creator: ${
+                  username || ellipsisAddress(owner)
+                }`}</span>
+                <span className="created">
+                  Created at block #{create_block_number}
+                </span>
+              </div>
+            </div>
+
+            <span className="creator">{socialElements}</span>
+
+            <div className="buttons">
+              <Button
+                type="button"
+                icon={
+                  <FontAwesomeIcon
+                    color={likeAccount ? 'red' : 'white'}
+                    icon={faThumbsUp}
+                  ></FontAwesomeIcon>
+                }
+                title={likeText}
+                onClick={onLikeClicked}
+              />
+            </div>
+          </div>
+        </div>
+      </Link>
     </ProjectStyle>
   );
 };

@@ -8,9 +8,7 @@ class QuadraticFunding {
 
   // Initial the Polkadot.js api promise
   async init() {
-    if (_.isEmpty(this.api)) {
-      this.api = await getWeb3Api();
-    }
+    this.api = await getWeb3Api();
   }
 
   // Storage Module

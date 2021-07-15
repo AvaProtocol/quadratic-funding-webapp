@@ -71,7 +71,7 @@ const Detail = () => {
             </Sticky>
             <ContentWrapper>
               <MatchingSection rid={rid} onVote={onVoted} />
-              <ProjectDetailSection />
+              <ProjectDetailSection rid={rid} />
               <CommentsSection projectIndex={pid} roundIndex={rid} voteRecords={voteRecords} />
             </ContentWrapper>
             <Footer />

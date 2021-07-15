@@ -20,7 +20,7 @@ const Transactions = ({ ...props }) => {
       }
 
       return (
-        <div style={{ border: '1px solid #ccc', marginTop: 10, padding: 10 }}>
+        <div key={timestamp} className='vote-row'>
           <div>user: {address}</div>
           <div>amnout: {amount} OAK</div>
           <div>datetime: {datetimeText}</div>

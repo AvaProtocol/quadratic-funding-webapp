@@ -73,10 +73,8 @@ const MatchingSection = ({ rid, account, onVote }) => {
       const { web3FromAddress, web3Enable } = await import(
         '@polkadot/extension-dapp'
       );
-      const { endpoint, types } = qfConfig;
-
       await web3Enable('quadratic-funding-webapp');
-      
+
       const injector = await web3FromAddress(account);
       const projectIndex = parseInt(
         polkadotContext.projectDetail.project_index
@@ -84,9 +82,34 @@ const MatchingSection = ({ rid, account, onVote }) => {
       const roundIndex = parseInt(rid);
 
       const api = await getWeb3Api();
-      const extrinsic = api.tx.quadraticFunding.contribute(projectIndex, voteAmount * 10**10);
-      extrinsic.signAndSend(account, { signer: injector.signer }, async (status) => {
-        if (status.status.isBroadcast) {
+      const extrinsic = api.tx.quadraticFunding.contribute(
+        projectIndex,
+        voteAmount * 10 ** 10
+      );
+      extrinsic
+        .signAndSend(account, { signer: injector.signer }, async (status) => {
+          if (status.status.isBroadcast) {
+            notification.open({
+              message: 'Processing',
+              description: `Your vote is processing.`,
+              top: 100,
+            });
+          }
+
+          if (!status.isFinalized) {
+            return;
+          }
+
+          await backend.getApp().callFunction({
+            name: 'vote',
+            data: {
+              address: account,
+              roundIndex,
+              projectIndex,
+              amount: voteAmount,
+            },
+          });
+
           notification.open({
             message: 'Vote successfully!',
             description: `Your ${voteAmount} OAK vote has been successful. Thanks!`,

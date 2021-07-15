@@ -1,48 +1,62 @@
+import React from 'react';
 import { closeModal } from '@redq/reuse-modal';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import ModalStyle from './modal.style';
-import Button from 'common/components/Button';
+import { Row, Col } from 'antd';
 
-const AccountSelectionModal = ({addresses, onClick, ...props}) => {
-
+const AccountSelectionModal = ({ addresses, onClick, ...props }) => {
   const onAddressRowClicked = (address) => {
     closeModal();
     onClick(address);
-  }
+  };
 
-  const onCommentClicked = () => {
+  const onCloseClicked = () => {
     closeModal();
-  }
-
-  if (_.isEmpty(addresses)) {
-    return (
-      <ModalStyle {...props}>
-        <div className='titleRow noWallet'>No wallet</div>
-        <div className='content'>Please install <a href='https://polkadot.js.org/extension/'>Polkadot{'\u007B'}.js{'\u007d'} extension</a>, and create wallet.</div>
-        <Button className='button' title="OK" onClick={onCommentClicked}></Button>
-      </ModalStyle>
-    );
-  }
-
-  const addressList = _.map(addresses, (address) => {
-    return (
-      <div
-        key={address}
-        className='addressRow'
-        onClick={() => onAddressRowClicked(address)}>
-        <span>{address}</span>
-      </div>
-    );
-  });
+  };
 
   return (
     <ModalStyle {...props}>
-      <div className='titleRow'>Select a wallet address:</div>
-      <div className='addressList'>{addressList}</div>
+      <Row>
+        <Col span={24} style={{ marginBottom: 12 }}>
+          <h2 className="model-title">
+            {_.isEmpty(addresses)
+              ? 'No wallet extension found'
+              : 'Please select a wallet'}
+          </h2>
+        </Col>
+        <Col span={24} className="modal-list" style={{ marginBottom: 24 }}>
+          {_.isEmpty(addresses) ? (
+            <div className="modal-text">
+              Please install Chrome Plugin{' '}
+              <a href="https://polkadot.js.org/extension/">
+                Polkadot{'\u007B'}.js{'\u007d'} extension
+              </a>
+              , and create a wallet in order to use this app.
+            </div>
+          ) : (
+            <Row>
+              {_.map(addresses, (address) => (
+                <Col
+                  span={24}
+                  key={address}
+                  onClick={() => onAddressRowClicked(address)}
+                >
+                  {address}
+                </Col>
+              ))}
+            </Row>
+          )}
+        </Col>
+        <Col span={24}>
+          <a href={null} className="modal-btn-close" onClick={onCloseClicked}>
+            Close
+          </a>
+        </Col>
+      </Row>
     </ModalStyle>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   account: state.account,
@@ -52,5 +66,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(AccountSelectionModal);
 
 export const CloseComponent = () => {
-  return (<div />);
-}
+  return <div />;
+};

@@ -196,7 +196,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
         {loading ? (
           <Spin size="large" />
         ) : (
-          <Row>
+          <Row gutter={{ xs: 12, lg: 36 }}>
             <Col xs={24} lg={12}>
               <div className="block basic-info">
                 <div className="count-down">
@@ -224,10 +224,17 @@ const MatchingSection = ({ rid, account, onVote }) => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
+                  <Col span={24}>
                     <Row>
-                      <Col>
+                      <Col span={16}>
                         <InputNumber
+                          style={{
+                            height: '3rem',
+                            lineHeight: '3rem',
+                            width: '80%',
+                            marginRight: '1rem',
+                            fontSize: '1.2rem',
+                          }}
                           size="large"
                           min={1}
                           max={9999}
@@ -239,20 +246,24 @@ const MatchingSection = ({ rid, account, onVote }) => {
                         />
                         <span style={{ marginLeft: 5 }}>OAK</span>
                       </Col>
-                      <Col>
+                      <Col span={8} style={{ textAlign: 'right' }}>
                         <Button
                           type="button"
                           isLoading={isVoting}
-                          style={{ marginLeft: 20 }}
+                          style={{
+                            height: '3rem',
+                            lineHeight: '3rem',
+                            fontSize: '1.2rem',
+                          }}
                           title="Participate"
                           onClick={onParticipateClicked}
                         />
                       </Col>
                     </Row>
                   </Col>
-                  <Col>
-                    <span style={{ marginRight: 20 }}>
-                      Estimated matching:{' '}
+                  <Col span={24} style={{ marginTop: '1rem' }}>
+                    <span>Estimated matching: </span>
+                    <span style={{ marginRight: 20, color: 'black' }}>
                       {formatNumberThousands(
                         getEstimatedMatching(account, voteAmount)
                       )}{' '}
@@ -264,10 +275,8 @@ const MatchingSection = ({ rid, account, onVote }) => {
             </Col>
 
             <Col xs={24} lg={12}>
-              <div className="block">
-                <div className="carousell">
-                  <MatchingCarousel />
-                </div>
+              <div className="carousell">
+                <MatchingCarousel />
               </div>
             </Col>
           </Row>

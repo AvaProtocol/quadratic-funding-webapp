@@ -5,19 +5,18 @@ import img2 from '../../../common/assets/image/carousell/2.png';
 import 'antd/dist/antd.css';
 
 const contentStyle = {
-  height: '300x',
-  width: 640,
-  color: '#fff',
-  lineHeight: '300px',
-  textAlign: 'center',
-  background: '#364d79',
+  height: '500px',
+  width: '100%',
+  backgroundImage: `url(${img1})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
 };
 
 const MatchingCarousel = () => {
   return (
-    <Carousel style={{ width: '640px', height: '300px' }}>
+    <Carousel autoplay effect="fade" style={{ width: '100%', height: '500px' }}>
       <div>
-        <img style={contentStyle} src={img1} alt="" />
+        <div style={contentStyle} />
       </div>
       <div>
         <img style={contentStyle} src={img2} alt="" />

@@ -60,13 +60,9 @@ const MatchingWrapper = styled.section`
   }
 
   .carousell {
-    display: flex;
     background-color: rgba(237, 237, 240);
-    height: 300px;
-    width: 640px;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+    height: 500px;
+    width: 100%;
   }
 
   .create-project {

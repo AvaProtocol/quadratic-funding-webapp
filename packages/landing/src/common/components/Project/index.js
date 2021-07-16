@@ -100,7 +100,7 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
                 </Col>
                 <Col span={24}>
                   <span>Created Block No.: #{create_block_number}</span>
-                </Col>
+                </Col> 
               </Row>
             </Col>
           </Row>

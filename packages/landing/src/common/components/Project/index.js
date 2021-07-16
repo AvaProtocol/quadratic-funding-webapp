@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
+import { Row, Col } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as faThumbsUpSolid } from '@fortawesome/free-solid-svg-icons';
+// import { faThumbsUp} from '@fortawesome/pro-light-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import Button from 'common/components/Button';
 
 import ProjectStyle from './project.style';
@@ -20,7 +23,6 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
     description,
     project_index,
     owner,
-    socialElements,
     username,
     create_block_number,
     roundId,
@@ -50,7 +52,7 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
       data: {
         projectIndex,
         address: account,
-        isLike: _.isNil(likeAccount),
+        isLike: _.isNil(isLiked),
       },
     });
 
@@ -58,13 +60,13 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   };
 
   let likeText = 'Like';
-  let likeAccount = null;
+  let isLiked = null;
 
   // Because projectRecord dependes on requesting data from network
   // So We must check it
   if (projectRecord && !_.isEmpty(projectRecord.likes)) {
-    likeAccount = _.find(projectRecord.likes, (like) => {
-      return like === account;
+    isLiked = _.find(projectRecord.likes, (item) => {
+      return item === account;
     });
 
     likeText = `${formatNumberThousands(projectRecord.likes.length)} ${
@@ -78,40 +80,44 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
         href={{ pathname: `/detail/${project_index}`, query: { rid: roundId } }}
       >
         <div>
-          <div>
-            <span className="title">{name}</span>
-            <span className="description">{description}</span>
-          </div>
-          <div className="identity">
-            <div className="infomation">
-              {/* <image className="photo"></image> */}
-              {Icon}
-              <div style={{ textAlign: 'left' }}>
-                <span className="username">{`Creator: ${
-                  username || ellipsisAddress(owner)
-                }`}</span>
-                <span className="created">
-                  Created at block #{create_block_number}
-                </span>
-              </div>
-            </div>
-
-            <span className="creator">{socialElements}</span>
-
-            <div className="buttons">
-              <Button
-                type="button"
-                icon={
+          <Row className="title" justify="center">
+            <span>{_.truncate(name, { length: 26, omission: ' ' })}</span>
+          </Row>
+          <Row className="description">
+            <span>
+              {_.truncate(description, { length: 190, omission: ' [...]' })}
+            </span>
+          </Row>
+          <Row className="attribute">
+            <Col span={8}>{Icon}</Col>
+            <Col span={16}>
+              <Row>
+                <Col span={24}>
+                  <span>Creator:</span>
+                </Col>
+                <Col span={24}>
+                  <span>{username || ellipsisAddress(owner)}</span>
+                </Col>
+                <Col span={24}>
+                  <span>Created Block No.: #{create_block_number}</span>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="action" justify="end">
+            <div className="action-btn" onClick={onLikeClicked}>
+              <Row justify="space-around" align="middle">
+                <Col>
+                  <span>{likeText}</span>
+                </Col>
+                <Col>
                   <FontAwesomeIcon
-                    color={likeAccount ? 'red' : 'white'}
-                    icon={faThumbsUp}
+                    icon={isLiked ? faThumbsUpSolid : faThumbsUp}
                   ></FontAwesomeIcon>
-                }
-                title={likeText}
-                onClick={onLikeClicked}
-              />
+                </Col>
+              </Row>
             </div>
-          </div>
+          </Row>
         </div>
       </Link>
     </ProjectStyle>

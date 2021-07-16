@@ -198,8 +198,12 @@ const ProjectSection = ({
                     style={{ marginBottom: '36px' }}
                   >
                     <FeatureBlock
-                      style={{ border: '1px #ddd solid' }}
-                      icon={<i className="flaticon-atom" />}
+                      style={{
+                        border: '1px solid rgb(241, 244, 246)',
+                        borderRadius: 5,
+                        transition: 'all 0.3s ease 0s',
+                      }}
+                      icon={<i className="" />}
                       wrapperStyle={blockWrapperStyle}
                       iconStyle={iconStyle}
                       contentStyle={contentStyle}
@@ -246,15 +250,10 @@ ProjectSection.defaultProps = {
     mb: '0',
   },
   // feature row default style
-  row: {
-    flexBox: true,
-    flexWrap: 'wrap',
-  },
+  row: {},
   // feature col default style
   col: {
     width: [1, 1 / 2, 1 / 2, 1 / 3],
-    borderLeft: '1px solid #f1f4f6',
-    borderBottom: '1px solid #f1f4f6',
   },
   // feature block wrapper default style
   blockWrapperStyle: {
@@ -262,18 +261,13 @@ ProjectSection.defaultProps = {
   },
   // feature icon default style
   iconStyle: {
-    width: '84px',
-    height: '84px',
-    m: '0 auto',
+    width: '75px',
+    height: '75px',
     borderRadius: '50%',
-    bg: '#93d26e',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '36px',
-    color: '#ffffff',
     overflow: 'hidden',
-    mb: '30px',
   },
   // feature content default style
   contentStyle: {

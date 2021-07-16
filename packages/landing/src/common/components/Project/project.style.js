@@ -1,89 +1,44 @@
 import styled from 'styled-components';
 
 const ProjectStyle = styled.a`
-  /* Project default style goes here */
-  display: flex;
-  flex-direction: column;
-  // background-color: rgba(237, 237, 240);
-  // border-radius: 20px;
-  padding: 20px;
-  margin: -30px;
-  // border: 1px solid rgba(237, 237, 240);
-  color: black;
-
-  &:hover {
-    // border: 1px solid #10ac84;
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
+  font-size: 1.1rem;
+  color: rgb(110, 115, 121);
+  text-align: left;
 
   .title {
-    align-self: center;
-    font-size: 30px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 24px;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .description {
-    align-self: center;
-    margin-top: 20px;
+    margin-bottom: 24px;
+    min-height: 9rem;
   }
 
-  .identity {
-    width: 100%;
+  .attribute {
+    font-size: 1rem;
+    margin-bottom: 36px;
   }
 
-  .infomation {
-    flex-direction: row;
-    align-items: flex-end;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #f1f4f6;
+  .action {
+    text-align: right;
   }
 
-  .photo {
-    border-radius: 10px;
-    width: 70px;
-    height: 70px;
-    border: 1px solid black;
-  }
-
-  .username {
-    margin-left: 20px;
-  }
-
-  .created {
-    margin-top: 5px;
-    margin-left: 20px;
-  }
-
-  .creator {
-    margin-top: 20px;
-    text-align: left;
-  }
-
-  div.buttons {
-    margin-top: 20px;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  .button {
-    border: 0;
-    margin-left: 10px;
-  }
-
-  .button-text {
-    margin-left: 5px;
+  .action-btn {
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 12px 20px;
+    min-height: 42px;
+    width: 8rem;
+    background-color: rgb(209, 57, 124);
+    transition: all 0.3s ease 0s;
+    color: white;
   }
 
   @media only screen and (max-width: 600px) {
-    .identity {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
     .username {
       margin-left: 0px;
       margin-top: 10px;

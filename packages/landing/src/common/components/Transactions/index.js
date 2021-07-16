@@ -7,7 +7,7 @@ const Transactions = ({ ...props }) => {
   const { voteRecords } = props;
 
   const getVoteList = (votes) => {
-    return _.map(votes, (vote) => {
+    return _.map( _.orderBy(votes, ['timestamp'], ['desc']), (vote) => {
       const { address, amount, timestamp } = vote;
 
       const datetime = moment(timestamp);

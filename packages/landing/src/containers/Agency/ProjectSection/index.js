@@ -192,7 +192,6 @@ const ProjectSection = ({
 
             <Row {...row} gutter={36}>
               {roundProjects.map((project, index) => {
-                console.log("project", project);
                 return (
                   <Col
                     {...col}

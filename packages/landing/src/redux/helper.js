@@ -13,7 +13,6 @@ class ReduxHelper {
 
   async getProjects() {
     const projects = await backend.getProjects();
-    console.log('getProjects, projects: ', projects);
     this.store.dispatch(actions.setProjects(projects));
   }
 }

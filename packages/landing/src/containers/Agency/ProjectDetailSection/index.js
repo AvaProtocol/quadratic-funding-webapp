@@ -72,8 +72,6 @@ const ProjectDetailSection = ({projectRecords, account}) => {
     reduxHelper.getProjects();
   }
 
-  console.log("projectDetail",projectDetail);
-
   const socialMedias=[faTwitter, faDiscord,faTelegram,faGithubSquare];
 
   const teamMembers= [{

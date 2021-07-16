@@ -33,7 +33,6 @@ const Detail = () => {
       roundIndex: parseInt(rid),
     }).get();
 
-    console.log('result.data: ', result.data);
     setVoteRecords(result.data);
   }
 

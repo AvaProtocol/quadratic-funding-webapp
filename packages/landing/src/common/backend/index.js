@@ -24,7 +24,6 @@ class BackEnd {
 
   async getProjects () {
     const result = await this.getDatabase().collection("projects").get();
-    console.log('result: ', result);
     return result.data;
   }
 }

@@ -38,8 +38,6 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   const onLikeClicked = async (event) => {
     event.stopPropagation();
 
-    console.log("onLikeClicked is called");
-
     if (_.isEmpty(account)) {
       notificationHelper.showNoWalletNotification();
       return;

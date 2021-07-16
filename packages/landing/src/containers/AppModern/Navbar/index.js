@@ -19,7 +19,6 @@ import NavbarWrapper, { MenuArea, MobileMenu } from './navbar.style';
 const truncateMiddle = require('truncate-middle');
 
 const Navbar = ({ isLight, account, setAccount }) => {
-  console.log('Navbar, account: ', account);
   const { navMenu } = navbar;
   const [state, setState] = useState({
     search: '',

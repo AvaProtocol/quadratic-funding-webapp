@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+
 import _ from 'lodash';
-import { Spin } from 'antd';
+import { Row, Col, Spin } from 'antd';
 
 import Container from 'common/components/UI/Container';
 import LineCharts from 'common/components/LineCharts';
 import GroupedBar from 'common/components/GroupedBar';
-import Button from 'common/components/Button';
+import ButtonLike from 'common/components/ButtonLike';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import { ellipsisAddress } from 'common/utils';
 import reduxHelper from '../../../redux/helper';
@@ -38,12 +37,9 @@ const ProjectDetailSection = ({projectRecords, account}) => {
     setProjectRecord(foundRecord);
   }, [projectRecords, polkadotContext.projectDetail]);
 
-  let likeAccount = null;
-  if (projectRecord) {
-    likeAccount = _.find(projectRecord.likes, (like) => {
-      return like === account;
-    });
-  }
+  const isLiked = !_.isUndefined(_.find(projectRecord && projectRecord.likes, (item) => {
+    return item === account;
+  }));
   
   const onLikeClicked = async () => {
     if (_.isEmpty(account)) {
@@ -61,20 +57,11 @@ const ProjectDetailSection = ({projectRecords, account}) => {
       data: {
         projectIndex,
         address: account,
-        isLike: _.isNil(likeAccount)
+        isLike: !isLiked,
       }
     });
 
     reduxHelper.getProjects();
-  }
-
-  let likeText = "Like";
-  if (projectRecord && !_.isEmpty(projectRecord.likes)) {
-    if (projectRecord.likes.length === 1){
-      likeText = `${projectRecord.likes.length} Like`;
-    } else {
-      likeText = `${projectRecord.likes.length} Likes`;
-    }
   }
 
   return (
@@ -88,14 +75,7 @@ const ProjectDetailSection = ({projectRecords, account}) => {
               <span style={{ fontSize: 30, fontWeight: 'bold' }}>
                 Project Details
               </span>
-              <div className="buttons">
-                <Button
-                  type="button"
-                  icon={<FontAwesomeIcon color={ likeAccount ? 'red' : 'white' } icon={faThumbsUp}></FontAwesomeIcon>}
-                  title={likeText}
-                  onClick={onLikeClicked}
-                />
-              </div>
+              <ButtonLike likeCount={projectRecord && projectRecord.likes && projectRecord.likes.length} isLiked={isLiked} onClick={onLikeClicked} />
             </div>
 
             <div className="content">
@@ -103,7 +83,7 @@ const ProjectDetailSection = ({projectRecords, account}) => {
               <span className="mt-15">
                 {projectDetail.username || ellipsisAddress(projectDetail.owner)}{' '}
                 at block #{projectDetail.create_block_number}
-                <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank">
+                <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank" rel="noreferrer">
                   View on Subscan
                 </a>
               </span>

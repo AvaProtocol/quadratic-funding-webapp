@@ -3,11 +3,7 @@ import Link from 'next/link';
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp as faThumbsUpSolid } from '@fortawesome/free-solid-svg-icons';
-// import { faThumbsUp} from '@fortawesome/pro-light-svg-icons';
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
-import Button from 'common/components/Button';
+import ButtonLike from 'common/components/ButtonLike';
 
 import ProjectStyle from './project.style';
 import { ellipsisAddress } from 'common/utils';
@@ -42,37 +38,28 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
   const onLikeClicked = async (event) => {
     event.stopPropagation();
 
+    console.log("onLikeClicked is called");
+
     if (_.isEmpty(account)) {
       notificationHelper.showNoWalletNotification();
       return;
     }
 
-    const result = await backend.getApp().callFunction({
+    await backend.getApp().callFunction({
       name: 'like',
       data: {
         projectIndex,
         address: account,
-        isLike: _.isNil(isLiked),
+        isLike: !isLiked,
       },
     });
 
     reduxHelper.getProjects();
   };
 
-  let likeText = 'Like';
-  let isLiked = null;
-
-  // Because projectRecord dependes on requesting data from network
-  // So We must check it
-  if (projectRecord && !_.isEmpty(projectRecord.likes)) {
-    isLiked = _.find(projectRecord.likes, (item) => {
-      return item === account;
-    });
-
-    likeText = `${formatNumberThousands(projectRecord.likes.length)} ${
-      projectRecord.likes.length === 1 ? 'Like' : 'Likes'
-    }`;
-  }
+  const isLiked = !_.isUndefined(_.find(projectRecord && projectRecord.likes, (item) => {
+    return item === account;
+  }));
 
   return (
     <ProjectStyle {...props}>
@@ -105,18 +92,7 @@ const Project = ({ project, Icon, projectRecords, account, ...props }) => {
             </Col>
           </Row>
           <Row className="action" justify="end">
-            <div className="action-btn" onClick={onLikeClicked}>
-              <Row justify="space-around" align="middle">
-                <Col>
-                  <span>{likeText}</span>
-                </Col>
-                <Col>
-                  <FontAwesomeIcon
-                    icon={isLiked ? faThumbsUpSolid : faThumbsUp}
-                  ></FontAwesomeIcon>
-                </Col>
-              </Row>
-            </div>
+            <ButtonLike likeCount={projectRecord && projectRecord.likes && projectRecord.likes.length} isLiked={isLiked} onClick={onLikeClicked} />
           </Row>
         </div>
       </Link>

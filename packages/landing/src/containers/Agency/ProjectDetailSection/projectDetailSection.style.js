@@ -12,9 +12,26 @@ const ProjectDetailWrapper = styled.section`
   }
 
   .content {
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
+    margin-bottom: 24px;
+
+    >* {
+      margin-bottom: 18px;
+    }
+  }
+
+  .social-media {
+    color: rgb(209,57,124);
+    margin-bottom: 36px;
+
+    >*{
+      margin-right: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover{
+        transform: scale(1.2);
+      }
+    }
   }
 
   div.buttons {
@@ -68,6 +85,28 @@ const ProjectDetailWrapper = styled.section`
     display: flex;
     flex-direction: row;
     margin-top: 30px;
+    margin-bottom: 30px;
+
+    >*{
+      margin-bottom: 18px;
+    }
+
+    .member-profile{
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: contain;
+    }
+    .member-name{
+      font-size: 1.2rem;
+      font-weight: 500;
+      color:rgba(0, 0, 0, 0.85);
+      margin-bottom: 12px;
+    }
+    .member-role{
+      font-weight: 500;
+    }
   }
 
   .member {
@@ -76,13 +115,6 @@ const ProjectDetailWrapper = styled.section`
     margin-right: 30px;
     align-items: center;
     max-width: 100px;
-  }
-
-  .photo {
-    border-radius: 10px;
-    width: 70px;
-    height: 70px;
-    border: 1px solid black;
   }
 
   // @media only screen and (max-width: 1440px) {

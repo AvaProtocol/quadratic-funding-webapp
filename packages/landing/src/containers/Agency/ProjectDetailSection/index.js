@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Row, Col, Spin } from 'antd';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faTwitter, faDiscord,faTelegram,faGithubSquare} from '@fortawesome/free-brands-svg-icons';
+
 import Container from 'common/components/UI/Container';
 import LineCharts from 'common/components/LineCharts';
 import GroupedBar from 'common/components/GroupedBar';
@@ -14,6 +17,11 @@ import reduxHelper from '../../../redux/helper';
 import backend from '../../../common/backend';
 import notificationHelper from '../../../common/utils/notification.helper';
 import ProjectDetailWrapper from './projectDetailSection.style';
+
+import member1 from 'common/assets/image/person/1.png';
+import member2 from 'common/assets/image/person/2.png';
+import member3 from 'common/assets/image/person/3.png';
+
 
 const ProjectDetailSection = ({projectRecords, account}) => {
   const polkadotContext = useContext(PolkadotContext);
@@ -64,6 +72,27 @@ const ProjectDetailSection = ({projectRecords, account}) => {
     reduxHelper.getProjects();
   }
 
+  console.log("projectDetail",projectDetail);
+
+  const socialMedias=[faTwitter, faDiscord,faTelegram,faGithubSquare];
+
+  const teamMembers= [{
+    name: "Kyle Broflovski",
+    role: "Core Rust developer",
+    img: member1,
+  },
+  {
+    name: "Stan Marsh",
+    role: "Chief UI Designer",
+    img: member2,
+  },
+  {
+    name: "Eric Cartman",
+    role: "Chief Entertainment Officer",
+    img: member3,
+  }
+];
+
   return (
     <ProjectDetailWrapper>
       <Container>
@@ -71,69 +100,65 @@ const ProjectDetailSection = ({projectRecords, account}) => {
           <Spin size="large"></Spin>
         ) : (
           <>
-            <div className="title">
-              <span style={{ fontSize: 30, fontWeight: 'bold' }}>
+            <Row className="title">
+              <h2>
                 Project Details
-              </span>
+              </h2>
               <ButtonLike likeCount={projectRecord && projectRecord.likes && projectRecord.likes.length} isLiked={isLiked} onClick={onLikeClicked} />
-            </div>
+            </Row>
 
-            <div className="content">
-              <span style={{ fontSize: 14 }}>Created by</span>
-              <span className="mt-15">
-                {projectDetail.username || ellipsisAddress(projectDetail.owner)}{' '}
-                at block #{projectDetail.create_block_number}
-                <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank" rel="noreferrer">
-                  View on Subscan
-                </a>
-              </span>
-
-              <span className="mt-30">{projectDetail.description}</span>
-
-              <div
-                style={{
-                  display: 'flex',
-                  marginTop: '15px',
-                  flexDirection: 'column',
-                }}
-              >
-                {_.map(projectDetail.contents, (content) => {
-                  return <span className="mt-15">{projectDetail.content}</span>;
-                })}
-              </div>
-
-              <div className="mt-15">
-                {_.map(projectDetail.socialMedia, (social) => {
-                  return (
-                    <div className="mt-15">
-                      <FontAwesomeIcon icon={social.icon}></FontAwesomeIcon>
-                      <span className="ml-10">{social.link}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="charts">
+            <Row className="content">
+              <Col span={24}><span>Created by</span></Col>
+              <Col span={24}><span>
+                  {projectDetail.username || ellipsisAddress(projectDetail.owner)}{' '}
+                  at block #{projectDetail.create_block_number}
+                  <a style={{ marginLeft: '30px' }} href={`https://polkadot.subscan.io/account/${projectDetail.owner}`} target="_blank" rel="noreferrer">
+                    View on Subscan
+                  </a>
+                </span>
+                </Col>
+                <Col span={24}><span >{projectDetail.description}</span></Col>
+              </Row>
+              <Row className="social-media">
+                {_.map(socialMedias, (item, index)=><FontAwesomeIcon key={`social-media-${index}`} icon={item} size="lg"></FontAwesomeIcon>)}
+              </Row>
+              <Row className="charts">
+                <Col span={24}>
+                    <h2>
+                      Contribution Chart
+                    </h2>
+                  </Col>
                 <LineCharts className="chart" />
 
                 <GroupedBar className="chart" />
-              </div>
+              </Row>
 
-              <span className="mt-30">Team Members</span>
-              <div className="team-members">
-                {_.map(projectDetail.teamMembers, (member) => {
-                  return (
-                    <div className="member">
-                      {/* <image className="photo"></image> */}
-                      <span className="mt-10 text-center">{member.name}</span>
-                      <span className="mt-10 text-center">
-                        {member.experience}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+              <Row className="team-members">
+                <Col span={24}>
+                  <h2>
+                    Team Members
+                  </h2>
+                </Col>
+                <Col span={24}>
+                  <Row>
+                    {_.map(teamMembers, (item, index)=> 
+                    <Col span={8} key={`team-member-${index}`}>
+                      <Row align="middle">
+                        <Col span={8}>
+                          <div className="member-profile" style={{ backgroundImage: `url(${item.img})` }}></div>
+                        </Col>
+                        <Col span={16}>
+                          <Row>
+                            <Col span={24} className="member-name"><span>{item.name}</span></Col>
+                            <Col span={24} className="member-role"><span>{item.role}</span></Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    )}
+                  </Row>
+                </Col>
+              </Row>
           </>
         )}
       </Container>

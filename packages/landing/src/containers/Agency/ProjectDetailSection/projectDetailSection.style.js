@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 const ProjectDetailWrapper = styled.section`
+  font-size: 1.1rem;
+  color: rgb(110, 115, 121);
+  text-align: left;
+
   .title {
     display: flex;
     align-items: center;

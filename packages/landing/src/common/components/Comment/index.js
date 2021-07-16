@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import Jdenticon from 'react-jdenticon';
 import CommentStyle from './comment.style';
+import Identicon from '@polkadot/react-identicon';
 
 const truncateMiddle = require('truncate-middle');
 
@@ -28,7 +28,7 @@ const Comment = ({ ...props }) => {
           marginRight: 20,
         }}
       >
-        <Jdenticon className="photo" size='70' value={user} />
+        <Identicon value={user} size={70} theme="polkadot" />
         <span style={{ marginTop: 10 }}>{truncateMiddle(user, 4, 4, '...')}</span>
       </div>
 

@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH, faSearch } from '@fortawesome/pro-light-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import Identicon from '@polkadot/react-identicon';
+
 import _ from 'lodash';
 import { Row, Col, Spin, Select } from 'antd';
 import Box from 'common/components/Box';
@@ -190,6 +192,7 @@ const ProjectSection = ({
 
             <Row {...row} gutter={36}>
               {roundProjects.map((project, index) => {
+                console.log("project", project);
                 return (
                   <Col
                     {...col}
@@ -203,7 +206,7 @@ const ProjectSection = ({
                         borderRadius: 5,
                         transition: 'all 0.3s ease 0s',
                       }}
-                      icon={<i className="" />}
+                      icon={ <Identicon value={project.owner} size={75} theme="polkadot" />}
                       wrapperStyle={blockWrapperStyle}
                       iconStyle={iconStyle}
                       contentStyle={contentStyle}

@@ -34,42 +34,6 @@ const ProjectDetailWrapper = styled.section`
     }
   }
 
-  div.buttons {
-    margin-top: 20px;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  .button {
-    border: 0;
-    margin-left: 10px;
-    background-color: white;
-  }
-
-  .ml-5 {
-    margin-left: 5px;
-  }
-
-  .mt-10 {
-    margin-top: 10px;
-  }
-
-  .mt-15 {
-    margin-top: 15px;
-  }
-
-  .mt-30 {
-    margin-top: 30px;
-  }
-
-  .ml-10 {
-    margin-left: 10px;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
   .charts {
     margin-top: 30px;
     display: flex;
@@ -107,14 +71,6 @@ const ProjectDetailWrapper = styled.section`
     .member-role{
       font-weight: 500;
     }
-  }
-
-  .member {
-    display: flex;
-    flex-direction: column;
-    margin-right: 30px;
-    align-items: center;
-    max-width: 100px;
   }
 
   // @media only screen and (max-width: 1440px) {

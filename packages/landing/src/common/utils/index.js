@@ -22,11 +22,17 @@ export const ellipsisAddress = (address, showLength = 8) => {
   )}`;
 };
 
-// Format unit to OAK number
+/**
+ * Format unit to OAK number
+ * 1 kOAK = 1000 OAK
+ * 1 MOAK = 1000000 OAK
+ * @param {string} unit, for example, 7 kOAK
+ * @returns
+ */
 export const unitToNumber = (unit) => {
   const arrs = unit.split(' ');
   let magnification = 1;
-  if (arrs[1] === 'KOAK') {
+  if (arrs[1] === 'kOAK') {
     magnification = 1000;
   } else if (arrs[1] === 'MOAK') {
     magnification = 1000000;

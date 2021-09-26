@@ -25,9 +25,10 @@ const LineCharts = (props) => {
 
     // Find votes of project
     const votes = result.data;
-    const projectVotes = _.filter(votes, (vote) => {
-      return vote.projectIndex === projectIndex;
-    });
+    const projectVotes = _.filter(
+      votes,
+      (vote) => vote.projectIndex === projectIndex
+    );
 
     if (_.isEmpty(projectVotes)) {
       return;

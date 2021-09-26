@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { connect } from 'react-redux';
 import { Line } from '@reactchartjs/react-chart.js';
 import LineChartsStyle from './lineCharts.style';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
@@ -106,13 +105,4 @@ const LineCharts = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  account: state.account,
-  projectRecords: state.projects,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setAccount: (account) => dispatch(actions.setAccount(account)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LineCharts);
+export default LineCharts;

@@ -4,6 +4,9 @@ const withFonts = require('next-fonts');
 
 const nextConfig = {
   // distDir: '../../dist/functions/next'
+  images: {
+    disableStaticImages: true,
+  },
 };
 
 module.exports = withPlugins(

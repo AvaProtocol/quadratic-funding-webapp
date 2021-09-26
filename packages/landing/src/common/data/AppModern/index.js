@@ -466,9 +466,10 @@ export const footer = {
     {
       id: 1,
       icon: chat,
-      title: 'Join the Community',
+      title: 'Follow the News',
       description:
-        'To learn more about OAK Network, please check out our Github, and follow our news on Medium and Twitter.',
+        'To learn more about OAK Network, please check out our Medium blogs for the latest news.',
+      link: 'https://medium.com/oak-blockchain',
     },
     {
       id: 2,
@@ -476,6 +477,7 @@ export const footer = {
       title: 'Join in Chats',
       description:
         'Enagage with thousands of community members in our OAK Discord Channel, or WeChat Chinese groups.',
+      link: 'https://discord.gg/7W9UDvsbwh',
     },
     {
       id: 3,

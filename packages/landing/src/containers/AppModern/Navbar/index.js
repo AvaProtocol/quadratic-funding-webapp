@@ -146,7 +146,11 @@ const Navbar = ({ isLight, account, setAccount }) => {
           <Button
             style={{ marginLeft: 20 }}
             title="Tutorial"
-            onClick={() => openOutterLink('https://docs.oak.tech/')}
+            onClick={() =>
+              openOutterLink(
+                'https://medium.com/oak-blockchain/user-tutorial-of-oaks-hackathon-winning-quadratic-funding-dapp-f484fe6a506f'
+              )
+            }
           />
           <Button
             style={{ marginLeft: 20 }}

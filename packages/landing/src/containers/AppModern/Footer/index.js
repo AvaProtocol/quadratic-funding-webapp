@@ -29,7 +29,13 @@ const Footer = () => {
       <Container>
         <WidgetArea>
           {widgets.map((item) => (
-            <a className="col" key={`footer-widget--key${item.id}`} href={item.link}>
+            <a
+              className="col"
+              key={`footer-widget--key${item.id}`}
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Image src={item.icon} alt={item.title} />
               <Heading as="h3" content={item.title} />
               <Text content={item.description} />
@@ -47,7 +53,7 @@ const Footer = () => {
           <Menu>
             {menu.map((item) => (
               <MenuItem key={`footer-link${item.id}`}>
-                <span className='menu-link'>{item.text}</span>
+                <span className="menu-link">{item.text}</span>
               </MenuItem>
             ))}
           </Menu>
@@ -74,7 +80,18 @@ const Footer = () => {
                   );
                 case 'wechat':
                   return (
-                    <Popover key={name} content={<CloudImage style={{ width: 160, height: 160 }} className="wechat-qrcode" cloudName={config.cloudName} version={config.cloudVersion} publicId="OAK/socialMedia/wechat" />}>
+                    <Popover
+                      key={name}
+                      content={
+                        <CloudImage
+                          style={{ width: 160, height: 160 }}
+                          className="wechat-qrcode"
+                          cloudName={config.cloudName}
+                          version={config.cloudVersion}
+                          publicId="OAK/socialMedia/wechat"
+                        />
+                      }
+                    >
                       <a className="third-link text-storm gr-hover-text-primary">
                         <FontAwesomeIcon
                           className="icon-gray"

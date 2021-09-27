@@ -9,6 +9,7 @@ import config from '../../../config';
 const { oak } = config;
 
 const Contributors = ({ contributions, ...props }) => {
+  // In the data structure on the blockchain, the latest contribution is at the end of the list, and the reverse is to make the latest contribution appear at the top of the interface list.
   const reverseContributions = _.reverse(_.clone(contributions));
   return (
     <ContributorsStyle {...props}>

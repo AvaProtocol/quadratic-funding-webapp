@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Bar } from '@reactchartjs/react-chart.js'
+import { Bar } from 'react-chartjs-2'
 
 const data = {
   labels: ['1', '2', '3', '4', '5', '6'],

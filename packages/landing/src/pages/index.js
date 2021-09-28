@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'common/theme/appModern';
@@ -44,7 +43,7 @@ const AppModern = () => {
           {/* start app classic landing */}
           <AppWrapper>
             <Sticky top={0} innerZ={9999} activeClass="sticky-active">
-              <Navbar isLight={true}/>
+              <Navbar isLight={true} />
             </Sticky>
             <ContentWrapper>
               <Banner />
@@ -61,5 +60,3 @@ const AppModern = () => {
 };
 
 export default AppModern;
-
-

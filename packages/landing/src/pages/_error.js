@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Head from 'next/head';
 import ErrorSec from 'containers/Error';
 import { ResetCSS } from 'common/assets/css/style';
@@ -27,4 +29,8 @@ export default function Error({ statusCode }) {
 Error.getInitialProps = ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
+};
+
+Error.propTypes = {
+  statusCode: PropTypes.number,
 };

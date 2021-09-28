@@ -42,7 +42,7 @@ const LineCharts = (props) => {
       if (!lastData || lastData.x != momentFormat) {
         const data = {
           x: momentFormat,
-          y: _.isEmpty(dayDatas.length) ? 0: lastData.y,
+          y: _.isEmpty(dayDatas) ? 0: lastData.y,
         };
         dayDatas.push(data);
         lastData = data;

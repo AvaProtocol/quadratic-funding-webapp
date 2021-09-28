@@ -195,7 +195,9 @@ const ProjectSection = ({
                 return (
                   <Col
                     {...col}
-                    span={8}
+                    xs={24}
+                    md={12}
+                    xl={8}
                     key={`project-${index}`}
                     style={{ marginBottom: '36px' }}
                   >
@@ -205,7 +207,13 @@ const ProjectSection = ({
                         borderRadius: 5,
                         transition: 'all 0.3s ease 0s',
                       }}
-                      icon={ <Identicon value={project.owner} size={75} theme="polkadot" />}
+                      icon={
+                        <Identicon
+                          value={project.owner}
+                          size={75}
+                          theme="polkadot"
+                        />
+                      }
                       wrapperStyle={blockWrapperStyle}
                       iconStyle={iconStyle}
                       contentStyle={contentStyle}

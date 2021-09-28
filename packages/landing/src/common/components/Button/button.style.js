@@ -26,9 +26,16 @@ const ButtonStyle = styled.button`
   padding-right: ${themeGet('space.4', '15')}px;
   border: 0;
   transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   span.btn-text {
     padding-left: ${themeGet('space.1', '4')}px;
     padding-right: ${themeGet('space.1', '4')}px;
+    white-space: nowrap;
   }
   span.btn-icon {
     display: flex;

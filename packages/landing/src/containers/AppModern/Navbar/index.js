@@ -82,7 +82,7 @@ const Navbar = ({ isLight, account, setAccount }) => {
     openModal({
       config: {
         className: 'customModal',
-        disableDragging: false,
+        disableDragging: true,
         enableResizing: {
           bottom: true,
           bottomLeft: true,

@@ -38,7 +38,8 @@ const BannerWrapper = styled.div`
     @media only screen and (min-width: 1201px) and (max-width: 1440px) {
       min-height: calc(100vh - 100px);
       margin-top: 35px;
-      align-items: flex-start;
+      margin-bottom: 35px;
+      align-items: center;
     }
     @media only screen and (max-width: 1099px) {
       min-height: 100%;
@@ -63,7 +64,8 @@ export const BannerContent = styled.div`
   @media only screen and (max-width: 1199px) {
     flex-shrink: 0;
     width: 100%;
-    margin-top: 25px;
+    margin-top: 45px;
+    margin-bottom: 45px;
   }
 
   h1 {

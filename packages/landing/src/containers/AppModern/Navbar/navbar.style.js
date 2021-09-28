@@ -103,8 +103,6 @@ export const MenuArea = styled.div`
     border-radius: 5px;
     font-weight: 500;
     text-transform: inherit;
-    padding-left: 13px;
-    padding-right: 13px;
     min-height: 42px;
 
     &.text {

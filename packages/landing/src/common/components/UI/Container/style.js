@@ -30,6 +30,8 @@ const ContainerWrapper = styled.div`
   @media (min-width: 1220px) {
     max-width: ${(props) => props.width || '1370px'};
     width: 100%;
+    padding-left: 45px;
+    padding-right: 45px;
   }
   @media (max-width: 768px) {
     ${(props) =>

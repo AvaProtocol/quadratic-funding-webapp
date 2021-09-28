@@ -32,24 +32,17 @@ const LineCharts = (props) => {
       return;
     }
 
-    const dayDatas = []; // List of data({ x: '2020-01-01', y: 40})
-
 		// Calculate dayDatas
-    _.each(projectVotes, (vote) => {
-      const momentFormat = moment(vote.timestamp).format('YYYY-MM-DD');
-      let lastData = _.last(dayDatas);
-
-      if (!lastData || lastData.x != momentFormat) {
-        const data = {
-          x: momentFormat,
-          y: _.isEmpty(dayDatas) ? 0: lastData.y,
-        };
-        dayDatas.push(data);
-        lastData = data;
-      }
-
-      lastData.y += vote.amount;
-    });
+		// Group all data by dates.
+		const groupedVotes = _.groupBy(projectVotes, (vote) => moment(vote.timestamp).format('YYYY-MM-DD'));
+		// Loop over each group, and sum up all vote.amount, and change it to data.y.
+		const dayDatas = _.map(groupedVotes, (votes, key) => ({
+				x: key,
+				y: _.reduce(votes, (sum, vote) => sum + vote.amount, 0),
+			}
+		));
+		// Accumulate the votes of the previous day
+		_.each(dayDatas, (data, index) => data.y += index === 0 ? 0 : dayDatas[index-1].y);
 
 		// Set chart data
     setChartData({

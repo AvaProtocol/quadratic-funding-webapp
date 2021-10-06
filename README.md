@@ -25,7 +25,7 @@ NextJs Server will start in `localhost:3000`
 1. Yarn Workspace
 1. React Js and Next Js
 1. Styled System and Styled Components
-1. 腾讯 Serverless 云服务
+1. Tecent Cloud Serverless
 
 # Development
 

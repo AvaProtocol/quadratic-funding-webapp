@@ -18,7 +18,7 @@ import Footer from 'containers/AppModern/Footer';
 import ProjectDetailSection from 'containers/Agency/ProjectDetailSection';
 import CommentsSection from 'containers/Agency/CommentsSection';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
-import backend from '../../common/backend';
+import polkascan from '../../common/polkascan';
 
 
 const Detail = () => {
@@ -28,12 +28,9 @@ const Detail = () => {
   const [voteRecords, setVoteRecords] = useState([]);
 
   const getVoteRecords = async () => {
-    const result = await backend.getDatabase().collection('votes').where({
-      projectIndex: parseInt(pid),
-      roundIndex: parseInt(rid),
-    }).get();
-
-    setVoteRecords(result.data);
+		const projectIndex = parseInt(pid);
+		const contributions = await polkascan.getContributionsByProjectIndex(projectIndex);
+		setVoteRecords(contributions);
   }
 
   useEffect(getVoteRecords, []);

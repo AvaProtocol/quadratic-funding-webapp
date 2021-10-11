@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import moment from 'momnet';
-const BASE_URL = 'http://rpc.testnet.oak.tech:8080/api/v1';
+import config from '../../config';
+
+const { polkascan, oak: { decimals } } = config;
+
 const PAGE_SIZE = 10000;
-const DECIMALS = 10e9;
 
 /**
  * Polkascan wrapper
@@ -12,13 +14,16 @@ class Polkascan {
 	 * Get extrinsics
 	 * @param {string} moduleId 
 	 * @param {string} callId 
-	 * @returns 
+	 * @returns extrinsics
 	 */
   async getExtrinsics (moduleId, callId) {
 		try {
-			const url = `${BASE_URL}/extrinsic?filter[signed]=1&filter[module_id]=${moduleId}&filter[call_id]=${callId}&page[size]=${PAGE_SIZE}`;
+			const url = `${polkascan.baseUrl}/extrinsic?filter[signed]=1&filter[module_id]=${moduleId}&filter[call_id]=${callId}&page[size]=${PAGE_SIZE}`;
 			const response = await fetch(url);
 			const responseData = await response.json();
+			if (!responseData || !_.isArray(responseData.data) ||  _.isEmpty(responseData.data)) {
+				return [];
+			}
 			let extrinsics = responseData.data;
 			extrinsics = _.filter(extrinsics, { attributes: { success: 1 }})
 			const promises = _.map(extrinsics, async (extrinsic) => {
@@ -45,12 +50,15 @@ class Polkascan {
 	/**
 	 * Get extrinsic detail
 	 * @param {string} extrinsicHash 
-	 * @returns 
+	 * @returns extrinsics detail
 	 */
 	async getExtrinsicDetail (extrinsicHash) {
-		const url = `${BASE_URL}/extrinsic/0x${extrinsicHash}`;
+		const url = `${polkascan.baseUrl}/extrinsic/0x${extrinsicHash}`;
 		const response = await fetch(url);
 		const responseData = await response.json();
+		if (!responseData ||  _.isEmpty(responseData.data)) {
+			return {};
+		}
 		const { data: { attributes }}  = responseData;
 		return attributes;
 	}
@@ -58,7 +66,7 @@ class Polkascan {
 	/**
 	 * Get contributions by project index
 	 * @param {number} projectIndex 
-	 * @returns 
+	 * @returns contributions
 	 */
 	async getContributionsByProjectIndex(projectIndex) {
 		let extrinsics = await this.getExtrinsics('QuadraticFunding', 'contribute');
@@ -74,7 +82,7 @@ class Polkascan {
 		const contributions = _.map(extrinsics, (extrinsic) => {
 			const { attributes: { address, params, datetime } } =  extrinsic;
 			const valueParam = _.find(params, { name: 'value' });
-			const amount = valueParam ? valueParam.value / DECIMALS : 0;
+			const amount = valueParam ? valueParam.value / (10 ** decimals) : 0;
 			return { address, amount, timestamp: moment(datetime).valueOf() };
 		});
 		return contributions;

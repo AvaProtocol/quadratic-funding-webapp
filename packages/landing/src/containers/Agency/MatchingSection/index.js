@@ -12,7 +12,7 @@ import backend from 'common/backend';
 import MatchingCarousel from './matchingCarousel';
 import config from '../../../config';
 import MatchingWrapper from './matchingSection.style';
-import { getWeb3Api } from 'common/utils';
+import { getWeb3Api, getKusamaWeb3Api } from 'common/utils';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'antd';
 
@@ -74,19 +74,22 @@ const MatchingSection = ({ rid, account, onVote }) => {
       );
       await web3Enable('quadratic-funding-webapp');
 
-      const injector = await web3FromAddress(account);
-      const projectIndex = parseInt(
-        polkadotContext.projectDetail.project_index
-      );
-      const roundIndex = parseInt(rid);
+      const kusamaAddress = 'DrCFRy8rE75gGv7WydEtoGaL2AR6ccU3cJChdiaf3XUwSvH';
 
-      const api = await getWeb3Api();
-      const extrinsic = api.tx.quadraticFunding.contribute(
-        projectIndex,
-        voteAmount * 10 ** 10
+      const injector = await web3FromAddress(kusamaAddress);
+      const parachainIndex = 2089;
+      const contributionValue = 0.1 * 10 ** 12;
+
+      const api = await getKusamaWeb3Api();
+      const extrinsic = await api.tx.crowdloan.contribute(
+        parachainIndex,
+        contributionValue,
+        null
       );
       extrinsic
-        .signAndSend(account, { signer: injector.signer }, async (status) => {
+        .signAndSend(kusamaAddress, { signer: injector.signer }, async (status) => {
+          console.log('status: ', status);
+
           if (status.status.isBroadcast) {
             notification.open({
               message: 'Processing',
@@ -98,16 +101,6 @@ const MatchingSection = ({ rid, account, onVote }) => {
           if (!status.isFinalized) {
             return;
           }
-
-          await backend.getApp().callFunction({
-            name: 'vote',
-            data: {
-              address: account,
-              roundIndex,
-              projectIndex,
-              amount: voteAmount,
-            },
-          });
 
           notification.open({
             message: 'Vote successfully!',
@@ -122,6 +115,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
           setIsVoting(false);
         });
     } catch (error) {
+      console.log('error: ', error);
       setIsVoting(false);
       notification.open({
         message: 'Vote failed!',

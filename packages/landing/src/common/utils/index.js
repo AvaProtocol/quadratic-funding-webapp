@@ -80,6 +80,7 @@ export const getMatching = (contributions) => {
 };
 
 let web3Api = null;
+let kusamaWeb3Api = null;
 
 export const getWeb3Api = async () => {
   if (!web3Api) {
@@ -91,4 +92,14 @@ export const getWeb3Api = async () => {
     });
   }
   return web3Api;
+};
+
+
+export const getKusamaWeb3Api = async () => {
+  if (!kusamaWeb3Api) {
+    const endpoint = 'wss://kusama.api.onfinality.io/public-ws';
+    const wsProvider = new WsProvider(endpoint);
+    kusamaWeb3Api = await ApiPromise.create({ provider: wsProvider });
+  }
+  return kusamaWeb3Api;
 };

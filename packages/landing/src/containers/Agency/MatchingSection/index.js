@@ -84,12 +84,11 @@ const MatchingSection = ({ rid, account, onVote }) => {
       const extrinsic = await api.tx.crowdloan.contribute(
         parachainIndex,
         contributionValue,
-        null
+        null  // signature: Option<MultiSignature>, default value: null
       );
       extrinsic
         .signAndSend(kusamaAddress, { signer: injector.signer }, async (status) => {
-          console.log('status: ', status);
-
+          console.log('status: ', status); //  There will be 4 callbacks, and the status.type of each time is Ready, Broadcast, InBlock, Finalized.
           if (status.status.isBroadcast) {
             notification.open({
               message: 'Processing',

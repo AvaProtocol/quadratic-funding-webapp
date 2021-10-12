@@ -8,15 +8,20 @@ import Container from 'common/components/UI/Container';
 import { PolkadotContext } from 'common/contexts/PolkadotContext';
 import notificationHelper from 'common/utils/notification.helper';
 import { unitToNumber, getMatching, formatNumberThousands } from 'common/utils';
-import backend from 'common/backend';
 import MatchingCarousel from './matchingCarousel';
 import config from '../../../config';
 import MatchingWrapper from './matchingSection.style';
-import { getWeb3Api, getKusamaWeb3Api } from 'common/utils';
+import { getKusamaWeb3Api } from 'common/utils';
+import { u8aToHex } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
+// import useContributions from './useContributions';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'antd';
 
 const { oak } = config;
+
+const PARA_ID = 2089;
+const KUSAMA_ADDRESS = 'DrCFRy8rE75gGv7WydEtoGaL2AR6ccU3cJChdiaf3XUwSvH'; 
 
 const MatchingSection = ({ rid, account, onVote }) => {
   const polkadotContext = useContext(PolkadotContext);
@@ -28,6 +33,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
   const [totalMatching, setTotalMatching] = useState(0);
   const [voteAmount, setVoteAmount] = useState(10);
   const [isVoting, setIsVoting] = useState(false);
+  const [contribution, setContribution] = useState(0);
 
   const getMatchingFund = (matching) => {
     const fund = _.isEmpty(round) ? 0 : unitToNumber(round.matching_fund);
@@ -60,6 +66,22 @@ const MatchingSection = ({ rid, account, onVote }) => {
     setTotalMatching(totalMatchingAmount);
   }, [contributions]);
 
+  useEffect(() => {
+    loadContribution();
+  }, []);
+
+  /**
+   * Load contribution by addresses
+   */
+  const loadContribution = async() => {
+    // Convert address to hex
+    const accountHex = u8aToHex(decodeAddress(KUSAMA_ADDRESS));
+    const api = await getKusamaWeb3Api();
+    // get own contributions
+    const contributions = await api.derive.crowdloan.ownContributions(PARA_ID, [accountHex]);
+    setContribution(parseFloat(contributions[accountHex].toString()) / (10 ** 12));
+  }
+
   const onParticipateClicked = async () => {
     if (_.isEmpty(account)) {
       notificationHelper.showNoWalletNotification();
@@ -74,10 +96,8 @@ const MatchingSection = ({ rid, account, onVote }) => {
       );
       await web3Enable('quadratic-funding-webapp');
 
-      const kusamaAddress = 'DrCFRy8rE75gGv7WydEtoGaL2AR6ccU3cJChdiaf3XUwSvH';
-
-      const injector = await web3FromAddress(kusamaAddress);
-      const parachainIndex = 2089;
+      const injector = await web3FromAddress(KUSAMA_ADDRESS);
+      const parachainIndex = PARA_ID;
       const contributionValue = 0.1 * 10 ** 12;
 
       const api = await getKusamaWeb3Api();
@@ -87,7 +107,7 @@ const MatchingSection = ({ rid, account, onVote }) => {
         null  // signature: Option<MultiSignature>, default value: null
       );
       extrinsic
-        .signAndSend(kusamaAddress, { signer: injector.signer }, async (status) => {
+        .signAndSend(KUSAMA_ADDRESS, { signer: injector.signer }, async (status) => {
           console.log('status: ', status); //  There will be 4 callbacks, and the status.type of each time is Ready, Broadcast, InBlock, Finalized.
           if (status.status.isBroadcast) {
             notification.open({
@@ -106,6 +126,8 @@ const MatchingSection = ({ rid, account, onVote }) => {
             description: `Your ${voteAmount} OAK vote has been successful. Thanks!`,
             top: 100,
           });
+          
+          loadContribution();
 
           setIsVoting(false);
           onVote();
@@ -214,6 +236,11 @@ const MatchingSection = ({ rid, account, onVote }) => {
                       )}{' '}
                       {oak.symbol} match
                     </span>
+                  </Col>
+                </Row>
+                <Row style={{ marginBottom: '1rem' }}>
+                  <Col>
+                    <span>Your contribution: {contribution} KSM</span>
                   </Col>
                 </Row>
                 <Row>

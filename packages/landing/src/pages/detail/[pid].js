@@ -19,6 +19,7 @@ import ProjectDetailSection from 'containers/Agency/ProjectDetailSection';
 import CommentsSection from 'containers/Agency/CommentsSection';
 import PolkadotProvider from 'common/contexts/PolkadotContext';
 import polkascan from '../../common/polkascan';
+import subscan from '../../common/subscan';
 
 
 const Detail = () => {
@@ -28,9 +29,10 @@ const Detail = () => {
   const [voteRecords, setVoteRecords] = useState([]);
 
   const getVoteRecords = async () => {
-		const projectIndex = parseInt(pid);
-		const contributions = await polkascan.getContributionsByProjectIndex(projectIndex);
+		const fundId = '2089-26';
+		const contributions  = await subscan.getContributions(fundId);
 		setVoteRecords(contributions);
+		console.log(contributions);
   }
 
   useEffect(getVoteRecords, []);

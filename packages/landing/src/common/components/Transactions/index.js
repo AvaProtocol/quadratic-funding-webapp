@@ -22,7 +22,7 @@ const Transactions = ({ ...props }) => {
       return (
         <div key={timestamp} className='vote-row'>
           <div>user: {address}</div>
-          <div>amnout: {amount} OAK</div>
+          <div>amnout: {amount} KSM</div>
           <div>datetime: {datetimeText}</div>
         </div>
       );

@@ -86,33 +86,24 @@ const MatchingSection = ({ rid, account, onVote }) => {
         contributionValue,
         null  // signature: Option<MultiSignature>, default value: null
       );
-      extrinsic
-        .signAndSend(kusamaAddress, { signer: injector.signer }, async (status) => {
-          console.log('status: ', status); //  There will be 4 callbacks, and the status.type of each time is Ready, Broadcast, InBlock, Finalized.
-          if (status.status.isBroadcast) {
-            notification.open({
-              message: 'Processing',
-              description: `Your vote is processing.`,
-              top: 100,
-            });
-          }
 
-          if (!status.isFinalized) {
-            return;
-          }
+      const signedExtrinsic = await extrinsic.signAsync(kusamaAddress, { signer: injector.signer });
+      const extrinsicHex = signedExtrinsic.toHex();
+      const url = 'http://localhost:1338/parse/functions/contribute';
+      const data = {
+        referral: 'referral001',
+        signedExtrinsic: extrinsicHex,
+      };
 
-          notification.open({
-            message: 'Vote successfully!',
-            description: `Your ${voteAmount} OAK vote has been successful. Thanks!`,
-            top: 100,
-          });
+      fetch(url, {
+        body: JSON.stringify(data),
+        method: 'POST',
+        headers: {
+          'X-Parse-Application-Id': 'oak-parse',
+        },
+      });
 
-          setIsVoting(false);
-          onVote();
-        })
-        .catch(() => {
-          setIsVoting(false);
-        });
+      setIsVoting(false);
     } catch (error) {
       console.log('error: ', error);
       setIsVoting(false);
